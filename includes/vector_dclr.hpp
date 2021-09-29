@@ -27,6 +27,8 @@ namespace ft {
 					typedef value_type&		reference;
 					typedef value_type*		pointer;
 					typedef ptrdiff_t		difference_type;
+					typedef std::random_access_iterator_tag		iterator_category;
+
 
 				protected:
 					value_type 		*_value;
@@ -35,9 +37,9 @@ namespace ft {
 					{
 						this->_value = NULL;
 					}
-					iterator(value_type* src)
+					iterator(value_type* value)
 					{
-						this->_value = src;
+						this->_value = value;
 					}
 					iterator(const iterator& src)
 					{
@@ -50,11 +52,27 @@ namespace ft {
 					{
 						return *(this->_value);
 					}
-					pointer				operator->(void) const;
-					iterator			&operator+=(difference_type n);
-					iterator			&operator-=(difference_type n);
-					reference			operator[](difference_type n) const;
-					bool				operator!=(const iterator &rhs) const {
+					pointer								operator->(void) const;
+					iterator::difference_type			operator+(const iterator & rhs)
+					{
+						return (this->_value + rhs._value);
+					}
+					iterator::difference_type			operator-(const iterator & rhs)
+					{
+						return (this->_value - rhs._value);
+					}
+					iterator							operator+(difference_type n)
+					{
+						return iterator(this->_value + n);
+					}
+					iterator							operator-(difference_type n)
+					{
+						return iterator(this->_value - n);
+					}
+					iterator							&operator+=(difference_type n);
+					iterator							&operator-=(difference_type n);
+					reference							operator[](difference_type n) const;
+					bool								operator!=(const iterator &rhs) const {
 						return (this->_value != rhs._value);
 					}
 					iterator			&operator++(void)
@@ -69,7 +87,6 @@ namespace ft {
 						return cpy;
 					}
 			};
-
 
 			explicit vector();
 			explicit vector(size_t n, const allocator_type& alloc = allocator_type());
@@ -97,12 +114,11 @@ namespace ft {
 	** ------------------------------- CAPACITY --------------------------------
 	*/
 
-			size_type				size(void) const;
-			size_type				capacity(void) const;
-			size_type				max_size(void) const;
-			void					resize(size_type size, value_type val = value_type());
 			bool					empty(void) const;
+			size_type				size(void) const;
+			size_type				max_size(void) const;
 			void					reserve(size_type n);
+			size_type				capacity(void) const;
 
 			// typedef typename std::stack<T>::container_type::iterator iterator;
 
@@ -110,19 +126,21 @@ namespace ft {
 	/*
 	** ------------------------------- ELEMENT ACCESS --------------------------------
 	*/
-			reference			operator[](size_type n);
 			const_reference		operator[](size_type n) const;
-			reference			at(size_type n);
 			const_reference		at(size_type n) const;
-			reference			front(void);
 			const_reference		front(void) const;
-			reference			back(void);
 			const_reference		back(void) const;
+			
+			reference			operator[](size_type n);
+			reference			at(size_type n);
+			reference			front(void);
+			reference			back(void);
 
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
 	*/
-			void push_back(const value_type& val);
+			void	push_back(const value_type& val);
+			void	resize(size_type size, value_type val = value_type());
 
 		private:
 			T 				*_data;

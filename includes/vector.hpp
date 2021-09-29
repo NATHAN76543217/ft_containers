@@ -17,12 +17,14 @@ namespace ft {
 	: _capacity(n), _alloc(alloc), _size(n)
 	{
 		this->_data = this->_alloc.allocate(n);
-
+		std::fill(this->begin(), this->end(), 0);
 	}
 
 	template<typename T, typename Allocator>
-	vector<T, Allocator>::vector(const vector<T, Allocator>& src) : _capacity(src.capacity), _alloc(src._alloc), _size(src.size)
+	vector<T, Allocator>::vector(const vector<T, Allocator>& src)
+	: _capacity(src.capacity), _alloc(src._alloc), _size(src.size)
 	{
+		this->_data = this->_alloc.allocate(this->_capacity);
 	}
 	
 	template<typename T, typename Allocator>
@@ -62,15 +64,20 @@ namespace ft {
 	*/
 
 	template<typename T, typename Allocator>
+	bool		vector<T, Allocator>::empty(void) const{
+		return !(this->_size);
+	}
+
+	template<typename T, typename Allocator>
 	typename vector<T, Allocator>::size_type		vector<T, Allocator>::size(void) const
 	{
 		return this->_size;
 	}
 
 	template<typename T, typename Allocator>
-	typename vector<T, Allocator>::size_type		vector<T, Allocator>::capacity(void) const
+	typename vector<T, Allocator>::size_type		vector<T, Allocator>::max_size(void) const
 	{
-		return this->_capacity;
+		return std::numeric_limits<difference_type>::max();
 	}
 
 	template<typename T, typename Allocator>
@@ -79,17 +86,29 @@ namespace ft {
 		//REVIEW why deprecated max_size()
 		if (n <= this->_capacity)
 			return ;
+		size_type oldCapacity = this->_capacity;
+		if (this->_capacity == 0)
+			this->_capacity++;
 		while (this->_capacity < n)
 			this->_capacity *= 2;
 		T* tmp = this->_alloc.allocate(this->_capacity);
 		std::memcpy(tmp, this->_data, this->size() * sizeof(T));
-		this->_alloc.deallocate(this->_data, this->_capacity);
+		this->_alloc.deallocate(this->_data, oldCapacity);
 		this->_data = tmp;
 	}
 
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::size_type		vector<T, Allocator>::capacity(void) const
+	{
+		return this->_capacity;
+	}
+
+	// template<typename T, typename Allocator>
+	
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
 	*/
+
 	template<typename T, typename Allocator>
 	void			vector<T, Allocator>::push_back(const value_type& val)
 	{
