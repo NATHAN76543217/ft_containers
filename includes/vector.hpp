@@ -21,10 +21,21 @@ namespace ft {
 	}
 
 	template<typename T, typename Allocator>
+	vector<T, Allocator>::vector(vector<T, Allocator>::size_type			n,
+								const vector<T, Allocator>::value_type&		value,
+								const vector<T, Allocator>::allocator_type&	alloc)
+	: _capacity(n), _alloc(alloc), _size(n)
+	{
+		this->_data = this->_alloc.allocate(n);
+		std::fill(this->begin(), this->end(), value);
+	}
+
+	template<typename T, typename Allocator>
 	vector<T, Allocator>::vector(const vector<T, Allocator>& src)
-	: _capacity(src.capacity), _alloc(src._alloc), _size(src.size)
+	: _capacity(src._capacity), _alloc(src._alloc), _size(src.size())
 	{
 		this->_data = this->_alloc.allocate(this->_capacity);
+		std::copy(src.begin(), src.end(), this->begin());
 	}
 	
 	template<typename T, typename Allocator>
@@ -38,14 +49,14 @@ namespace ft {
 	template<typename T, typename Allocator>
 	typename vector<T, Allocator>::iterator				vector<T, Allocator>::begin(void)
 	{
-		return iterator(this->_data);
+		return  vector<T, Allocator>::iterator(this->_data);
 	}
 
-	// template<typename T, typename Allocator>
-	// typename vector<T, Allocator>::const_iterator		vector<T, Allocator>::begin(void) const
-	// {
-	//		return const_iterator(this->_data); 
-	// }
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::const_iterator		vector<T, Allocator>::begin(void) const
+	{
+		return  vector<T, Allocator>::const_iterator(this->_data); 
+	}
 	
 	template<typename T, typename Allocator>
 	typename vector<T, Allocator>::iterator				vector<T, Allocator>::end(void)
@@ -53,11 +64,11 @@ namespace ft {
 		return vector<T, Allocator>::iterator(&this->_data[this->_size]);
 	}
 	
-	// template<typename T, typename Allocator>
-	// typename vector<T, Allocator>::const_iterator		vector<T, Allocator>::end(void) const
-	// {
-// 
-	// }
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::const_iterator		vector<T, Allocator>::end(void) const
+	{
+		return vector<T, Allocator>::const_iterator(&this->_data[this->_size]);
+	}
 
 	/*
 	** ------------------------------- CAPACITY --------------------------------
@@ -104,6 +115,66 @@ namespace ft {
 	}
 
 	// template<typename T, typename Allocator>
+	/*
+	** ------------------------------- ELEMENT ACCESS --------------------------------
+	*/
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::reference		vector<T, Allocator>::operator[](vector<T, Allocator>::size_type n)
+	{
+		return this->_data[n];
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::const_reference		vector<T, Allocator>::operator[](vector<T, Allocator>::size_type n) const
+	{
+		return this->_data[n];
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::reference			vector<T, Allocator>::at(vector<T, Allocator>::size_type n)
+	{
+		if (n >= this->_size)
+			throw std::out_of_range("vector") ;
+		return this->_data[n];
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::const_reference		vector<T, Allocator>::at(vector<T, Allocator>::size_type n) const
+	{
+		if (n >= this->_size)
+			throw std::out_of_range("vector") ;
+		return this->_data[n];
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::reference			vector<T, Allocator>::front(void)
+	{
+		return this->_data[0];
+	}
+	
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::const_reference		vector<T, Allocator>::front(void) const
+	{
+		return this->_data[0];
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::reference			vector<T, Allocator>::back(void)
+	{
+		return this->_data[this->_size - 1];
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::const_reference		vector<T, Allocator>::back(void) const
+	{
+		return this->_data[this->_size - 1];
+	}
+	
+	// reference			operator[](size_type n);
+	// reference			at(size_type n);
+
+	// reference			back(void);
 	
 	/*
 	** ------------------------------- MODIFIERS --------------------------------

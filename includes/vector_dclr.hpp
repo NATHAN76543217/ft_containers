@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <string>
+# include <stdexcept>
 // # include "iterator.hpp"
 
 namespace ft {
@@ -88,9 +89,77 @@ namespace ft {
 					}
 			};
 
+			class const_iterator
+			{
+				public:
+					typedef T				value_type;
+					typedef value_type&		reference;
+					typedef value_type*		pointer;
+					typedef ptrdiff_t		difference_type;
+					typedef std::random_access_iterator_tag		iterator_category;
+
+
+				protected:
+					const value_type 		*_value;
+				public:
+					const_iterator()
+					{
+						this->_value = NULL;
+					}
+					const_iterator(value_type* value)
+					{
+						this->_value = value;
+					}
+					const_iterator(const const_iterator& src)
+					{
+						this->_value = src._value;
+					}
+					~const_iterator()
+					{}
+
+					const_reference			operator*(void) const
+					{
+						return *(this->_value);
+					}
+					pointer								operator->(void) const;
+					const_iterator::difference_type			operator+(const const_iterator & rhs)
+					{
+						return (this->_value + rhs._value);
+					}
+					const_iterator::difference_type			operator-(const const_iterator & rhs)
+					{
+						return (this->_value - rhs._value);
+					}
+					const_iterator							operator+(difference_type n)
+					{
+						return const_iterator(this->_value + n);
+					}
+					const_iterator							operator-(difference_type n)
+					{
+						return const_iterator(this->_value - n);
+					}
+					const_iterator							&operator+=(difference_type n);
+					const_iterator							&operator-=(difference_type n);
+					reference							operator[](difference_type n) const;
+					bool								operator!=(const const_iterator &rhs) const {
+						return (this->_value != rhs._value);
+					}
+					const_iterator			&operator++(void)
+					{
+						++this->_value;
+						return *this;
+					}
+					const_iterator			operator++(int)
+					{
+						const_iterator cpy(*this);
+						++this->_value;
+						return cpy;
+					}
+			};
+
 			explicit vector();
 			explicit vector(size_t n, const allocator_type& alloc = allocator_type());
-			vector(size_t n, const value_type& value);
+			// vector(size_t n, const value_type& value);
     		vector(size_t n, const value_type& value, const allocator_type& alloc = allocator_type());
 
 			vector( vector const & src );
@@ -102,9 +171,9 @@ namespace ft {
 	** ------------------------------- ITERATORS --------------------------------
 	*/
 			iterator				begin(void);
-			// const_iterator			begin(void) const;
+			const_iterator			begin(void) const;
 			iterator				end(void);
-			// const_iterator			end(void) const;
+			const_iterator			end(void) const;
 
 			// reverse_iterator		rbegin(void);
 			// const_reverse_iterator	rbegin(void) const;
@@ -120,21 +189,18 @@ namespace ft {
 			void					reserve(size_type n);
 			size_type				capacity(void) const;
 
-			// typedef typename std::stack<T>::container_type::iterator iterator;
-
 
 	/*
 	** ------------------------------- ELEMENT ACCESS --------------------------------
 	*/
-			const_reference		operator[](size_type n) const;
-			const_reference		at(size_type n) const;
-			const_reference		front(void) const;
-			const_reference		back(void) const;
-			
 			reference			operator[](size_type n);
+			const_reference		operator[](size_type n) const;
 			reference			at(size_type n);
+			const_reference		at(size_type n) const;
 			reference			front(void);
+			const_reference		front(void) const;
 			reference			back(void);
+			const_reference		back(void) const;
 
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
