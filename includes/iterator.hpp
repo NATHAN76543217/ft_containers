@@ -22,31 +22,31 @@ iterator<T>::~iterator()
 }
 
 template<typename T>
-reference			iterator<T>::operator*(void) const
+typename iterator<T>::reference			iterator<T>::operator*(void) const
 {
 
 }
 
 template<typename T>
-pointer				iterator<T>::operator->(void) const
+typename iterator<T>::pointer				iterator<T>::operator->(void) const
 {
 
 }
 
 template<typename T>
-iterator			&iterator<T>::operator+=(difference_type n)
+iterator<T>			&iterator<T>::operator+=(difference_type n)
 {
 
 }
 
 template<typename T>
-iterator			&iterator<T>::operator-=(difference_type n)
+iterator<T>			&iterator<T>::operator-=(difference_type n)
 {
 
 }
 
 template<typename T>
-reference			iterator<T>::operator[](difference_type n) const
+typename iterator<T>::reference			iterator<T>::operator[](difference_type n) const
 {
 
 }

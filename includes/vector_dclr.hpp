@@ -33,6 +33,7 @@ namespace ft {
 
 				protected:
 					value_type 		*_value;
+					
 				public:
 					iterator()
 					{
@@ -53,34 +54,54 @@ namespace ft {
 					{
 						return *(this->_value);
 					}
-					pointer								operator->(void) const;
+
+					pointer								operator->(void) const
+					{
+						return (this->value);
+					}
+					
 					iterator::difference_type			operator+(const iterator & rhs)
 					{
 						return (this->_value + rhs._value);
 					}
+					
 					iterator::difference_type			operator-(const iterator & rhs)
 					{
 						return (this->_value - rhs._value);
 					}
+					
 					iterator							operator+(difference_type n)
 					{
 						return iterator(this->_value + n);
 					}
+					
 					iterator							operator-(difference_type n)
 					{
 						return iterator(this->_value - n);
 					}
-					iterator							&operator+=(difference_type n);
-					iterator							&operator-=(difference_type n);
-					reference							operator[](difference_type n) const;
+					
+					iterator							&operator+=(difference_type n)
+					{
+						this->_value += n;
+						return *this;
+					}
+
+					iterator							&operator-=(difference_type n)
+					{
+						this->_value -= n;
+						return *this;
+					}
+
 					bool								operator!=(const iterator &rhs) const {
 						return (this->_value != rhs._value);
 					}
+					
 					iterator			&operator++(void)
 					{
 						++this->_value;
 						return *this;
 					}
+
 					iterator			operator++(int)
 					{
 						iterator cpy(*this);
@@ -89,74 +110,8 @@ namespace ft {
 					}
 			};
 
-			class const_iterator
-			{
-				public:
-					typedef T				value_type;
-					typedef value_type&		reference;
-					typedef value_type*		pointer;
-					typedef ptrdiff_t		difference_type;
-					typedef std::random_access_iterator_tag		iterator_category;
-
-
-				protected:
-					const value_type 		*_value;
-				public:
-					const_iterator()
-					{
-						this->_value = NULL;
-					}
-					const_iterator(value_type* value)
-					{
-						this->_value = value;
-					}
-					const_iterator(const const_iterator& src)
-					{
-						this->_value = src._value;
-					}
-					~const_iterator()
-					{}
-
-					const_reference			operator*(void) const
-					{
-						return *(this->_value);
-					}
-					pointer								operator->(void) const;
-					const_iterator::difference_type			operator+(const const_iterator & rhs)
-					{
-						return (this->_value + rhs._value);
-					}
-					const_iterator::difference_type			operator-(const const_iterator & rhs)
-					{
-						return (this->_value - rhs._value);
-					}
-					const_iterator							operator+(difference_type n)
-					{
-						return const_iterator(this->_value + n);
-					}
-					const_iterator							operator-(difference_type n)
-					{
-						return const_iterator(this->_value - n);
-					}
-					const_iterator							&operator+=(difference_type n);
-					const_iterator							&operator-=(difference_type n);
-					reference							operator[](difference_type n) const;
-					bool								operator!=(const const_iterator &rhs) const {
-						return (this->_value != rhs._value);
-					}
-					const_iterator			&operator++(void)
-					{
-						++this->_value;
-						return *this;
-					}
-					const_iterator			operator++(int)
-					{
-						const_iterator cpy(*this);
-						++this->_value;
-						return cpy;
-					}
-			};
-
+			typedef const iterator const_iterator;
+			
 			explicit vector();
 			explicit vector(size_t n, const allocator_type& alloc = allocator_type());
 			// vector(size_t n, const value_type& value);
