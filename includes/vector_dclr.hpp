@@ -4,10 +4,10 @@
 # include <iostream>
 # include <string>
 # include <stdexcept>
-// # include "iterator.hpp"
+# include "reverse_iterator.hpp"
 
 namespace ft {
-
+//TODO add operator= on iterattor and add tests for this operator 
 	template<class T, typename Allocator = std::allocator<T> >
 	class vector 
 	{
@@ -30,7 +30,6 @@ namespace ft {
 					typedef ptrdiff_t		difference_type;
 					typedef std::random_access_iterator_tag		iterator_category;
 
-
 				protected:
 					value_type 		*_value;
 					
@@ -50,7 +49,7 @@ namespace ft {
 					~iterator()
 					{}
 
-					reference			operator*(void) const
+					reference						operator*(void) const
 					{
 						return *(this->_value);
 					}
@@ -108,9 +107,126 @@ namespace ft {
 						++this->_value;
 						return cpy;
 					}
+
+					iterator			&operator--(void)
+					{
+						--this->_value;
+						return *this;
+					}
+
+					iterator			operator--(int)
+					{
+						iterator cpy(*this);
+						--this->_value;
+						return cpy;
+					}
 			};
 
-			typedef const iterator const_iterator;
+			class const_iterator
+			{
+				public:
+					typedef const T			value_type;
+					typedef value_type&		reference;
+					typedef value_type*		pointer;
+					typedef ptrdiff_t		difference_type;
+					typedef std::random_access_iterator_tag		iterator_category;
+
+
+				protected:
+					value_type 		*_value;
+					
+				public:
+					const_iterator()
+					{
+						this->_value = NULL;
+					}
+					const_iterator(value_type* value)
+					{
+						this->_value = value;
+					}
+					const_iterator(const const_iterator& src)
+					{
+						this->_value = src._value;
+					}
+					~const_iterator()
+					{}
+
+					reference								operator*(void) const
+					{
+						return *(this->_value);
+					}
+
+					pointer									operator->(void) const
+					{
+						return (this->value);
+					}
+					
+					const_iterator::difference_type			operator+(const const_iterator & rhs)
+					{
+						return (this->_value + rhs._value);
+					}
+					
+					const_iterator::difference_type			operator-(const const_iterator & rhs)
+					{
+						return (this->_value - rhs._value);
+					}
+					
+					const_iterator							operator+(difference_type n)
+					{
+						return const_iterator(this->_value + n);
+					}
+					
+					const_iterator							operator-(difference_type n)
+					{
+						return const_iterator(this->_value - n);
+					}
+					
+					const_iterator							&operator+=(difference_type n)
+					{
+						this->_value += n;
+						return *this;
+					}
+
+					const_iterator							&operator-=(difference_type n)
+					{
+						this->_value -= n;
+						return *this;
+					}
+
+					bool									operator!=(const const_iterator &rhs) const {
+						return (this->_value != rhs._value);
+					}
+					
+					const_iterator							&operator++(void)
+					{
+						++this->_value;
+						return *this;
+					}
+
+					const_iterator							operator++(int)
+					{
+						const_iterator cpy(*this);
+						++this->_value;
+						return cpy;
+					}
+
+					const_iterator							&operator--(void)
+					{
+						--this->_value;
+						return *this;
+					}
+
+					const_iterator							operator--(int)
+					{
+						const_iterator cpy(*this);
+						--this->_value;
+						return cpy;
+					}
+
+			};
+
+			typedef ft::reverse_iterator<iterator>			reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 			
 			explicit vector();
 			explicit vector(size_t n, const allocator_type& alloc = allocator_type());
@@ -120,7 +236,7 @@ namespace ft {
 			vector( vector const & src );
 			~vector();
 
-			vector &		operator=( vector const & rhs );
+			// vector &		operator=( vector const & rhs );
 
 	/*
 	** ------------------------------- ITERATORS --------------------------------
@@ -130,10 +246,10 @@ namespace ft {
 			iterator				end(void);
 			const_iterator			end(void) const;
 
-			// reverse_iterator		rbegin(void);
-			// const_reverse_iterator	rbegin(void) const;
-			// reverse_iterator		rend(void);
-			// const_reverse_iterator	rend(void) const;	
+			reverse_iterator		rbegin(void);
+			const_reverse_iterator	rbegin(void) const;
+			reverse_iterator		rend(void);
+			const_reverse_iterator	rend(void) const;	
 	/*
 	** ------------------------------- CAPACITY --------------------------------
 	*/
@@ -169,10 +285,16 @@ namespace ft {
 			allocator_type	_alloc;
 			size_type		_size;
 
+	/*
+	** ------------------------------- MODIFIERS --------------------------------
+	*/
+
+		allocator_type			get_allocator() const;
+
 	};
 
-	template<typename T, typename Allocator>
-	std::ostream &			operator<<( std::ostream & o, vector<T, Allocator> const & i );
+	// template<typename T, typename Allocator>
+	// std::ostream &			operator<<( std::ostream & o, vector<T, Allocator> const & i );
 }
 
 #endif /* ********************************************************** VECTOR_DCLR_HPP */

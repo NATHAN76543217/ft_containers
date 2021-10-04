@@ -43,9 +43,11 @@ namespace ft {
 	{
 		this->_alloc.deallocate(this->_data, this->_capacity);
 	}
+
 	/*
 	** ------------------------------- ITERATORS --------------------------------
 	*/
+	
 	template<typename T, typename Allocator>
 	typename vector<T, Allocator>::iterator				vector<T, Allocator>::begin(void)
 	{
@@ -68,6 +70,30 @@ namespace ft {
 	typename vector<T, Allocator>::const_iterator		vector<T, Allocator>::end(void) const
 	{
 		return vector<T, Allocator>::const_iterator(&this->_data[this->_size]);
+	}
+
+		template<typename T, typename Allocator>
+	typename vector<T, Allocator>::reverse_iterator				vector<T, Allocator>::rbegin(void)
+	{
+		return  vector<T, Allocator>::reverse_iterator(&this->_data[this->_size]);
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::const_reverse_iterator		vector<T, Allocator>::rbegin(void) const
+	{
+		return  vector<T, Allocator>::const_reverse_iterator(&this->_data[this->_size]); 
+	}
+	
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::reverse_iterator				vector<T, Allocator>::rend(void)
+	{
+		return vector<T, Allocator>::reverse_iterator(this->_data);
+	}
+	
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::const_reverse_iterator		vector<T, Allocator>::rend(void) const
+	{
+		return vector<T, Allocator>::const_reverse_iterator(this->_data);
 	}
 
 	/*
@@ -97,12 +123,12 @@ namespace ft {
 		//REVIEW why deprecated max_size()
 		if (n <= this->_capacity)
 			return ;
-		size_type oldCapacity = this->_capacity;
+		typename vector<T, Allocator>::size_type oldCapacity = this->_capacity;
 		if (this->_capacity == 0)
 			this->_capacity++;
 		while (this->_capacity < n)
 			this->_capacity *= 2;
-		T* tmp = this->_alloc.allocate(this->_capacity);
+		T	*tmp = this->_alloc.allocate(this->_capacity);
 		std::memcpy(tmp, this->_data, this->size() * sizeof(T));
 		this->_alloc.deallocate(this->_data, oldCapacity);
 		this->_data = tmp;
@@ -183,7 +209,7 @@ namespace ft {
 	template<typename T, typename Allocator>
 	void			vector<T, Allocator>::push_back(const value_type& val)
 	{
-		if (this->_size >= this->_capacity)
+		if (this->_size == this->_capacity)
 		{
 			this->reserve(this->_size + 1);
 		}
@@ -191,12 +217,33 @@ namespace ft {
 		this->_size++;
 	}
 
+
+	/*
+	** ------------------------------- MODIFIERS --------------------------------
+	*/
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::allocator_type			vector<T, Allocator>::get_allocator() const
+	{
+		return	this->_alloc;
+	}
+
+	/*
+	** ------------------------------- OPERATORS --------------------------------
+	*/
+
+	// template<typename T, typename Allocator>
+	// vector<T, Allocator>&		operator=( vector<T, Allocator> const & rhs )
+	// {
+		//TODO implement it
+	// }
+
 }
 
-template<typename T, typename Allocator>
-std::ostream &			operator<<( std::ostream & o, ft::vector<T, Allocator> const & i )
-{
-	o << "vector[" << i.size() << "/" << i.capacity() << "]";
-}
+// template<typename T, typename Allocator>
+// std::ostream &			operator<<( std::ostream & o, ft::vector<T, Allocator> const & i )
+// {
+// 	o << "vector[" << i.size() << "/" << i.capacity() << "]";
+// }
 
 #endif /* ********************************************************** VECTOR_HPP */

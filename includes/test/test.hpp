@@ -11,6 +11,7 @@
 #include "testAccess.hpp"
 #include "testResize.hpp"
 #include "testPrint.hpp"
+#include "testIterator.hpp"
 
 template<typename T>
 void	printElem(std::vector<T>& v1, ft::vector<T>& v2);
@@ -23,5 +24,8 @@ void	accessTest(std::vector<T>& vector_stl, ft::vector<T>& vector_me);
 
 template<typename T>
 void	accessTestConst(std::vector<T> const &  vector_stl, ft::vector<T> const &  vector_me);
+
+template<typename T>
+int		testIterator(std::vector<T>& v1, ft::vector<T>& v2);
 
 #endif

@@ -12,7 +12,7 @@ void		printElem(std::vector<T>& v1, ft::vector<T>& v2)
 		std::cout << std::setw(3) << *it1 << " ";
 	}
 	std::cout << "\n";
-		for (typename ft::vector<T>::iterator it2 = v2.begin(); it2 != v2.end(); it2++)
+	for (typename ft::vector<T>::iterator it2 = v2.begin(); it2 != v2.end(); it2++)
 	{
 		std::cout << std::setw(3) << *it2 << " ";
 	}

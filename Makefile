@@ -13,8 +13,8 @@ PATH_TEST	=	$(PATH_INC)/test
 # List of sources
 SRCS_FILES	= 	main.cpp 
 SRCS_CLASS	= 	
-INC_FILES	=	vector_dclr.hpp vector.hpp
-INC_TEST	=	test.hpp testAccess.hpp testResize.hpp testPrint.hpp
+INC_FILES	=	vector_dclr.hpp vector.hpp reverse_iterator.hpp
+INC_TEST	=	test.hpp testAccess.hpp testResize.hpp testPrint.hpp testIterator.hpp
 
 
 SRCS		=	$(addprefix $(), $(SRCS_FILES) $(addprefix $(PATH_CLASS)/, $(SRCS_CLASS)))
@@ -25,8 +25,8 @@ DIRS_LIST	=	$(PATH_CLASS)
 # Commands of compilation
 COMP		=	clang++
 # COMP_LIB	=	-lc++
-COMP_FLAG	=	-Wall -Werror -Wextra --std=c++98 -stdlib=libc++ -I$(PATH_INC) -I$(PATH_TEST) -I /usr/lib/c++/v1/  $(COMP_LIB)
 COMP_DEB	=	-g3 -fsanitize=address
+COMP_FLAG	=	-Wall -Werror -Wextra $(COMP_DEB) --std=c++98 -stdlib=libc++ -I$(PATH_INC) -I$(PATH_TEST) -I /usr/lib/c++/v1/  $(COMP_LIB)
 
 # tester
 
