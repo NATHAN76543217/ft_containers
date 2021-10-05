@@ -24,5 +24,17 @@ int main()
 
 	std::cout << "---- TEST ITERATOR" << std::endl;
 	testIterator<int>(vector_stl_2, vector_me_2);
+
+	std::cout << "---- TEST resize" << std::endl;
+	vector_stl_2.resize(10);
+	vector_me_2.resize(10);
+	printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+	vector_stl_2.resize(30, 3);
+	vector_me_2.resize(30, 3);
+	printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
 	return 0;
 }

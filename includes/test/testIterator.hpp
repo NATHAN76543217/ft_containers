@@ -48,13 +48,13 @@ int		testIterator(std::vector<T>& v1, ft::vector<T>& v2)
 	std::cout << "Iterator" << std::endl;
 	printIterator(v1);
 	printIterator(v2);
-	std::cout << "const Iterator" << std::endl;
+	std::cout << "\nconst Iterator" << std::endl;
 	printConstIterator(v1);
 	printConstIterator(v2);
-	std::cout << "Reverse Iterator" << std::endl;
+	std::cout << "\nReverse Iterator" << std::endl;
 	rprintIterator(v1);
 	rprintIterator(v2);
-	std::cout << "const reverse Iterator" << std::endl;
+	std::cout << "\nconst reverse Iterator" << std::endl;
 	rprintConstIterator(v1);
 	rprintConstIterator(v2);
 	return 0;

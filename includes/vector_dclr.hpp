@@ -228,14 +228,14 @@ namespace ft {
 			typedef ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 			
-			explicit vector();
-			explicit vector(size_t n, const allocator_type& alloc = allocator_type());
-			// vector(size_t n, const value_type& value);
-    		vector(size_t n, const value_type& value, const allocator_type& alloc = allocator_type());
-
-			vector( vector const & src );
+			explicit vector(const allocator_type& alloc = allocator_type());
+			explicit vector(size_t n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type());
+			//TODO add range constructors
+			vector( const vector & src );
 			~vector();
 
+
+//TODO implement equal operator
 			// vector &		operator=( vector const & rhs );
 
 	/*
@@ -254,11 +254,12 @@ namespace ft {
 	** ------------------------------- CAPACITY --------------------------------
 	*/
 
-			bool					empty(void) const;
 			size_type				size(void) const;
 			size_type				max_size(void) const;
-			void					reserve(size_type n);
+			void					resize(size_type n, value_type value = value_type());
 			size_type				capacity(void) const;
+			bool					empty(void) const;
+			void					reserve(size_type n);
 
 
 	/*
@@ -277,13 +278,14 @@ namespace ft {
 	** ------------------------------- MODIFIERS --------------------------------
 	*/
 			void	push_back(const value_type& val);
-			void	resize(size_type size, value_type val = value_type());
 
 		private:
 			T 				*_data;
 			size_type		_capacity;
 			allocator_type	_alloc;
 			size_type		_size;
+						
+			void		_initData(size_type N, const value_type &value = value_type());
 
 	/*
 	** ------------------------------- MODIFIERS --------------------------------

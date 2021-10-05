@@ -6,33 +6,23 @@
 namespace ft {
 
 	template<typename T, typename Allocator>
-	vector<T, Allocator>::vector() : _capacity(0), _alloc(allocator_type()), _size(0)
+	vector<T, Allocator>::vector(const allocator_type& alloc) : _data(NULL), _capacity(0), _alloc(alloc), _size(0)
 	{
-		this->_data = this->_alloc.allocate(this->_capacity);
-	}
-
-	template<typename T, typename Allocator>
-	vector<T, Allocator>::vector(vector<T, Allocator>::size_type n,
-								const vector<T, Allocator>::allocator_type&	alloc)
-	: _capacity(n), _alloc(alloc), _size(n)
-	{
-		this->_data = this->_alloc.allocate(n);
-		std::fill(this->begin(), this->end(), 0);
+		this->_initData(0);
 	}
 
 	template<typename T, typename Allocator>
 	vector<T, Allocator>::vector(vector<T, Allocator>::size_type			n,
 								const vector<T, Allocator>::value_type&		value,
 								const vector<T, Allocator>::allocator_type&	alloc)
-	: _capacity(n), _alloc(alloc), _size(n)
+	: _data(NULL), _capacity(n), _alloc(alloc), _size(n)
 	{
-		this->_data = this->_alloc.allocate(n);
-		std::fill(this->begin(), this->end(), value);
+		this->_initData(n, value);
 	}
 
 	template<typename T, typename Allocator>
 	vector<T, Allocator>::vector(const vector<T, Allocator>& src)
-	: _capacity(src._capacity), _alloc(src._alloc), _size(src.size())
+	: _data(NULL), _capacity(src._capacity), _alloc(src._alloc), _size(src.size())
 	{
 		this->_data = this->_alloc.allocate(this->_capacity);
 		std::copy(src.begin(), src.end(), this->begin());
@@ -115,6 +105,29 @@ namespace ft {
 	typename vector<T, Allocator>::size_type		vector<T, Allocator>::max_size(void) const
 	{
 		return std::numeric_limits<difference_type>::max();
+	}
+
+	template<typename T, typename Allocator>
+	void											vector<T, Allocator>::resize(size_type n, value_type value)
+	{
+		if (n <= this->_size)
+		{
+			//reduce
+			while (this->_size > n)
+				--this->_size;
+			return ;
+		}
+		if (n < this->max_size())
+		{
+			this->reserve(n);
+			while (this->_size < n)
+			{
+				this->_data[this->_size] = value;
+				this->_size++;
+			}
+		}
+		return ;
+
 	}
 
 	template<typename T, typename Allocator>
@@ -219,7 +232,7 @@ namespace ft {
 
 
 	/*
-	** ------------------------------- MODIFIERS --------------------------------
+	** ------------------------------- ALLOCATOR --------------------------------
 	*/
 
 	template<typename T, typename Allocator>
@@ -229,8 +242,21 @@ namespace ft {
 	}
 
 	/*
+	** ------------------------------- PRIVATE --------------------------------
+	*/
+
+	template<typename T, typename Allocator>
+	void		vector<T, Allocator>::_initData(size_type N, const value_type &value)
+	{
+		this->_data = this->_alloc.allocate(N);
+		if (N != 0)
+			std::fill(this->begin(), this->end(), value);
+	}
+
+	/*
 	** ------------------------------- OPERATORS --------------------------------
 	*/
+
 
 	// template<typename T, typename Allocator>
 	// vector<T, Allocator>&		operator=( vector<T, Allocator> const & rhs )
