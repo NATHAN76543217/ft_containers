@@ -90,10 +90,6 @@ namespace ft {
 	** ------------------------------- CAPACITY --------------------------------
 	*/
 
-	template<typename T, typename Allocator>
-	bool		vector<T, Allocator>::empty(void) const{
-		return !(this->_size);
-	}
 
 	template<typename T, typename Allocator>
 	typename vector<T, Allocator>::size_type		vector<T, Allocator>::size(void) const
@@ -117,25 +113,34 @@ namespace ft {
 				--this->_size;
 			return ;
 		}
-		if (n < this->max_size())
+		this->reserve(n);
+		while (this->_size < n)
 		{
-			this->reserve(n);
-			while (this->_size < n)
-			{
-				this->_data[this->_size] = value;
-				this->_size++;
-			}
+			this->_data[this->_size] = value;
+			this->_size++;
 		}
 		return ;
 
+	}
+	
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::size_type		vector<T, Allocator>::capacity(void) const
+	{
+		return this->_capacity;
+	}
+
+	template<typename T, typename Allocator>
+	bool		vector<T, Allocator>::empty(void) const{
+		return !(this->_size);
 	}
 
 	template<typename T, typename Allocator>
 	void											vector<T, Allocator>::reserve(size_type n)
 	{
-		//REVIEW why deprecated max_size()
 		if (n <= this->_capacity)
 			return ;
+		if (n > this->max_size())
+			n = this->max_size();
 		typename vector<T, Allocator>::size_type oldCapacity = this->_capacity;
 		if (this->_capacity == 0)
 			this->_capacity++;
@@ -145,12 +150,6 @@ namespace ft {
 		std::memcpy(tmp, this->_data, this->size() * sizeof(T));
 		this->_alloc.deallocate(this->_data, oldCapacity);
 		this->_data = tmp;
-	}
-
-	template<typename T, typename Allocator>
-	typename vector<T, Allocator>::size_type		vector<T, Allocator>::capacity(void) const
-	{
-		return this->_capacity;
 	}
 
 	// template<typename T, typename Allocator>
