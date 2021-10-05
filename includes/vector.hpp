@@ -217,9 +217,27 @@ namespace ft {
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
 	*/
+	// template<typename T, typename Allocator>
+		// template <class InputIterator>
+		// void	assign (InputIterator first, InputIterator last)
+		// {
 
+		// }
 	template<typename T, typename Allocator>
-	void			vector<T, Allocator>::push_back(const value_type& val)
+	void												vector<T, Allocator>::assign(size_type n, const value_type& val)
+	{
+		size_type i = 0;
+		this->reserve(n);
+		this->resize(n);
+		while ( i < n)
+		{
+			this->_data[i] = value_type(val);
+			i++;
+		}
+	}
+			
+	template<typename T, typename Allocator>
+	void												vector<T, Allocator>::push_back(const value_type& val)
 	{
 		if (this->_size == this->_capacity)
 		{
@@ -229,13 +247,61 @@ namespace ft {
 		this->_size++;
 	}
 
+	template<typename T, typename Allocator>
+	void												vector<T, Allocator>::pop_back(void)
+	{
+		if (this->_size > 0)
+			--(this->_size);
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::iterator				vector<T, Allocator>::insert(iterator position, const value_type& val)
+	{
+		typename vector<T, Allocator>::iterator	first = position;
+		value_type	tmp; 
+		value_type	precedent;
+
+		this->reserve(this->_size + 1);
+		++this->_size;
+		tmp = *position;
+		precedent = tmp;
+		*position = value_type(val);
+		++position;
+		while (position != this->end())
+		{
+			tmp = precedent;
+			precedent = *position;
+			*position = tmp;
+			++position;
+		}
+		return first;
+	}
+
+	template<typename T, typename Allocator>
+	void												vector<T, Allocator>::insert(iterator position, size_type n, const value_type& val)
+	{
+		size_type	positionIdx;
+		size_type	oldsize = this->size();
+
+		if (n == 0)
+			return ;
+		this->reserve(this->_size + n);
+		this->_size += n;
+		positionIdx = position - this->begin();
+		while (--oldsize >= positionIdx)
+			this->_data[oldsize + n] = this->_data[oldsize];
+		oldsize = positionIdx + n ;
+		while (--oldsize >= positionIdx)
+			this->_data[oldsize] = value_type(val);
+		return ;
+	}
 
 	/*
 	** ------------------------------- ALLOCATOR --------------------------------
 	*/
 
 	template<typename T, typename Allocator>
-	typename vector<T, Allocator>::allocator_type			vector<T, Allocator>::get_allocator() const
+	typename vector<T, Allocator>::allocator_type		vector<T, Allocator>::get_allocator() const
 	{
 		return	this->_alloc;
 	}

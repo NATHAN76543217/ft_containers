@@ -120,6 +120,26 @@ namespace ft {
 						--this->_value;
 						return cpy;
 					}
+					bool				operator<(const iterator& rhs)
+					{
+						return (this->_value < rhs._value);
+					}
+					
+					bool				operator>(const iterator& rhs)
+					{
+						return (this->_value > rhs._value);
+					}
+					
+					bool				operator<=(const iterator& rhs)
+					{
+						return (this->_value <= rhs._value);
+					}
+					
+					bool				operator>=(const iterator& rhs)
+					{
+						return (this->_value >= rhs._value);
+					}
+
 			};
 
 			class const_iterator
@@ -223,6 +243,28 @@ namespace ft {
 						return cpy;
 					}
 
+					bool									operator<(const const_iterator& rhs)
+					{
+						return (this->_value < rhs._value);
+					}
+					
+					bool									operator>(const const_iterator& rhs)
+					{
+						return (this->_value > rhs._value);
+					}
+					
+					bool									operator<=(const const_iterator& rhs)
+					{
+						return (this->_value <= rhs._value);
+					}
+					
+					bool									operator>=(const const_iterator& rhs)
+					{
+						return (this->_value >= rhs._value);
+					}
+
+//TODO implement comparator in iterator and const iterator
+
 			};
 
 			typedef ft::reverse_iterator<iterator>			reverse_iterator;
@@ -277,8 +319,27 @@ namespace ft {
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
 	*/
-			void	push_back(const value_type& val);
+			// template <class InputIterator>
+			// void	assign (InputIterator first, InputIterator last);
+			void			assign (size_type n, const value_type& val);
+			void			push_back(const value_type& val);
+			void			pop_back(void);
 
+		    void			insert(iterator position, size_type n, const value_type& val);
+			iterator		insert(iterator position, const value_type& val);
+			// template <class InputIterator>
+		    // void insert (iterator position, InputIterator first, InputIterator last);
+
+		
+	/*
+	** ------------------------------- ALLOCATORS --------------------------------
+	*/
+
+			allocator_type			get_allocator() const;
+	
+	/*
+	** ------------------------------- PRIVATE --------------------------------
+	*/
 		private:
 			T 				*_data;
 			size_type		_capacity;
@@ -287,11 +348,6 @@ namespace ft {
 						
 			void		_initData(size_type N, const value_type &value = value_type());
 
-	/*
-	** ------------------------------- MODIFIERS --------------------------------
-	*/
-
-		allocator_type			get_allocator() const;
 
 	};
 

@@ -36,5 +36,55 @@ int main()
 	printElem<int>(vector_stl_2, vector_me_2);
 	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
 	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+	// vector_stl_2.assign(23, 1);
+	// vector_me_2.assign(23, 1);
+	// 	printElem<int>(vector_stl_2, vector_me_2);
+	// std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	// std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+	// vector_stl_2.assign(32, 7);
+	// vector_me_2.assign(32, 7);
+	// 	printElem<int>(vector_stl_2, vector_me_2);
+	// std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	// std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+	std::cout << "pop back" << std::endl;
+	vector_stl_2.pop_back();
+	vector_me_2.pop_back();
+		printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+	vector_stl_2.back() = 90;
+	vector_me_2.back() = 90;
+		printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+	vector_stl_2.front() = 90;
+	vector_me_2.front() = 90;
+		printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+
+	vector_stl_2.insert(vector_stl_2.begin(), 42);
+	vector_me_2.insert(vector_me_2.begin(), 42);
+		printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+	vector_stl_2.insert(vector_stl_2.end(), 42);
+	vector_me_2.insert(vector_me_2.end(), 42);
+		printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+	vector_stl_2.insert(vector_stl_2.begin() + 4, 5, 80);
+	vector_me_2.insert(vector_me_2.begin() + 4, 5, 80);
+	printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
 	return 0;
 }
