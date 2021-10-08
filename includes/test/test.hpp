@@ -12,6 +12,7 @@
 #include "testResize.hpp"
 #include "testPrint.hpp"
 #include "testIterator.hpp"
+#include "testModifier.hpp"
 
 template<typename T>
 void	printElem(std::vector<T>& v1, ft::vector<T>& v2);
@@ -27,6 +28,9 @@ void	accessTestConst(std::vector<T> const &  vector_stl, ft::vector<T> const &  
 
 template<typename T>
 int		testIterator(std::vector<T>& v1, ft::vector<T>& v2);
+
+template<typename T>
+int		testModifier(std::vector<T>& v1, ft::vector<T>& v2);
 
 //TODO testTimimg
 #endif

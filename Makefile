@@ -13,8 +13,8 @@ PATH_TEST	=	$(PATH_INC)/test
 # List of sources
 SRCS_FILES	= 	main.cpp 
 SRCS_CLASS	= 	
-INC_FILES	=	vector_dclr.hpp vector.hpp reverse_iterator.hpp
-INC_TEST	=	test.hpp testAccess.hpp testResize.hpp testPrint.hpp testIterator.hpp
+INC_FILES	=	base.hpp vector_dclr.hpp vector.hpp reverse_iterator.hpp iterator_dclr.hpp
+INC_TEST	=	test.hpp testAccess.hpp testResize.hpp testPrint.hpp testIterator.hpp testModifier.hpp
 
 
 SRCS		=	$(addprefix $(), $(SRCS_FILES) $(addprefix $(PATH_CLASS)/, $(SRCS_CLASS)))

@@ -1,4 +1,5 @@
 #include "test.hpp"
+#include <stack>
 
 int main()
 {
@@ -86,5 +87,23 @@ int main()
 	printElem<int>(vector_stl_2, vector_me_2);
 	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
 	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+
+	std::cout << "---- TEST assign" << std::endl;
+	vector_stl_2.assign(vector_stl_2.begin() + 4, vector_stl_2.end() - 1);
+	vector_me_2.assign(vector_me_2.begin() + 4, vector_me_2.end() - 1);
+	test_push_back(vector_stl_2);
+	test_push_back(vector_me_2);
+	printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+	vector_me_2.assign(vector_stl_2.begin(), vector_stl_2.end() - 1);
+// TODO test with end()
+//TODO mouve this test in modifier
+	vector_stl_2.assign(vector_me_2.begin(), vector_me_2.end() - 1); 
+	printElem<int>(vector_stl_2, vector_me_2);
+	std::cout << vector_stl_2.size() << "/" << vector_stl_2.capacity() << std::endl;
+	std::cout << vector_me_2.size() << "/" << vector_me_2.capacity() << std::endl;
+	std::cout << "---- TEST modifier" << std::endl;
+	testModifier<int>(vector_stl_2, vector_me_2);
 	return 0;
 }

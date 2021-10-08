@@ -217,12 +217,28 @@ namespace ft {
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
 	*/
-	// template<typename T, typename Allocator>
-		// template <class InputIterator>
-		// void	assign (InputIterator first, InputIterator last)
-		// {
+	template<typename T, typename Allocator>
+	template <class InputIterator>
+	void												vector<T, Allocator>::assign(
+		typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator >::type first, InputIterator last)
+	{
+		typename vector<T, Allocator>::size_type i = 0;
+		typename vector<T, Allocator>::difference_type size = std::abs(first - last);
+		this->resize(size);
+		// std::cout << "first = " << *first << std::endl;
+		// std::cout << "last = " << *last << std::endl;
+		// std::cout << this->_size << std::endl;
+		while (first != last )
+		{
+			this->_data[i] = *first;
+			// std::cout << this->_data[i] << std::endl;
+			++first;
+			++i;
+			// std::cout << "new i = " << i << std::endl;
+		}
+		
+	}
 
-		// }
 	template<typename T, typename Allocator>
 	void												vector<T, Allocator>::assign(size_type n, const value_type& val)
 	{
@@ -296,6 +312,46 @@ namespace ft {
 		return ;
 	}
 
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::iterator				vector<T, Allocator>::erase(iterator position) {
+		typename vector<T, Allocator>::iterator ret_value = this->begin();
+		iterator it = ret_value;
+		for (; it != this->end() && it != position; ++it)
+			;
+		if (it == this->end())
+			return ret_value;
+		ret_value = it + 1;
+		while (it != this->end() - 1)
+		{
+			*it = *(it + 1);
+			++it;
+		}
+		--this->_size;
+		return ret_value;
+	}
+
+	template<typename T, typename Allocator>
+	typename vector<T, Allocator>::iterator				vector<T, Allocator>::erase(iterator first, iterator last) {
+		typename vector<T, Allocator>::iterator ret_value = this->begin();
+		iterator itf = ret_value;
+		iterator itl = ret_value;
+
+		for (; itf != this->end() && itf != first; ++itf)
+			;
+		for (; itl != this->end() && itl != last; ++itl)
+			;
+		if (itf == this->end() || itl == this->end())
+			return ret_value;
+		while (itf != this->end() && itl != this->end())
+		{
+			*itf = *itl;
+			++itf;
+			++itl;
+		}
+		this->_size -= std::abs(last - first);
+		return itf;
+	}
+
 	/*
 	** ------------------------------- ALLOCATOR --------------------------------
 	*/
@@ -305,6 +361,20 @@ namespace ft {
 	{
 		return	this->_alloc;
 	}
+
+	/*
+	** ------------------------------- OPERATORS --------------------------------
+	*/
+
+	// template<typename T, typename Allocator>
+	// vector<T, Allocator>&		vector<T, Allocator>::operator=( vector<T, Allocator> const & rhs )
+	// {
+	// 	if (this != &rhs)
+	// 	{
+	// 		this->assign(rhs.begin(), rhs.end());
+	// 	}
+	// 	return *this;
+	// }
 
 	/*
 	** ------------------------------- PRIVATE --------------------------------
@@ -318,16 +388,6 @@ namespace ft {
 			std::fill(this->begin(), this->end(), value);
 	}
 
-	/*
-	** ------------------------------- OPERATORS --------------------------------
-	*/
-
-
-	// template<typename T, typename Allocator>
-	// vector<T, Allocator>&		operator=( vector<T, Allocator> const & rhs )
-	// {
-		//TODO implement it
-	// }
 
 }
 

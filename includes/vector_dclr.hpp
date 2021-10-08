@@ -4,6 +4,7 @@
 # include <iostream>
 # include <string>
 # include <stdexcept>
+# include "base.hpp"
 # include "reverse_iterator.hpp"
 
 namespace ft {
@@ -21,13 +22,14 @@ namespace ft {
 			typedef typename allocator_type::const_pointer			const_pointer;
 			typedef ptrdiff_t										difference_type;
 			typedef	size_t											size_type;
+
 			class iterator
 			{
 				public:
-					typedef T				value_type;
-					typedef value_type&		reference;
-					typedef value_type*		pointer;
-					typedef ptrdiff_t		difference_type;
+					typedef ptrdiff_t							difference_type;
+					typedef T									value_type;
+					typedef value_type*							pointer;
+					typedef value_type&							reference;
 					typedef std::random_access_iterator_tag		iterator_category;
 
 				protected:
@@ -94,6 +96,10 @@ namespace ft {
 					bool								operator!=(const iterator &rhs) const {
 						return (this->_value != rhs._value);
 					}
+
+					bool								operator==(const iterator &rhs) const {
+						return (this->_value == rhs._value);
+					}
 					
 					iterator			&operator++(void)
 					{
@@ -149,7 +155,7 @@ namespace ft {
 					typedef value_type&		reference;
 					typedef value_type*		pointer;
 					typedef ptrdiff_t		difference_type;
-					typedef std::random_access_iterator_tag		iterator_category;
+					typedef ft::random_access_iterator_tag		iterator_category;
 
 
 				protected:
@@ -217,6 +223,9 @@ namespace ft {
 						return (this->_value != rhs._value);
 					}
 					
+					bool									operator==(const const_iterator &rhs) const {
+						return (this->_value == rhs._value);
+					}
 					const_iterator							&operator++(void)
 					{
 						++this->_value;
@@ -277,9 +286,6 @@ namespace ft {
 			~vector();
 
 
-//TODO implement equal operator
-			// vector &		operator=( vector const & rhs );
-
 	/*
 	** ------------------------------- ITERATORS --------------------------------
 	*/
@@ -319,8 +325,8 @@ namespace ft {
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
 	*/
-			// template <class InputIterator>
-			// void	assign (InputIterator first, InputIterator last);
+			template <class InputIterator>
+			void			assign (typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator >::type first, InputIterator last);
 			void			assign (size_type n, const value_type& val);
 			void			push_back(const value_type& val);
 			void			pop_back(void);
@@ -329,14 +335,19 @@ namespace ft {
 			iterator		insert(iterator position, const value_type& val);
 			// template <class InputIterator>
 		    // void insert (iterator position, InputIterator first, InputIterator last);
-
+			iterator		erase(iterator position);
+			iterator		erase(iterator first, iterator last);
 		
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
 
 			allocator_type			get_allocator() const;
-	
+
+	/*
+	** ------------------------------- OPERATORS --------------------------------
+	*/
+			// vector<T>				&operator=( vector const & rhs );
 	/*
 	** ------------------------------- PRIVATE --------------------------------
 	*/
