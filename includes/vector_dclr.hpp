@@ -155,8 +155,8 @@ namespace ft {
 					typedef value_type&		reference;
 					typedef value_type*		pointer;
 					typedef ptrdiff_t		difference_type;
-					typedef ft::random_access_iterator_tag		iterator_category;
-
+					typedef std::random_access_iterator_tag		iterator_category;
+					//TODO change random_tag with ft:
 
 				protected:
 					value_type 		*_value;
