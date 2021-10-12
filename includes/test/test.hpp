@@ -1,7 +1,7 @@
 #ifndef TEST_HPP
 #define TEST_HPP
 
-#if STL
+#ifdef STL
 	// #include <map>
 	// #include <stack>
 	#include <vector>
@@ -24,10 +24,14 @@
 #include "testIterator.hpp"
 #include "testModifier.hpp"
 #include "vector/vector_constructor.hpp"
+#include "vector/overload_op.hpp"
 
 /*
 ** ------------------------------- VECTOR --------------------------------
 */
+
+template<typename T>
+void test_op_vector(ft::vector<T> &v, T &value);
 
 template<typename T>
 void    vector_constructor(ft::vector<T>& v, T value);

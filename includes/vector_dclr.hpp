@@ -338,6 +338,8 @@ namespace ft {
 			iterator		erase(iterator position);
 			iterator		erase(iterator first, iterator last);
 			void			swap (vector& x);
+			void			clear( void );
+
 	
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
@@ -347,7 +349,6 @@ namespace ft {
 	/*
 	** ------------------------------- NON-MEMBER --------------------------------
 	*/
-		static void					swap (vector<T,Allocator>& x, vector<T,Allocator>& y);
 	/*
 	** ------------------------------- OPERATORS --------------------------------
 	*/
@@ -362,9 +363,26 @@ namespace ft {
 			size_type		_size;
 						
 			void		_initData(size_type N, const value_type &value = value_type());
+			void		_destroy_data();
 
 
 	};
+	
+	template<typename T, typename Allocator>
+	void					swap (vector<T,Allocator>& x, vector<T,Allocator>& y);
+	
+	template <class T, class Alloc>
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Alloc>
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 	// template<typename T, typename Allocator>
 	// std::ostream &			operator<<( std::ostream & o, vector<T, Allocator> const & i );

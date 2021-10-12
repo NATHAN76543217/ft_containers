@@ -1,5 +1,25 @@
 #include "test.hpp"
 
+class test {
+	public:
+	test(){
+		std::cout << "test constructor called" << std::endl;
+	}
+	test(const test &t){
+		(void)t;
+		std::cout << "test copy called" << std::endl;
+	}
+	test &operator=(const test &rhs)
+	{
+		(void)rhs;
+		std::cout << "operator =" << std::endl;
+		return *this;
+	}
+	~test(){
+		std::cout << "test destructor called" << std::endl;
+	}
+};
+
 int main()
 {
 	ft::vector<std::string>		vector_1;
@@ -85,5 +105,25 @@ int main()
 	std::cout << "---- TEST modifier" << std::endl;
 	int val = 4;
 	testModifier<int>(vector, val);
+	test_op_vector<int>(vector, val);
+	// {
+	// 	std::cout << "create t1" << std::endl;
+	// 	test t1;
+	// 	std::cout << "create uno" << std::endl;
+	// 	ft::vector<test> uno;
+	// 	std::cout << "create due" << std::endl;
+	// 	ft::vector<test> due(4);
+	// 	std::cout << "push uno t1" << std::endl;
+	// 	uno.push_back(t1);
+	// 	std::cout << "push due t1" << std::endl;
+	// 	due.push_back(t1);
+	// 	#ifdef STL
+	// 		std::cout << "STL used" << std::endl;
+	// 	#else
+	// 		std::cout << "FT used" << std::endl;
+	// 	#endif
+	// 	std::cout << "delete uno - due" << std::endl;
+	// }
+	// printElem<test>(vector);
 	return 0;
 }

@@ -16,7 +16,9 @@ PATH_TEST	=	$(PATH_INC)/test
 SRCS_FILES	= 	main.cpp 
 SRCS_CLASS	= 	
 INC_FILES	=	base.hpp vector_dclr.hpp vector.hpp reverse_iterator.hpp iterator_dclr.hpp
-INC_TEST	=	test.hpp testAccess.hpp testResize.hpp testPrint.hpp testIterator.hpp testModifier.hpp vector/vector_constructor.hpp
+INC_TEST	=	test.hpp testAccess.hpp testResize.hpp testPrint.hpp testIterator.hpp testModifier.hpp \
+	vector/vector_constructor.hpp \
+	vector/overload_op.hpp
 
 
 SRCS		=	$(addprefix $(), $(SRCS_FILES) $(addprefix $(PATH_CLASS)/, $(SRCS_CLASS)))
@@ -60,7 +62,7 @@ $(NAME): $(OBJS) $(INCS)
 	@ echo "$(_INFO) linking of $(NAME)"
 
 $(NAMESTL): $(OBJS_STL) $(INCS)
-	@ $(SETLIST) $(COMP) $(COMP_FLAG) -D STL -o $(NAMESTL) $(OBJS)
+	 $(SETLIST) $(COMP) $(COMP_FLAG) -D STL=1 -o $(NAMESTL) $(OBJS_STL)
 	@ echo "$(_INFO) linking of $(NAMESTL)"
 
 $(PATH_OBJ)%.o : $(PATH_SRC)%.cpp  $(INCS)
@@ -68,14 +70,14 @@ $(PATH_OBJ)%.o : $(PATH_SRC)%.cpp  $(INCS)
 	@ echo "$(_INFO) Compilation of $*"
 
 $(PATH_OBJ_STL)%.o : $(PATH_SRC)%.cpp  $(INCS)
-	@ ( $(SETLIST) $(COMP) $(COMP_FLAG) -c $< -o $@ )
+	@ ( $(SETLIST) $(COMP) $(COMP_FLAG) -D STL=1 -c $< -o $@ )
 	@ echo "$(_INFO) Compilation of $*"
 
 clean:
-	@ $(RM) -rf $(PATH_OBJ)
+	@ $(RM) -rf $(PATH_OBJ) $(PATH_OBJ_STL)
 	@ echo "$(_INFO) Deleted files and directory"
 
 fclean: clean
-	@ $(RM) -rf $(NAME)
+	@ $(RM) -rf $(NAME) $(NAMESTL)
 
 re: fclean all

@@ -29,11 +29,15 @@ void    test_vector_swap(ft::vector<T> &v, T &value)
 	std::cout << "B = "; 
     printElem<T>(cp);
 	std::cout << "Test swapping non member" << '\n';
-	ft::vector<T>::swap(v, cp);
+	ft::swap(v, cp);
 	std::cout << "A = "; 
     printElem<T>(v);
 	std::cout << "B = "; 
     printElem<T>(cp);
+	std::cout << "Test clear B" << '\n';
+	cp.clear();
+    printElem<T>(cp);
+
 }
 
 template<typename T>

@@ -8,7 +8,6 @@ namespace ft {
 	template<typename T, typename Allocator>
 	vector<T, Allocator>::vector(const allocator_type& alloc) : _data(NULL), _capacity(0), _alloc(alloc), _size(0)
 	{
-		this->_initData(0);
 	}
 
 	template<typename T, typename Allocator>
@@ -31,6 +30,7 @@ namespace ft {
 	template<typename T, typename Allocator>
 	vector<T, Allocator>::~vector()
 	{
+		this->_destroy_data();
 		this->_alloc.deallocate(this->_data, this->_capacity);
 	}
 
@@ -110,13 +110,17 @@ namespace ft {
 		{
 			//reduce
 			while (this->_size > n)
+			{
 				--this->_size;
+				this->_alloc.destroy(&(this->_data[this->_size]));
+			}
 			return ;
 		}
 		this->reserve(n);
 		while (this->_size < n)
 		{
-			this->_data[this->_size] = value;
+			this->_alloc.destroy(&(this->_data[this->_size]));
+			this->_alloc.construct(&(this->_data[this->_size]), value);
 			this->_size++;
 		}
 		return ;
@@ -137,6 +141,7 @@ namespace ft {
 	template<typename T, typename Allocator>
 	void											vector<T, Allocator>::reserve(size_type n)
 	{
+		size_type i = 0;
 		if (n <= this->_capacity)
 			return ;
 		if (n > this->max_size())
@@ -147,7 +152,12 @@ namespace ft {
 		while (this->_capacity < n)
 			this->_capacity *= 2;
 		T	*tmp = this->_alloc.allocate(this->_capacity);
-		std::memcpy(tmp, this->_data, this->size() * sizeof(T));
+		while (i < this->_size)
+		{
+			this->_alloc.construct(&tmp[i], this->_data[i]);
+			i++;
+		}
+		this->_destroy_data();
 		this->_alloc.deallocate(this->_data, oldCapacity);
 		this->_data = tmp;
 	}
@@ -230,7 +240,8 @@ namespace ft {
 		// std::cout << this->_size << std::endl;
 		while (first != last )
 		{
-			this->_data[i] = *first;
+			this->_alloc.destroy(&this->_data[i]);
+			this->_alloc.construct(&this->_data[i], *first);
 			// std::cout << this->_data[i] << std::endl;
 			++first;
 			++i;
@@ -247,7 +258,7 @@ namespace ft {
 		this->resize(n);
 		while ( i < n)
 		{
-			this->_data[i] = value_type(val);
+			this->_alloc.construct(&this->_data[i], val);
 			i++;
 		}
 	}
@@ -259,7 +270,7 @@ namespace ft {
 		{
 			this->reserve(this->_size + 1);
 		}
-		this->_data[this->_size] = val;
+		this->_alloc.construct(&this->_data[this->_size], val);
 		this->_size++;
 	}
 
@@ -367,6 +378,13 @@ namespace ft {
 		this->_size = stmp; 
 	}
 
+	template<typename T, typename Allocator>
+	void											vector<T, Allocator>::clear( void )
+	{
+		this->_destroy_data();
+		this->_size = 0;
+	}
+
 	/*
 	** ------------------------------- ALLOCATOR --------------------------------
 	*/
@@ -377,14 +395,6 @@ namespace ft {
 		return	this->_alloc;
 	}
 
-	/*
-	** ------------------------------- NON-MEMBER --------------------------------
-	*/
-	template<typename T, typename Allocator>
-	void												vector<T, Allocator>::swap(vector<T, Allocator>&x, vector<T, Allocator>&y)
-	{
-		x.swap(y);
-	}
 	
 	/*
 	** ------------------------------- OPERATORS --------------------------------
@@ -405,11 +415,75 @@ namespace ft {
 	*/
 
 	template<typename T, typename Allocator>
-	void		vector<T, Allocator>::_initData(size_type N, const value_type &value)
+	void												vector<T, Allocator>::_initData(size_type N, const value_type &value)
 	{
+		size_type i = 0;
 		this->_data = this->_alloc.allocate(N);
-		if (N != 0)
-			std::fill(this->begin(), this->end(), value);
+		while (i < N)
+		{
+			this->_alloc.construct(&this->_data[i], value);
+			++i;
+		}
+		this->_size = N;
+		this->_capacity = N;
+	}
+
+	template<typename T, typename Allocator>
+	void												vector<T, Allocator>::_destroy_data() {
+		size_type i = 0;
+
+		while (i < this->_size)
+		{
+			this->_alloc.destroy(&this->_data[i]);	
+			i++;
+		}
+	}
+	
+	/*
+	** ------------------------------- NON-MEMBER --------------------------------
+	*/
+	template<typename T, typename Allocator>
+	void												swap(vector<T, Allocator>&x, vector<T, Allocator>&y)
+	{
+		x.swap(y);
+	}
+
+	template <class T, class Alloc>
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (ft::equal<
+			typename vector<T, Alloc>::const_iterator,
+			typename vector<T, Alloc>::const_iterator >(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <class T, class Alloc>
+	bool operator< (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return !(rhs < lhs);
+	}
+
+	template <class T, class Alloc>
+	bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (rhs < lhs);
+	}
+
+	template <class T, class Alloc>
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return !(lhs < rhs);
 	}
 
 

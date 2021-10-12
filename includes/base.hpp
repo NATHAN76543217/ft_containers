@@ -25,6 +25,30 @@ namespace ft {
 		typedef typename std::iterator_traits<Ite>::iterator_category it;
 		static const bool value = true;
 	};
+
+	template <class InputIterator1, class InputIterator2>
+	bool equal (
+		const typename ft::enable_if< is_iterator<InputIterator1>::value, InputIterator1 >::type first1,
+		const InputIterator1 last1, 
+		const typename ft::enable_if< is_iterator<InputIterator2>::value, InputIterator2 >::type first2)
+	{
+		while (first1 != last1)
+		{
+			if (!(*first1 == *first2))
+				return false;
+			first1++;
+			first2++;
+		}
+		return true;
+	}
+
+	template <class InputIterator1, class InputIterator2, class BinaryPredicate>
+	bool equal (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate pred);
+
+	template <class InputIterator1, class InputIterator2>
+	bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2);
+	template <class InputIterator1, class InputIterator2, class Compare>
+	bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, Compare comp);
 }
 
 #endif              //BASE_HPP
