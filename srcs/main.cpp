@@ -83,6 +83,7 @@ int main()
 //TODO mouve this test in modifier
 	std::cout << vector.size() << "/" << vector.capacity() << std::endl;
 	std::cout << "---- TEST modifier" << std::endl;
-	testModifier<int>(vector);
+	int val = 4;
+	testModifier<int>(vector, val);
 	return 0;
 }

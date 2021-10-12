@@ -48,7 +48,7 @@ template<typename T>
 int		testIterator(ft::vector<T>& v2);
 
 template<typename T>
-int		testModifier(ft::vector<T>& v2);
+int		testModifier(ft::vector<T>& v, T &value);
 
 //TODO testTimimg
 #endif

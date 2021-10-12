@@ -13,6 +13,28 @@ void    test_push_back(T &v)
     v.push_back(9);
 }
 
+template<typename T>
+void    test_vector_swap(ft::vector<T> &v, T &value)
+{
+	ft::vector<T> cp(4, value);
+	
+	std::cout << "A = "; 
+    printElem<T>(v);
+	std::cout << "B = "; 
+    printElem<T>(cp);
+	std::cout << "Test swapping member" << '\n';
+	v.swap(cp);
+	std::cout << "A = "; 
+    printElem<T>(v);
+	std::cout << "B = "; 
+    printElem<T>(cp);
+	std::cout << "Test swapping non member" << '\n';
+	ft::vector<T>::swap(v, cp);
+	std::cout << "A = "; 
+    printElem<T>(v);
+	std::cout << "B = "; 
+    printElem<T>(cp);
+}
 
 template<typename T>
 void    test_vector_erase(T &v)
@@ -22,7 +44,7 @@ void    test_vector_erase(T &v)
 }
 
 template<typename T>
-int		testModifier(ft::vector<T>& v)
+int		testModifier(ft::vector<T>& v, T &value)
 {
 	std::cout << "push_back" << std::endl;
 	test_push_back(v);
@@ -40,6 +62,7 @@ int		testModifier(ft::vector<T>& v)
 	std::cout << "\nerase" << std::endl;
     test_vector_erase(v);
     printElem<T>(v);
+    test_vector_swap(v, value);
 
 	return 0;
 }

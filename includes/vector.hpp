@@ -352,6 +352,21 @@ namespace ft {
 		return itf;
 	}
 
+	template<typename T, typename Allocator>
+	void											vector<T, Allocator>::swap(vector<T, Allocator> &x)
+	{
+		T 			*dtmp = x._data;
+		size_type	ctmp = x._capacity;
+		size_type	stmp = x._size;
+
+		x._data = this->_data; 
+		x._capacity = this->_capacity; 
+		x._size = this->_size; 
+		this->_data = dtmp; 
+		this->_capacity = ctmp; 
+		this->_size = stmp; 
+	}
+
 	/*
 	** ------------------------------- ALLOCATOR --------------------------------
 	*/
@@ -362,6 +377,15 @@ namespace ft {
 		return	this->_alloc;
 	}
 
+	/*
+	** ------------------------------- NON-MEMBER --------------------------------
+	*/
+	template<typename T, typename Allocator>
+	void												vector<T, Allocator>::swap(vector<T, Allocator>&x, vector<T, Allocator>&y)
+	{
+		x.swap(y);
+	}
+	
 	/*
 	** ------------------------------- OPERATORS --------------------------------
 	*/

@@ -281,7 +281,7 @@ namespace ft {
 			
 			explicit vector(const allocator_type& alloc = allocator_type());
 			explicit vector(size_t n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type());
-			//TODO add range constructors
+	//TODO add range constructors
 			vector( const vector & src );
 			~vector();
 
@@ -337,13 +337,17 @@ namespace ft {
 		    // void insert (iterator position, InputIterator first, InputIterator last);
 			iterator		erase(iterator position);
 			iterator		erase(iterator first, iterator last);
-		
+			void			swap (vector& x);
+	
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
 
 			allocator_type			get_allocator() const;
-
+	/*
+	** ------------------------------- NON-MEMBER --------------------------------
+	*/
+		static void					swap (vector<T,Allocator>& x, vector<T,Allocator>& y);
 	/*
 	** ------------------------------- OPERATORS --------------------------------
 	*/
