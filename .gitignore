@@ -1,6 +1,14 @@
-objs
-/test
 .vscode
+
+
+objs
+stlobjs
+/test
+/testSTL
+
+main_type.cpp
 en.subject.pdf
 en.subject (2).pdf
 exemple
+
+

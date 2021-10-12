@@ -1,5 +1,6 @@
 #ifndef TESTITERATOR
-#define TESTITERATOR
+# define TESTITERATOR
+# include "test.hpp"
 
 
 template<typename T>
@@ -43,20 +44,16 @@ static void	rprintIterator(T& v1)
 }
 
 template<typename T>
-int		testIterator(std::vector<T>& v1, ft::vector<T>& v2)
+int		testIterator(ft::vector<T>& v)
 {
 	std::cout << "Iterator" << std::endl;
-	printIterator(v1);
-	printIterator(v2);
+	printIterator(v);
 	std::cout << "\nconst Iterator" << std::endl;
-	printConstIterator(v1);
-	printConstIterator(v2);
+	printConstIterator(v);
 	std::cout << "\nReverse Iterator" << std::endl;
-	rprintIterator(v1);
-	rprintIterator(v2);
+	rprintIterator(v);
 	std::cout << "\nconst reverse Iterator" << std::endl;
-	rprintConstIterator(v1);
-	rprintConstIterator(v2);
+	rprintConstIterator(v);
 	return 0;
 }
 

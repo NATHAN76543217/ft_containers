@@ -1,5 +1,7 @@
 #ifndef TESTMODIFIER
-#define TESTMODIFIER
+# define TESTMODIFIER
+
+# include "test.hpp"
 
 template<typename T>
 void    test_push_back(T &v)
@@ -20,12 +22,11 @@ void    test_vector_erase(T &v)
 }
 
 template<typename T>
-int		testModifier(std::vector<T>& v1, ft::vector<T>& v2)
+int		testModifier(ft::vector<T>& v)
 {
 	std::cout << "push_back" << std::endl;
-	test_push_back(v1);
-	test_push_back(v2);
-	printElem<T>(v1, v2);
+	test_push_back(v);
+    printElem<T>(v);
 
 	// std::cout << "\npop_back" << std::endl;
 	// printConstIterator(v1);
@@ -37,9 +38,8 @@ int		testModifier(std::vector<T>& v1, ft::vector<T>& v2)
 	// rprintConstIterator(v1);
 	// rprintConstIterator(v2);
 	std::cout << "\nerase" << std::endl;
-    test_vector_erase(v1);
-    test_vector_erase(v2);
-    printElem<T>(v1, v2);
+    test_vector_erase(v);
+    printElem<T>(v);
 
 	return 0;
 }
