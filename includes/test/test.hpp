@@ -8,7 +8,7 @@
 	namespace ft = std;
 #else
 	// #include <map.hpp>
-	// #include <stack.hpp>
+	#include <stack.hpp>
 	#include <vector.hpp>
 #endif
 
@@ -18,11 +18,11 @@
 #include <string>
 #include <stdlib.h>
 
-#include "testAccess.hpp"
-#include "testResize.hpp"
-#include "testPrint.hpp"
-#include "testIterator.hpp"
-#include "testModifier.hpp"
+#include "vector/testAccess.hpp"
+#include "vector/testResize.hpp"
+#include "vector/testPrint.hpp"
+#include "vector/testIterator.hpp"
+#include "vector/testModifier.hpp"
 #include "vector/vector_constructor.hpp"
 #include "vector/overload_op.hpp"
 

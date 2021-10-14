@@ -277,6 +277,7 @@ namespace ft {
 	template<typename T, typename Allocator>
 	void												vector<T, Allocator>::pop_back(void)
 	{
+		//TODO change for a real destroy
 		if (this->_size > 0)
 			--(this->_size);
 	}

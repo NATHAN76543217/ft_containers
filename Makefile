@@ -16,7 +16,12 @@ PATH_TEST	=	$(PATH_INC)/test
 SRCS_FILES	= 	main.cpp 
 SRCS_CLASS	= 	
 INC_FILES	=	base.hpp vector_dclr.hpp vector.hpp reverse_iterator.hpp iterator_dclr.hpp
-INC_TEST	=	test.hpp testAccess.hpp testResize.hpp testPrint.hpp testIterator.hpp testModifier.hpp \
+INC_TEST	=	test.hpp \
+	vector/testAccess.hpp \
+	vector/testResize.hpp \
+	vector/testPrint.hpp \
+	vector/testIterator.hpp \
+	vector/testModifier.hpp \
 	vector/vector_constructor.hpp \
 	vector/overload_op.hpp
 

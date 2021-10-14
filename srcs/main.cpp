@@ -20,7 +20,13 @@ class test {
 	}
 };
 
-int main()
+int		testStack()
+{
+	// stack<> s1
+	return 0;
+}
+
+int		testVector()
 {
 	ft::vector<std::string>		vector_1;
 	std::string svalue("value");
@@ -125,5 +131,12 @@ int main()
 	// 	std::cout << "delete uno - due" << std::endl;
 	// }
 	// printElem<test>(vector);
+	return 0;
+}
+
+int main()
+{
+	testVector();
+	testStack();
 	return 0;
 }
