@@ -303,6 +303,7 @@ namespace ft {
 	//TODO add range constructors
 			map( const map & src );
 			~map();
+		map						&operator=( const map& other );
 
 
 	/*
@@ -352,13 +353,24 @@ namespace ft {
 
 			allocator_type			get_allocator() const;
 	/*
-	** ------------------------------- NON-MEMBER --------------------------------
+	** ------------------------------- OBSERVERS --------------------------------
 	*/
+	    key_compare					key_comp()      const;
+	    value_compare				value_comp()    const;
 	/*
-	** ------------------------------- OPERATORS --------------------------------
+	** ------------------------------- OPERATIONS --------------------------------
 	*/
-		map						&operator=( const map& other );
-		// map<T>				&operator=( map const & rhs );
+    	iterator					find(const key_type& k);
+    	const_iterator				find(const key_type& k) const;
+    	size_type					count(const key_type& k) const;
+		iterator					lower_bound(const key_type& k);
+		const_iterator				lower_bound(const key_type& k) const;
+		iterator					upper_bound(const key_type& k);
+		const_iterator				upper_bound(const key_type& k) const;
+
+		pair<iterator,iterator>             equal_range(const key_type& k);	
+		pair<const_iterator,const_iterator> equal_range(const key_type& k) const;
+
 	/*
 	** ------------------------------- PRIVATE --------------------------------
 	*/
@@ -489,23 +501,7 @@ public:
 
 
 
-    // observers:
-    allocator_type get_allocator() const noexcept;
-    key_compare    key_comp()      const;
-    value_compare  value_comp()    const;
 
-    // map operations:
-          iterator find(const key_type& k);
-    const_iterator find(const key_type& k) const;
 
-    size_type      count(const key_type& k) const;
-          iterator lower_bound(const key_type& k);
-    const_iterator lower_bound(const key_type& k) const;
-
-          iterator upper_bound(const key_type& k);
-    const_iterator upper_bound(const key_type& k) const;
-
-    pair<iterator,iterator>             equal_range(const key_type& k);
-    pair<const_iterator,const_iterator> equal_range(const key_type& k) const;
 };
 
