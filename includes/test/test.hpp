@@ -2,12 +2,12 @@
 #define TEST_HPP
 
 #ifdef STL
-	// #include <map>
-	// #include <stack>
+	#include <map>
+	#include <stack>
 	#include <vector>
 	namespace ft = std;
 #else
-	// #include <map.hpp>
+	#include <map.hpp>
 	#include <stack.hpp>
 	#include <vector.hpp>
 #endif
@@ -31,7 +31,7 @@
 */
 
 template<typename T>
-void test_op_vector(ft::vector<T> &v, T &value);
+void	test_op_vector(ft::vector<T> &v, T &value);
 
 template<typename T>
 void    vector_constructor(ft::vector<T>& v, T value);
@@ -54,5 +54,4 @@ int		testIterator(ft::vector<T>& v2);
 template<typename T>
 int		testModifier(ft::vector<T>& v, T &value);
 
-//TODO testTimimg
 #endif

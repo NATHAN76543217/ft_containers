@@ -20,6 +20,11 @@ class test {
 	}
 };
 
+int		testMap( void ) {
+	//TODO add tests for MAP
+	return 0;
+}
+
 int		testStack()
 {
 	// stack<> s1
@@ -138,5 +143,6 @@ int main()
 {
 	testVector();
 	testStack();
+	testMap();
 	return 0;
 }

@@ -71,7 +71,7 @@ namespace ft {
 				~iterator()
 				{}
 
-				reference						operator*(void) const
+				reference							operator*(void) const
 				{
 					return *(this->_value);
 				}
@@ -310,11 +310,7 @@ namespace ft {
 		map(const map& src);
 		~map();
 
-    	map& operator=(const map& m);
-
-
-		map						&operator=( const map& other );
-
+    	map						&operator=(const map& rhs);
 
 	/*
 	** ------------------------------- ITERATORS --------------------------------
@@ -385,9 +381,9 @@ namespace ft {
 	** ------------------------------- PRIVATE --------------------------------
 	*/
 		private:
-			T 				*_data;
-			size_type		_capacity;
-			allocator_type	_alloc;
+			// T 				*_data;
+			// size_type		_capacity;
+			// allocator_type	_alloc;
 			size_type		_size;
 						
 			void		_initData(size_type N, const value_type &value = value_type());
@@ -420,11 +416,7 @@ namespace ft {
 
 	// specialized algorithms:
 	template <class Key, class T, class Compare, class Allocator>
-	void
-	ft::swap(map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y)
-	{
-		x.swap(y);
-	}
+	void swap(map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y);
 
 };
 

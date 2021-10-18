@@ -352,7 +352,7 @@ namespace ft {
 	/*
 	** ------------------------------- OPERATORS --------------------------------
 	*/
-			// vector<T>				&operator=( vector const & rhs );
+		// vector<T>				&operator=( vector const & rhs );
 	/*
 	** ------------------------------- PRIVATE --------------------------------
 	*/
