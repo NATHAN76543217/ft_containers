@@ -10,13 +10,13 @@
 namespace ft {
 //TODO add operator= on iterattor and add tests for this operator 
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
-	class map 
+	class map : public  RBTree<ft::pair<const Key, T>, Allocator>
 	{
 		public:
 				// types:
 			typedef Key                                      key_type;
 			typedef T                                        mapped_type;
-			typedef pair<const key_type, mapped_type>        value_type;
+			typedef ft::pair<const key_type, mapped_type>        value_type;
 			typedef Compare                                  key_compare;
 			typedef Allocator                                allocator_type;
 			typedef typename allocator_type::reference       reference;
@@ -327,8 +327,8 @@ namespace ft {
 	/*
 	** ------------------------------- CAPACITY --------------------------------
 	*/
-    	bool						empty( void )    const;
-    	size_type					size( void )     const;
+    	// bool						empty( void )    const;
+    	// size_type					size( void )     const;
     	size_type					max_size( void ) const;
 
 	/*
@@ -379,7 +379,6 @@ namespace ft {
 	** ------------------------------- PRIVATE --------------------------------
 	*/
 		private:
-			RBTree<value_type, Allocator>				_tree;
 			key_compare									_comp;
 			// size_type		_capacity;
 			// allocator_type	_alloc;

@@ -34,7 +34,7 @@ namespace ft {
 					node		*parent;
 					node		*left;
 					node		*right;
-					value_type  value;
+					value_type  *value;
 					bool		color;
 
 					friend std::ostream		&operator<<(std::ostream& os, const typename RBTree<T, Allocator>::node &node)
@@ -80,11 +80,15 @@ namespace ft {
 				std::cout << "RBT default creation" << std::endl;
 			}
 
+			virtual ~RBTree() {
+				//TODO delete avery node and value inside it (allocator.desallocate)
+			}
+
 			nodePTR	getRoot( void ) {
 				return this->_root;
 			}
 
-			node	&insert(const value_type &new_val)
+			node			&insert(const value_type &new_val)
 			{
 				if (this->_size == 0 )
 				{
@@ -97,15 +101,15 @@ namespace ft {
 				//binary search for insertion
 				while (current != nullptr)
 				{
-					if (new_val < current->value)
+					if (new_val < *(current->value))
 						next = current->left;
-					else if (new_val > current->value)
+					else if (new_val > *(current->value))
 						next = current->right;
 					else
 						throw RBTree::sameValueException();
 					if (next == nullptr)
 					{
-						if (new_val < current->value)
+						if (new_val < *(current->value))
 							next = current->left = this->create_node(new_val, current);
 						else
 							next = current->right = this->create_node(new_val, current);
@@ -125,7 +129,7 @@ namespace ft {
 				return *current;
 			}
 
-			void	print( void ) const
+			void			print( void ) const
 			{
 				if (this->_root == nullptr)
 					std::cout << "Empty tree" << std::endl;
@@ -137,7 +141,7 @@ namespace ft {
 				return ;
 			}
 
-			void	print(std::string prefix, node *node, bool isLeft) const
+			void			print(std::string prefix, node *node, bool isLeft) const
 			{
 				if (node == nullptr)
 					return ;
@@ -151,11 +155,29 @@ namespace ft {
 				print( prefix + (!isLeft ? "│      " : "       "), node->right, false);
 				print( prefix + (!isLeft ? "│      " : "       "), node->left, true);
 			}
-
+    	
+	/*
+	** ------------------------------- CAPACITY --------------------------------
+	*/
+			bool			empty( void )    const {
+				return (this->_size == 0);
+			}
+			 
+			size_type		size( void ) const
+			{
+				return this->_size;
+			}
+			allocator_type	getAllocator( void ) const
+			{
+				return this->_alloc;
+			}
+	
 		protected:
 			node	*create_node(const value_type &value){
 				node *newNode = reinterpret_cast<node *>(this->_alloc.allocate(sizeof(node)));
-				newNode->value = value;
+				newNode->value = reinterpret_cast<value_type *>(this->_alloc.allocate(sizeof(value_type)));
+				new (newNode->value) value_type(value);
+				//TODO delete newNode value at end of life
 				newNode->parent = nullptr;
 				newNode->left = nullptr;
 				newNode->right = nullptr;
@@ -165,7 +187,8 @@ namespace ft {
 
 			node	*create_node(const value_type &value, node *parent) {
 				node *newNode = reinterpret_cast<node *>(this->_alloc.allocate(sizeof(node)));
-				newNode->value = value;
+				newNode->value = reinterpret_cast<value_type *>(this->_alloc.allocate(sizeof(value_type)));
+				new (newNode->value) value_type(value);
 				newNode->parent = parent;
 				newNode->left = nullptr;
 				newNode->right = nullptr;

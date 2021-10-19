@@ -98,7 +98,8 @@ namespace ft {
 		}
 		return (first1 == last1) && (first2 != last2);	
 	}
-	template<class T1, class T2> struct pair
+	template<class T1, class T2>
+	struct pair
 	{
 		typedef T1			first_type;
 		typedef T2			second_type;
@@ -110,6 +111,15 @@ namespace ft {
 		pair(const T1& a, const T2& b) : first(a), second(b) { }
 		template<class U1, class U2>
         pair(const pair<U1, U2>& p) : first(p.first), second(p.second) { }
+
+		pair<T1,T2>&	operator=(const pair<T1, T2> &rhs)
+		{
+			if (this != &rhs) {
+				this->first = rhs.first;
+				this->second = rhs.second;
+			}
+			return *this;
+		}
     };
 
 	  /// Two pairs of the same type are equal iff their members are equal.

@@ -23,7 +23,16 @@ class test {
 int		testMap( void ) {
 	//TODO add tests for MAP
 	ft::map<std::string, int> m1;
-
+	std::cout << "- size  = " << m1.size() << "\n";
+	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
+	std::cout << "insert element\n";
+	m1.insert(ft::pair<std::string, int>("firstKey", 1));
+	std::cout << "- size  = " << m1.size() << "\n";
+	std::cout << "insert 2 other elements\n";
+	m1.insert(ft::pair<std::string, int>("secondKey", 2));
+	m1.insert(ft::pair<std::string, int>("thirdKey", 3));
+	std::cout << "- size  = " << m1.size() << "\n";
+	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
 	return 0;
 }
 
