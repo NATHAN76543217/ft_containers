@@ -357,7 +357,7 @@ namespace ft {
 	** ------------------------------- PRIVATE --------------------------------
 	*/
 		private:
-			T 				*_data;
+			value_type		*_data;
 			size_type		_capacity;
 			allocator_type	_alloc;
 			size_type		_size;
