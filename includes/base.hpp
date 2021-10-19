@@ -1,8 +1,9 @@
 #ifndef BASE_HPP
 # define BASE_HPP
 
-#include <stddef.h>
-#include "iterator.hpp"
+# include <stddef.h>
+# include "iterator.hpp"
+# include "reverse_iterator.hpp"
 
 namespace ft {
 	

@@ -15,7 +15,7 @@ PATH_TEST	=	$(PATH_INC)/test
 # List of sources
 SRCS_FILES	= 	main.cpp 
 SRCS_CLASS	= 	
-INC_FILES	=	base.hpp vector_dclr.hpp vector.hpp reverse_iterator.hpp iterator_dclr.hpp map_dclr.hpp map.hpp
+INC_FILES	=	base.hpp vector_dclr.hpp vector.hpp reverse_iterator.hpp iterator_dclr.hpp map_dclr.hpp map.hpp RBTree.hpp
 INC_TEST	=	test.hpp \
 	vector/testAccess.hpp \
 	vector/testResize.hpp \

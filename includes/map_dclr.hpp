@@ -5,7 +5,7 @@
 # include <string>
 # include <stdexcept>
 # include "base.hpp"
-# include "reverse_iterator.hpp"
+# include "RBTree.hpp"
 
 namespace ft {
 //TODO add operator= on iterattor and add tests for this operator 
@@ -14,17 +14,17 @@ namespace ft {
 	{
 		public:
 				// types:
-		typedef Key                                      key_type;
-		typedef T                                        mapped_type;
-		typedef pair<const key_type, mapped_type>        value_type;
-		typedef Compare                                  key_compare;
-		typedef Allocator                                allocator_type;
-		typedef typename allocator_type::reference       reference;
-		typedef typename allocator_type::const_reference const_reference;
-		typedef typename allocator_type::pointer         pointer;
-		typedef typename allocator_type::const_pointer   const_pointer;
-		typedef typename allocator_type::size_type       size_type;
-		typedef typename allocator_type::difference_type difference_type;
+			typedef Key                                      key_type;
+			typedef T                                        mapped_type;
+			typedef pair<const key_type, mapped_type>        value_type;
+			typedef Compare                                  key_compare;
+			typedef Allocator                                allocator_type;
+			typedef typename allocator_type::reference       reference;
+			typedef typename allocator_type::const_reference const_reference;
+			typedef typename allocator_type::pointer         pointer;
+			typedef typename allocator_type::const_pointer   const_pointer;
+			typedef typename allocator_type::size_type       size_type;
+			typedef typename allocator_type::difference_type difference_type;
 
 		// typedef implementation-defined                   iterator;
 		// typedef implementation-defined                   const_iterator;
@@ -308,7 +308,7 @@ namespace ft {
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type());
 		map(const map& src);
-		~map();
+		virtual ~map( void );
 
     	map						&operator=(const map& rhs);
 
@@ -346,13 +346,11 @@ namespace ft {
 
 		void						swap(map& x);
 
-
 		void						erase(iterator position);
 		size_type					erase(const key_type& k);
 		void						erase(iterator first, iterator last);
 		void						clear();
 
-	
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
@@ -381,13 +379,13 @@ namespace ft {
 	** ------------------------------- PRIVATE --------------------------------
 	*/
 		private:
-			// T 				*_data;
+			RBTree<value_type, Allocator>				_tree;
+			key_compare									_comp;
 			// size_type		_capacity;
 			// allocator_type	_alloc;
-			size_type		_size;
 						
-			void		_initData(size_type N, const value_type &value = value_type());
-			void		_destroy_data();
+			// void		_initData(size_type N, const value_type &value = value_type());
+			// void		_destroy_data();
 
 
 	};

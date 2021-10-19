@@ -1,10 +1,39 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <map_dclr.hpp>
-
+#include "map_dclr.hpp"
+//TODO implement class redBlackTree
 namespace ft {
 
+	/*
+	** ------------------------------- CONSTRUCT/DESTROY/COPY --------------------------------
+	*/
+		template<class Key, class T, class Compare, class Allocator>
+		map<Key, T, Compare, Allocator>::map(const map::key_compare & comp, const map::allocator_type& alloc) : _tree(alloc), _comp(comp) {
+		}
+
+		// template<class Key, class T, class Compare, class Allocator>
+		// template <class InputIterator>
+		// map<Key, T, Compare, Allocator>::map(
+		// 		InputIterator first,
+		// 		InputIterator last,
+		// 		const key_compare& comp,
+		// 		const allocator_type& alloc) : _tree(alloc)
+		// {
+		// } 
+		// TODO
+
+		template<class Key, class T, class Compare, class Allocator>
+		map<Key, T, Compare, Allocator>::map(const map<Key, T, Compare, Allocator>& src) : _tree(src._tree), _comp(src._comp)
+		{
+
+		}
+
+		template<class Key, class T, class Compare, class Allocator>
+		map<Key, T, Compare, Allocator>::~map( void )
+		{
+
+		}
 	/*
 	** ------------------------------- ITERATORS --------------------------------
 	*/
@@ -74,7 +103,7 @@ namespace ft {
 	typename map<Key, T, Compare, Allocator>::size_type
 		map<Key, T, Compare, Allocator>::size(void) const
 	{
-		return this->_size;
+		return this->_tree._size;
 	}
 
 	template<class Key, class T, class Compare, class Allocator>
@@ -99,6 +128,14 @@ namespace ft {
 	{
 		x.swap(y);
 	}
+
+	/*
+	** ------------------------------- ALLOCATORS --------------------------------
+	*/
+	template<class Key, class T, class Compare, class Allocator>
+		typename map<Key, T, Compare, Allocator>::allocator_type		map<Key, T, Compare, Allocator>::get_allocator() const {
+			return this->_tree.getAllocator();
+		}
 };
 
 #endif		//MAP_HPP;

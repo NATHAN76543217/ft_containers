@@ -22,6 +22,8 @@ class test {
 
 int		testMap( void ) {
 	//TODO add tests for MAP
+	ft::map<std::string, int> m1;
+
 	return 0;
 }
 
