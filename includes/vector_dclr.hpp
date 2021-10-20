@@ -38,7 +38,7 @@ namespace ft {
 				public:
 					iterator()
 					{
-						this->_value = NULL;
+						this->_value = nullptr;
 					}
 					iterator(value_type* value)
 					{
@@ -164,7 +164,7 @@ namespace ft {
 				public:
 					const_iterator()
 					{
-						this->_value = NULL;
+						this->_value = nullptr;
 					}
 					const_iterator(value_type* value)
 					{
