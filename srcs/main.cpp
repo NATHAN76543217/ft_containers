@@ -22,6 +22,7 @@ class test {
 
 int		testMap( void ) {
 	//TODO add tests for MAP
+	//TODO test const and reverses iterators
 	ft::map<std::string, int> m1;
 	std::cout << "- size  = " << m1.size() << "\n";
 	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
@@ -33,6 +34,9 @@ int		testMap( void ) {
 	m1.insert(ft::pair<std::string, int>("thirdKey", 3));
 	std::cout << "- size  = " << m1.size() << "\n";
 	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
+	ft::map<std::string, int>::iterator it = m1.begin();
+	for (; it != m1.end(); it++)
+		std::cout << "(" << (*it).first << ", " << (*it).second << ") - ";
 	return 0;
 }
 

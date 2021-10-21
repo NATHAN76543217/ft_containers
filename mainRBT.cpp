@@ -50,5 +50,56 @@ int main(){
 
     std::cout << "TEST PAIR" << std::endl;
     //TODO implement test with pair
-    return 0;
+    std::cout << "TEST ITERATOR" << std::endl;
+	ft::RBTree<int>::iterator it = treeInt.begin();
+	// std::cout << "begin = " << it; 
+	std::cout << "at begin = " << *it << std::endl; 
+	for (; it != treeInt.end(); ++it)
+		std::cout << *it << ", ";
+
+	std::cout << " |  ";
+	std::cout << *(++it) << ", ";
+	std::cout << *(++it) << ", ";
+	std::cout << *(++it) << ", ";
+	std::cout << *(++it) << ", ";
+	std::cout << *(++it) << ", " << std::endl;
+	for (; it != treeInt.end(); --it)
+		std::cout << *it << ", ";
+	--it;
+	// std::cout << *(--it) << ", " << std::endl;
+	std::cout << std::endl;
+	// std::cout << (it >= treeInt.begin())  << ", " << std::endl;
+    for (; it > treeInt.begin(); --it)
+		std::cout << *it << ", ";
+	std::cout << *it << ", " << std::endl;
+	it = treeInt.end() - 1;
+	for (; it != treeInt.end(); it--)
+		std::cout << *it << ", ";
+	std::cout << "substract two iterator" << std::endl; 
+	std::cout << treeInt.end() - treeInt.begin() << std::endl; //21
+	std::cout << treeInt.end() - (treeInt.begin() + 1) << std::endl;//20 
+	std::cout << (treeInt.end()-1) - treeInt.begin() << std::endl; //20
+	std::cout << "substract two iterator" << std::endl; 
+	std::cout << (treeInt.begin()) - treeInt.end() << std::endl; //-21
+	std::cout << (treeInt.begin()+1) - treeInt.end() << std::endl; //-20
+	std::cout << (treeInt.begin()) - (treeInt.end() - 1) << std::endl; //-20 
+	std::cout << (treeInt.begin()) - (treeInt.end() + 1) << std::endl; //0
+	std::cout << (treeInt.begin()-1) - treeInt.end() << std::endl; //0
+
+    ft::RBTree<int> treeInt2;
+	std::cout << "b == e = " << (treeInt2.begin() == treeInt2.end()) << std::endl;
+	treeInt2.insert(42);
+	treeInt2.print();
+	it = treeInt2.begin();
+	for (; it != treeInt2.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "b == e = " << (treeInt2.begin() == treeInt2.end()) << std::endl;
+	treeInt2.insert(50);
+	treeInt2.insert(60);
+	treeInt2.insert(70);
+	it = treeInt2.begin();
+	for (; it != treeInt2.end(); ++it)
+		std::cout << *it << std::endl;
+	treeInt2.print();
+	return 0;
 }

@@ -53,19 +53,19 @@ namespace ft {
 	// 	return  map<Key, T, Compare, Allocator>::const_iterator(this->_data); 
 	// }
 	
-	template<class Key, class T, class Compare, class Allocator>
-	typename map<Key, T, Compare, Allocator>::iterator
-		map<Key, T, Compare, Allocator>::end(void)
-	{
-		return map<Key, T, Compare, Allocator>::iterator(&this->_data[this->_size]);
-	}
+	// template<class Key, class T, class Compare, class Allocator>
+	// typename map<Key, T, Compare, Allocator>::iterator
+	// 	map<Key, T, Compare, Allocator>::end(void)
+	// {
+	// 	return map<Key, T, Compare, Allocator>::iterator(&this->_data[this->_size]);
+	// }
 	
-	template<class Key, class T, class Compare, class Allocator>
-	typename map<Key, T, Compare, Allocator>::const_iterator
-		map<Key, T, Compare, Allocator>::end(void) const
-	{
-		return map<Key, T, Compare, Allocator>::const_iterator(&this->_data[this->_size]);
-	}
+	// template<class Key, class T, class Compare, class Allocator>
+	// typename map<Key, T, Compare, Allocator>::const_iterator
+	// 	map<Key, T, Compare, Allocator>::end(void) const
+	// {
+	// 	return map<Key, T, Compare, Allocator>::const_iterator(&this->_data[this->_size]);
+	// }
 
 	template<class Key, class T, class Compare, class Allocator>
 	typename map<Key, T, Compare, Allocator>::reverse_iterator

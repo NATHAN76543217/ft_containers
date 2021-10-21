@@ -6,6 +6,8 @@ namespace ft {
 	template<class T, class Allocator>
 	RBTree<T, Allocator>::RBTree(const Allocator alloc) : _root(NULL), _size(0), _height(0), _alloc(alloc)
 	{
+		this->_end.value = nullptr;
+		this->_end.left = nullptr;
 		std::cout << "RBT default creation" << std::endl;
 	}
 
@@ -21,6 +23,47 @@ namespace ft {
 	}
 
 /*
+** ------------------------------- ITERATORS --------------------------------
+*/
+	template<class T, class Allocator>
+	typename RBTree<T, Allocator>::iterator					RBTree<T, Allocator>::begin( void )
+	{
+		//find left most node
+		nodePTR start = this->_root;
+		if (start == nullptr)
+			return this->end();
+		while (start->left != nullptr)
+		{
+			start = start->left;
+		}	
+		return typename RBTree<T, Allocator>::iterator(start);
+	}
+
+	template<class T, class Allocator>
+	typename RBTree<T, Allocator>::const_iterator			RBTree<T, Allocator>::begin( void ) const
+	{
+		//find left most node
+		nodePTR start = this->_root;
+		if (start == nullptr)
+			return this->_end();
+		while (start->left != nullptr)
+			start = start->left;
+		return typename RBTree<T, Allocator>::const_iterator(start);
+	}
+
+	template<class T, class Allocator>
+	typename RBTree<T, Allocator>::iterator					RBTree<T, Allocator>::end( void )
+	{
+		return iterator(&(this->_end));
+	}
+
+	template<class T, class Allocator>
+	typename RBTree<T, Allocator>::const_iterator				RBTree<T, Allocator>::end( void )   const
+	{
+		return const_iterator(&(this->_end));
+	}
+
+/*
 ** ------------------------------- MODIFIERS --------------------------------
 */
 	template<class T, class Allocator>
@@ -29,7 +72,9 @@ namespace ft {
 	{
 		if (this->_size == 0 )
 		{
-			this->_root = this->create_node(new_val);
+			this->_root = this->create_node(new_val, &this->_end);
+			this->_end.left = this->_root;
+			this->_root->parent = &this->_end;
 			this->_size++;
 			return *this->_root;
 		}
@@ -60,8 +105,7 @@ namespace ft {
 		current->color = RED;
 		this->_size++;
 		// std::cout << "BEFORE FIX:" << std::endl;
-		// this->print();
-		if (current->parent->parent != nullptr)
+		if (current != this->_root)
 			this->fix_insert(current);
 		return *current;
 	}
@@ -153,7 +197,7 @@ namespace ft {
 			{
 				uncle->swapColor();
 				k->parent->color = BLACK;
-				if (k->parent->parent != nullptr)
+				if (k != this->_root)
 				{
 					k->parent->parent->swapColor();
 					k = k->parent->parent;
@@ -193,8 +237,12 @@ namespace ft {
 		x->right = y->left;
 		y->left = x;
 		y->parent = x->parent;
-		if (x->parent == nullptr)
+		if (x == this->_root)
+		{
 			this->_root = y;
+			this->_root->parent = &this->_end;
+			this->_end.left = this->_root;
+		}
 		else if (x->isRightChild())
 			x->parent->right = y;
 		else
@@ -211,8 +259,12 @@ namespace ft {
 		x->left = y->right;
 		y->right = x;
 		y->parent = x->parent;
-		if (x->parent == nullptr)
+		if (x == this->_root)
+		{
 			this->_root = y;
+			this->_root->parent = &this->_end;
+			this->_end.left = this->_root;
+		}
 		else if (x->isRightChild())
 			x->parent->right = y;
 		else

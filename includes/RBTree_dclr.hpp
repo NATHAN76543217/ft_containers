@@ -3,9 +3,12 @@
 
 #include <memory>
 #include <iostream>
-
+#include "binary_iterator.hpp"
+#include "base.hpp"
 #define RED		0
 #define BLACK	1
+#define LEFT	0
+#define RIGHT	1
 
 #define COLOR_RED		"\e[31m"
 #define COLOR_BGRED		"\e[41m"
@@ -39,7 +42,7 @@ namespace ft {
 
 					friend std::ostream		&operator<<(std::ostream& os, const typename RBTree<T, Allocator>::node &node)
 					{
-						os << "(" << node.value << ","  << ((node.color == RED) ? COLOR_BGRED : COLOR_BGGREY) << " " << COLOR_RESET << ")";
+						os << "(" << *(node.value) << ","  << ((node.color == RED) ? COLOR_BGRED : COLOR_BGGREY) << " " << COLOR_RESET << ")";
 						return os;
 					}
 
@@ -81,9 +84,69 @@ namespace ft {
 
 			nodePTR			getRoot( void );
 /*
+** ------------------------------- ITERATORS --------------------------------
+*/
+		class iterator : public binary_iterator<T, nodePTR>
+		{
+			public:
+			iterator() : binary_iterator<T, nodePTR>() {}
+			iterator(const nodePTR node) : binary_iterator<T, nodePTR>(node) {}
+			iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
+			iterator	&operator=(const iterator & rhs)
+			{
+				if (this != &rhs)
+				{
+					this->_value = rhs._value;
+				}
+				return *this;
+			}
+			
+			iterator	&operator=(const binary_iterator<T, nodePTR> & rhs)
+			{
+				if (this != &rhs)
+				{
+					this->binary_iterator<T, nodePTR>::operator=(rhs);
+				}
+				return *this;
+			}
+		};
+
+		class const_iterator : public binary_iterator<const T, nodePTR>
+		{
+			public:
+			const_iterator() : binary_iterator<T, nodePTR>() {}
+			const_iterator(const nodePTR node) : binary_iterator<T, nodePTR>(node) {}
+			const_iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
+			const_iterator	&operator=(const const_iterator & rhs)
+			{
+				if (this != &rhs)
+				{
+					this->_value = rhs._value;
+				}
+				return *this;
+			}
+			
+			const_iterator	&operator=(const binary_iterator<const T, nodePTR> & rhs)
+			{
+				if (this != &rhs)
+				{
+					this->binary_iterator<T, nodePTR>::operator=(rhs);
+				}
+				return *this;
+			}
+		};
+
+		typedef ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+			
+		iterator					begin( void );
+		const_iterator				begin( void ) const;
+		iterator					end( void );
+		const_iterator				end( void )   const;
+/*
 ** ------------------------------- MODIFIERS --------------------------------
 */
-			node			&insert(const value_type &new_val);
+			nodeREF			insert(const value_type &new_val);
 
 			void			print( void ) const;
 			void			print(std::string prefix, node *node, bool isLeft) const;
@@ -100,17 +163,18 @@ namespace ft {
 			allocator_type	getAllocator( void ) const;
 	
 		protected:
-			node	*create_node(const value_type &value, node *parent = nullptr);
+			nodePTR	create_node(const value_type &value, node *parent = nullptr);
 			void	fix_insert(node *k);
 			void	leftRotate(node *x);
 			void	rightRotate(node *x);
 
 		private:
-			node		*_root;
+			nodePTR		_root;
 			size_type	_size;
 			//TODO implement height variable with getter
 			size_type	_height;
 			Allocator	_alloc;
+			node		_end;
 	};
 
 };
