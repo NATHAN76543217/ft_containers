@@ -8,7 +8,6 @@
 # include "reverse_iterator.hpp"
 
 namespace ft {
-//TODO add operator= on iterattor and add tests for this operator 
 	template<class T, typename Allocator = std::allocator<T> >
 	class vector 
 	{
@@ -51,7 +50,16 @@ namespace ft {
 					~iterator()
 					{}
 
-					reference						operator*(void) const
+					iterator							&operator=(const iterator &rhs)
+					{
+						if ( this != &rhs)
+						{
+							this->_value = rhs._value;
+						}
+						return *this;
+					}
+
+					reference							operator*(void) const
 					{
 						return *(this->_value);
 					}
@@ -176,6 +184,15 @@ namespace ft {
 					}
 					~const_iterator()
 					{}
+
+					const_iterator							&operator=(const const_iterator &rhs)
+					{
+						if ( this != &rhs)
+						{
+							this->_value = rhs._value;
+						}
+						return *this;
+					}
 
 					reference								operator*(void) const
 					{
