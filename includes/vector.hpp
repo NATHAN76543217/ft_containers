@@ -6,7 +6,7 @@
 namespace ft {
 
 	template<typename T, typename Allocator>
-	vector<T, Allocator>::vector(const allocator_type& alloc) : _data(NULL), _capacity(0), _alloc(alloc), _size(0)
+	vector<T, Allocator>::vector(const allocator_type& alloc) : _data(NULL), _capacity(0), _size(0), _alloc(alloc)
 	{
 	}
 
@@ -14,14 +14,26 @@ namespace ft {
 	vector<T, Allocator>::vector(vector<T, Allocator>::size_type			n,
 								const vector<T, Allocator>::value_type&		value,
 								const vector<T, Allocator>::allocator_type&	alloc)
-	: _data(NULL), _capacity(n), _alloc(alloc), _size(n)
+	: _data(NULL), _capacity(n), _size(n), _alloc(alloc)
 	{
 		this->_initData(n, value);
 	}
 
+	// template<typename T, typename Allocator>
+	// template <class InputIterator>
+    // vector<T, Allocator>::vector(
+	// 	typename ft::enable_if< !std::numeric_limits<InputIterator>::is_integer , InputIterator>::type first,
+	// 	typename ft::enable_if< ft::is_iterator<InputIterator>::value, InputIterator>::type last,
+    // 	const allocator_type& alloc)
+	// : _data(NULL), _capacity(std::distance(first, last)), _size(std::distance(first, last)), _alloc(alloc)
+	// {
+	// 	this->_data = this->_alloc.allocate(this->_capacity);
+	// 	std::copy(first, last, this->begin());
+	// }
+
 	template<typename T, typename Allocator>
 	vector<T, Allocator>::vector(const vector<T, Allocator>& src)
-	: _data(NULL), _capacity(src._capacity), _alloc(src._alloc), _size(src.size())
+	: _data(NULL), _capacity(src._capacity), _size(src.size()), _alloc(src._alloc)
 	{
 		this->_data = this->_alloc.allocate(this->_capacity);
 		std::copy(src.begin(), src.end(), this->begin());
@@ -39,25 +51,25 @@ namespace ft {
 	*/
 	
 	template<typename T, typename Allocator>
-	typename vector<T, Allocator>::iterator				vector<T, Allocator>::begin(void)
+	typename vector<T, Allocator>::iterator						vector<T, Allocator>::begin(void)
 	{
 		return  vector<T, Allocator>::iterator(this->_data);
 	}
 
 	template<typename T, typename Allocator>
-	typename vector<T, Allocator>::const_iterator		vector<T, Allocator>::begin(void) const
+	typename vector<T, Allocator>::const_iterator				vector<T, Allocator>::begin(void) const
 	{
 		return  vector<T, Allocator>::const_iterator(this->_data); 
 	}
 	
 	template<typename T, typename Allocator>
-	typename vector<T, Allocator>::iterator				vector<T, Allocator>::end(void)
+	typename vector<T, Allocator>::iterator						vector<T, Allocator>::end(void)
 	{
 		return vector<T, Allocator>::iterator(&this->_data[this->_size]);
 	}
 	
 	template<typename T, typename Allocator>
-	typename vector<T, Allocator>::const_iterator		vector<T, Allocator>::end(void) const
+	typename vector<T, Allocator>::const_iterator				vector<T, Allocator>::end(void) const
 	{
 		return vector<T, Allocator>::const_iterator(&this->_data[this->_size]);
 	}
@@ -230,7 +242,8 @@ namespace ft {
 	template<typename T, typename Allocator>
 	template <class InputIterator>
 	void												vector<T, Allocator>::assign(
-		typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator >::type first, InputIterator last)
+		typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator >::type first,
+		InputIterator last)
 	{
 		typename vector<T, Allocator>::size_type i = 0;
 		typename vector<T, Allocator>::difference_type size = std::abs(first - last);

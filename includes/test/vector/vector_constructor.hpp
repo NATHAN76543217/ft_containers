@@ -17,6 +17,8 @@ void    vector_constructor(ft::vector<T>& v, T value)
     std::cout << "copy() vector" << std::endl;
     ft::vector<T> v4 = ft::vector<T>(v);
     ft::vector<T> v5 = ft::vector<T>(v1);
+    std::cout << "range() vector" << std::endl;
+    // ft::vector<T> vR = ft::vector<T>(v1.begin() + 1, v1.end() -1);
     //TODO check range constructor and other constructors
     return ;
 }

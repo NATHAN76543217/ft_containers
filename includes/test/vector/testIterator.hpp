@@ -3,6 +3,40 @@
 # include "test.hpp"
 
 
+template <class Ite, class C = void>
+struct is_iterator {
+	static const bool value = false;
+};
+
+template <class Ite>
+struct is_iterator<Ite>
+{
+	typedef typename ft::iterator_traits<Ite>::iterator_category it;
+	static const bool value = true;
+};
+
+template<class T>
+void	checkIteratorType()
+{
+	typedef typename ft::iterator_traits<T>::iterator_category category;
+	std::cout << "Iterator of type:";
+	if (::is_iterator<T>::value == false)
+		std::cout << "Not an Iterator";
+	else if (typeid(category) == typeid(ft::random_access_iterator_tag))
+		std::cout << "RandomAccessIterator" << std::endl;
+	else if (typeid(category) == typeid(ft::bidirectional_iterator_tag))
+		std::cout << "BidirectionalIterator" << std::endl;
+	else if (typeid(category) == typeid(ft::forward_iterator_tag))
+		std::cout << "ForwardIterator" << std::endl;
+	else if (typeid(category) == typeid(ft::input_iterator_tag))
+		std::cout << "InputIterator" << std::endl;
+	else if (typeid(category) == typeid(ft::output_iterator_tag))
+		std::cout << "OutputIterator" << std::endl;
+	else
+		std::cout << "Other type" << std::endl;
+}
+
+
 template<typename T>
 static void	printConstIterator(const T& v1)
 {
@@ -54,6 +88,7 @@ void	constructRIterator(ft::vector<T> &v)
 	for (; it != other; ++it)
 		std::cout << *it << " ";
 	std::cout << "\n" << std::endl;
+	checkIteratorType<typename ft::vector<T>::reverse_iterator>();
 }
 
 template<typename T>
@@ -67,6 +102,7 @@ void	constructCRIterator(const ft::vector<T> &v)
 	for (; it != other; ++it)
 		std::cout << *it << " ";
 	std::cout << "\n" << std::endl;
+	checkIteratorType<typename ft::vector<T>::const_reverse_iterator>();
 }
 
 template<typename T>
@@ -80,6 +116,7 @@ void	constructCIterator(const ft::vector<T> &v)
 	for (; it != other; ++it)
 		std::cout << *it << " ";
 	std::cout << "\n" << std::endl;
+	checkIteratorType<typename ft::vector<T>::const_iterator>();
 }
 
 template<typename T>
@@ -92,7 +129,10 @@ void	constructIterator(ft::vector<T> &v)
 
 	for (; it != other; ++it)
 		std::cout << *it << " ";
-	std::cout << "\n" << std::endl;
+	std::cout << "\n";
+	checkIteratorType<typename ft::vector<T>::iterator>();
+
+
 }
 
 template<typename T>

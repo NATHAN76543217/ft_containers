@@ -29,7 +29,7 @@ namespace ft {
 					typedef T									value_type;
 					typedef value_type*							pointer;
 					typedef value_type&							reference;
-					typedef std::random_access_iterator_tag		iterator_category;
+					typedef ft::random_access_iterator_tag		iterator_category;
 
 				protected:
 					value_type 		*_value;
@@ -163,8 +163,7 @@ namespace ft {
 					typedef value_type&		reference;
 					typedef value_type*		pointer;
 					typedef ptrdiff_t		difference_type;
-					typedef std::random_access_iterator_tag		iterator_category;
-					//TODO change random_tag with ft:
+					typedef ft::random_access_iterator_tag		iterator_category;
 
 				protected:
 					value_type 		*_value;
@@ -298,7 +297,13 @@ namespace ft {
 			
 			explicit vector(const allocator_type& alloc = allocator_type());
 			explicit vector(size_t n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type());
-	//TODO add range constructors
+	//TODO check if numeric limit is_integer obligatoire
+	//TODO check for implement
+			// template <class InputIterator>
+        	// 	vector(
+			// 		typename ft::enable_if< !std::numeric_limits<InputIterator>::is_integer , InputIterator>::type first,
+			// 		typename ft::enable_if< ft::is_iterator<InputIterator>::value, InputIterator>::type last,
+            //     	const allocator_type& alloc = allocator_type());
 			vector( const vector & src );
 			~vector();
 
@@ -376,8 +381,8 @@ namespace ft {
 		private:
 			value_type		*_data;
 			size_type		_capacity;
-			allocator_type	_alloc;
 			size_type		_size;
+			allocator_type	_alloc;
 						
 			void		_initData(size_type N, const value_type &value = value_type());
 			void		_destroy_data();

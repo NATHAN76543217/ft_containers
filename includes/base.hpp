@@ -23,7 +23,7 @@ namespace ft {
 	template <class Ite>
 	struct is_iterator<Ite>
 	{
-		typedef typename std::iterator_traits<Ite>::iterator_category it;
+		typedef typename ft::iterator_traits<Ite>::iterator_category it;
 		static const bool value = true;
 	};
 
