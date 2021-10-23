@@ -15,6 +15,7 @@ namespace ft {
 		this->TNULL->left = nullptr;
 		this->TNULL->right = nullptr;
 		this->TNULL->parent = nullptr;
+		this->TNULL->value = nullptr;
 		this->_root = this->TNULL;
 		std::cout << "RBT default creation" << std::endl;
 	}
@@ -22,6 +23,7 @@ namespace ft {
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	RBTree<T, Checker, Allocator>::~RBTree() {
 				//TODO delete every node and value inside it (allocator.desallocate)
+			this->clear();
 	}
 
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
@@ -196,11 +198,21 @@ namespace ft {
 		if (original_color == BLACK){
 			this->fix_delete(res);
 		}
-		delete current;
+		if (current->value != nullptr)
+			this->_alloc.deallocate(current->value, 1);
+		this->_node_alloc.deallocate(current, 1);
 		this->_size--;
 		return 1;
 	}
 
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	void
+	RBTree<T, Checker, Allocator>::clear( void )
+	{
+		typename RBTree<T, Checker, Allocator>::iterator it = this->begin();
+		while (it != this->end())
+			this->erase(*(it++));
+	}
 
 //affichage
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
@@ -264,9 +276,9 @@ namespace ft {
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	typename RBTree<T, Checker, Allocator>::nodePTR
 	RBTree<T, Checker, Allocator>::create_node(const value_type &value, node *parent) {
-		node *newNode = reinterpret_cast<node *>(this->_alloc.allocate(sizeof(node)));
-		newNode->value = reinterpret_cast<value_type *>(this->_alloc.allocate(sizeof(value_type)));
-		new (newNode->value) value_type(value);
+		nodePTR	newNode = this->_node_alloc.allocate(1);
+		newNode->value = this->_alloc.allocate(1);
+		this->_alloc.construct(newNode->value, value);
 		newNode->parent = parent;
 		newNode->left = this->TNULL;
 		newNode->right = this->TNULL;

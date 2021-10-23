@@ -152,22 +152,22 @@ namespace ft {
 		return 1;
 	}
 
-	template<class Key, class T, class Compare, class Allocator>
-	template<class InputIterator>
-	void
-	map<Key, T, Compare, Allocator>::erase(typename ft::enable_if< is_iterator< InputIterator >::value, InputIterator>::type position)
-	{
-		if (position != this->end())
-			this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::erase(*position);
-	}
-
 	// template<class Key, class T, class Compare, class Allocator>
+	// template<class InputIterator>
 	// void
-	// map<Key, T, Compare, Allocator>::erase( typename map<Key, T, Compare, Allocator>::iterator position)
+	// map<Key, T, Compare, Allocator>::erase(typename ft::enable_if< is_iterator< InputIterator >::value, InputIterator>::type position)
 	// {
 	// 	if (position != this->end())
 	// 		this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::erase(*position);
 	// }
+
+	template<class Key, class T, class Compare, class Allocator>
+	void
+	map<Key, T, Compare, Allocator>::erase( typename map<Key, T, Compare, Allocator>::iterator position)
+	{
+		if (position != this->end())
+			this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::erase(*position);
+	}
 	
 	template<class Key, class T, class Compare, class Allocator>
 	template<typename InputIterator>

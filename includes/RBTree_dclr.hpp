@@ -19,9 +19,9 @@ namespace ft {
 	template<class T, bool (*Checker)(const T&, const T&) = ft::is_equal<T>, class Allocator = std::allocator<T> >
 	class RBTree {
 		public:
-			typedef T       		value_type;
-			typedef	size_t			size_type;
-			typedef Allocator		allocator_type;
+			typedef T       				value_type;
+			typedef	size_t					size_type;
+			typedef Allocator				allocator_type;
 			// typedef bool (*Checker)(value_type, value_type);
 
 			class sameValueException : public std::exception {
@@ -79,13 +79,15 @@ namespace ft {
 					}
 			};
 
-			typedef node*			nodePTR;
-			typedef node&			nodeREF;
+			typedef node*					nodePTR;
+			typedef node&					nodeREF;
+			typedef std::allocator<node>	node_allocator_type;
 
 			RBTree(const Allocator alloc = Allocator());
 			virtual ~RBTree();
 
 			nodePTR			getRoot( void );
+
 /*
 ** ------------------------------- ITERATORS --------------------------------
 */
@@ -101,7 +103,7 @@ namespace ft {
 				iterator(const nodePTR node, nodePTR leaf) : binary_iterator<T, nodePTR>(node, leaf) {}
 				iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
 				iterator(const binary_iterator<T, nodePTR> &src) : binary_iterator<T, nodePTR>(src) {}
-				
+
 				iterator	&operator=(const iterator & rhs)
 				{
 					if (this != &rhs)
@@ -161,6 +163,8 @@ namespace ft {
 			nodeREF			insert(const value_type &new_val);
 			size_type		erase(const value_type &new_val);
 
+			void			clear();
+
 			void			print( void ) const;
 			void			print(std::string prefix, node *node, bool isLeft) const;
 
@@ -186,13 +190,14 @@ namespace ft {
 
 //TODO repasser en private
 		public:
-			nodePTR		_root;
-			nodePTR		TNULL;
-			size_type	_size;
+			nodePTR					_root;
+			nodePTR					TNULL;
+			size_type				_size;
 			//TODO implement height variable with getter
-			size_type	_height;
-			Allocator	_alloc;
-			node		_end;
+			size_type				_height;
+			node_allocator_type		_node_alloc;
+			allocator_type			_alloc;
+			node					_end;
 	};
 
 };

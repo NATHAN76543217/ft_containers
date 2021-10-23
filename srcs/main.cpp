@@ -71,7 +71,21 @@ int		testMap( void ) {
 	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
 	it = m1.begin();
 	for (; it != m1.end(); it++)
-		std::cout << "(" << (*it).first << ", " << (*it).second << ") - ";	
+		std::cout << "(" << (*it).first << ", " << (*it).second << ") - ";
+	
+	std::cout << std::endl << "TEST	CLEAR" << std::endl << std::endl;
+	m1.insert(ft::pair<std::string, int>("secondKey", 2));
+	m1.insert(ft::pair<std::string, int>("thirdKey", 3));
+	m1.insert(ft::pair<std::string, int>("forthKey", 4));
+	m1.insert(ft::pair<std::string, int>("fithKey", 5));
+		it = m1.begin();
+	for (; it != m1.end(); it++)
+		std::cout << "(" << (*it).first << ", " << (*it).second << ") - ";
+	std::cout << std::endl;
+	m1.clear();
+	it = m1.begin();
+	if (it == m1.end() && m1.size() == 0)
+		std::cout << "empty map"<< std::endl;
 	return 0;
 }
 

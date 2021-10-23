@@ -90,15 +90,15 @@ namespace ft {
 
 		void						swap(map& x);
 
-		template<class InputIterator>
-		void						erase(typename ft::enable_if< is_iterator< InputIterator >::value, InputIterator>::type position);
+
+		// template< class InputIterator >
+		// void						erase<ft::enable_if< is_iterator< InputIterator >::value, InputIterator>::type>( InputIterator position);
 
 		//NOTE	All possibilities founded for enable_if here are minimum c++11
-		// void						erase( iterator position);
+		void						erase( iterator position);
 		size_type					erase(const key_type& k);
 		template<class InputIterator>
 		void						erase(typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last);
-		void						clear();
 
 
 	// binary_iterator<ft::pair<const std::__1::basic_string<char>, int>, ft::RBTree<ft::pair<const std::__1::basic_string<char>, int>, &ft::pair<const std::__1::basic_string<char>, int>::KeyCompare,
