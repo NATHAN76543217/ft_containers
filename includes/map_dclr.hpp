@@ -10,27 +10,22 @@
 namespace ft {
 //TODO add operator= on iterattor and add tests for this operator 
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
-	class map : public  RBTree<ft::pair<const Key, T>, Allocator>
+	class map : public  RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator>
 	{
 		public:
 				// types:
-			typedef Key                                      key_type;
-			typedef T                                        mapped_type;
-			typedef ft::pair<const key_type, mapped_type>        value_type;
-			typedef Compare                                  key_compare;
-			typedef Allocator                                allocator_type;
-			typedef typename allocator_type::reference       reference;
-			typedef typename allocator_type::const_reference const_reference;
-			typedef typename allocator_type::pointer         pointer;
-			typedef typename allocator_type::const_pointer   const_pointer;
-			typedef typename allocator_type::size_type       size_type;
-			typedef typename allocator_type::difference_type difference_type;
-
-		// typedef implementation-defined                   iterator;
-		// typedef implementation-defined                   const_iterator;
-		// typedef std::reverse_iterator<iterator>          reverse_iterator;
-		// typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
-
+			typedef Key											key_type;
+			typedef T											mapped_type;
+			typedef ft::pair<const key_type, mapped_type>		value_type;
+			typedef Compare										key_compare;
+			typedef Allocator									allocator_type;
+			typedef typename allocator_type::reference			reference;
+			typedef typename allocator_type::const_reference	const_reference;
+			typedef typename allocator_type::pointer			pointer;
+			typedef typename allocator_type::const_pointer		const_pointer;
+			typedef typename allocator_type::size_type			size_type;
+			typedef typename allocator_type::difference_type	difference_type;
+			typedef bool(*Checker)(value_type, value_type);
 		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
 			// friend class map;
@@ -43,10 +38,10 @@ namespace ft {
 				//TODO verifier attentivement ce qu'il y a à faire ici
 		};
 			
-		typedef	typename RBTree<value_type, Allocator>::iterator				iterator;
-		typedef	typename RBTree<value_type, Allocator>::const_iterator			const_iterator;
-		typedef	typename RBTree<value_type, Allocator>::reverse_iterator		reverse_iterator;
-		typedef	typename RBTree<value_type, Allocator>::const_reverse_iterator	const_reverse_iterator;
+		typedef	typename RBTree<value_type, &ft::pair<const Key, T>::KeyCompare, Allocator>::iterator					iterator;
+		typedef	typename RBTree<value_type, &ft::pair<const Key, T>::KeyCompare, Allocator>::const_iterator				const_iterator;
+		typedef	typename RBTree<value_type, &ft::pair<const Key, T>::KeyCompare, Allocator>::reverse_iterator			reverse_iterator;
+		typedef	typename RBTree<value_type, &ft::pair<const Key, T>::KeyCompare, Allocator>::const_reverse_iterator		const_reverse_iterator;
 
 	/*
 	** ------------------------------- CONSTUCT/COPY/DESTROY --------------------------------
@@ -95,11 +90,22 @@ namespace ft {
 
 		void						swap(map& x);
 
-		void						erase(iterator position);
+		// template<class InputIterator>
+		// void						erase(typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type position);
+
+		//NOTE	All possibilities founded for enable_if here are minimum c++11
+		void						erase( iterator position);
 		size_type					erase(const key_type& k);
-		void						erase(iterator first, iterator last);
+		template<class InputIterator>
+		void						erase(typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last);
 		void						clear();
 
+
+	// binary_iterator<ft::pair<const std::__1::basic_string<char>, int>, ft::RBTree<ft::pair<const std::__1::basic_string<char>, int>, &ft::pair<const std::__1::basic_string<char>, int>::KeyCompare,
+    //   std::__1::allocator<ft::pair<const std::__1::basic_string<char>, int> > >::node *>
+
+	//  ft::RBTree<ft::pair<const std::__1::basic_string<char>, int>, &ft::pair<const std::__1::basic_string<char>, int>::KeyCompare, std::__1::allocator<ft::pair<const
+    //   std::__1::basic_string<char>, int> > >::iterator
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
@@ -113,13 +119,13 @@ namespace ft {
 	/*
 	** ------------------------------- OPERATIONS --------------------------------
 	*/
-    	iterator					find(const key_type& k);
-    	const_iterator				find(const key_type& k) const;
-    	size_type					count(const key_type& k) const;
-		iterator					lower_bound(const key_type& k);
-		const_iterator				lower_bound(const key_type& k) const;
-		iterator					upper_bound(const key_type& k);
-		const_iterator				upper_bound(const key_type& k) const;
+    	iterator							find(const key_type& k);
+    	const_iterator						find(const key_type& k) const;
+    	size_type							count(const key_type& k) const;
+		iterator							lower_bound(const key_type& k);
+		const_iterator						lower_bound(const key_type& k) const;
+		iterator							upper_bound(const key_type& k);
+		const_iterator						upper_bound(const key_type& k) const;
 
 		pair<iterator,iterator>             equal_range(const key_type& k);	
 		pair<const_iterator,const_iterator> equal_range(const key_type& k) const;

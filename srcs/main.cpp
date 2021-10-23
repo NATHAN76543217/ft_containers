@@ -19,24 +19,59 @@ class test {
 		std::cout << "test destructor called" << std::endl;
 	}
 };
+int		testSet()
+{
+	// stack<> s1
+	return 0;
+}
 
 int		testMap( void ) {
 	//TODO add tests for MAP
 	//TODO test const and reverses iterators
 	ft::map<std::string, int> m1;
+	std::cout << "value = " << is_iterator<ft::map<std::string, int>::iterator>::value;
 	std::cout << "- size  = " << m1.size() << "\n";
 	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
 	std::cout << "insert element\n";
 	m1.insert(ft::pair<std::string, int>("firstKey", 1));
 	std::cout << "- size  = " << m1.size() << "\n";
-	std::cout << "insert 2 other elements\n";
+	std::cout << "insert 4 other elements\n";
 	m1.insert(ft::pair<std::string, int>("secondKey", 2));
 	m1.insert(ft::pair<std::string, int>("thirdKey", 3));
+	m1.insert(ft::pair<std::string, int>("forthKey", 4));
+	m1.insert(ft::pair<std::string, int>("fithKey", 5));
 	std::cout << "- size  = " << m1.size() << "\n";
 	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
 	ft::map<std::string, int>::iterator it = m1.begin();
 	for (; it != m1.end(); it++)
 		std::cout << "(" << (*it).first << ", " << (*it).second << ") - ";
+
+	std::cout << std::endl << "ERASE second key" << std::endl << std::endl;
+	m1.erase("secondKey");
+	std::cout << "- size  = " << m1.size() << "\n";
+	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
+	it = m1.begin();
+	for (; it != m1.end(); it++)
+		std::cout << "(" << (*it).first << ", " << (*it).second << ") - ";
+
+	
+	std::cout << std::endl << "ERASE range" << std::endl << std::endl;
+	it = m1.begin();
+	m1.erase(++it, --m1.end());
+	std::cout << "- size  = " << m1.size() << "\n";
+	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
+	it = m1.begin();
+	for (; it != m1.end(); it++)
+		std::cout << "(" << (*it).first << ", " << (*it).second << ") - ";
+
+	std::cout << std::endl << "ERASE iterator" << std::endl << std::endl;
+	it = m1.begin();
+	m1.erase(--m1.end());
+	std::cout << "- size  = " << m1.size() << "\n";
+	std::cout << std::boolalpha << "- empty = " << m1.empty() << std::endl;
+	it = m1.begin();
+	for (; it != m1.end(); it++)
+		std::cout << "(" << (*it).first << ", " << (*it).second << ") - ";	
 	return 0;
 }
 
@@ -159,5 +194,6 @@ int main()
 	testVector();
 	testStack();
 	testMap();
+	testSet();
 	return 0;
 }

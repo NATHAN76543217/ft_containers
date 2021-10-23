@@ -63,7 +63,7 @@ init:
 	@ $(MKDIR) -p $(addprefix $(PATH_OBJ_STL)/, $(DIRS_LIST))
 
 RBT:	
-	clang++ mainRBT.cpp -Iincludes -o a.out
+	$(COMP) $(COMP_FLAG) mainRBT.cpp -o a.out
 $(NAME): $(OBJS) $(INCS)
 	@ $(SETLIST) $(COMP) $(COMP_FLAG) -o $(NAME) $(OBJS)
 	@ echo "$(_INFO) linking of $(NAME)"

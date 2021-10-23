@@ -27,6 +27,12 @@ namespace ft {
 		static const bool value = true;
 	};
 
+	template <class T>
+	bool is_equal(const T& r1, const T& r2)
+	{
+		return (r1 == r2);
+ 	}
+
 	template <class InputIterator1, class InputIterator2>
 	bool equal (
 		typename ft::enable_if< is_iterator<InputIterator1>::value, InputIterator1 >::type first1,
@@ -120,6 +126,9 @@ namespace ft {
 			}
 			return *this;
 		}
+		static inline bool KeyCompare(const pair& x, const pair& y)
+		{ return x.first == y.first; }
+
     };
 
 	  /// Two pairs of the same type are equal iff their members are equal.

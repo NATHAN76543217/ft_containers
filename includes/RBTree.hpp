@@ -3,13 +3,14 @@
 namespace ft {
 
 //constructors
-	template<class T, class Allocator>
-	RBTree<T, Allocator>::RBTree(const Allocator alloc) : _size(0), _height(0), _alloc(alloc)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	RBTree<T, Checker, Allocator>::RBTree(const Allocator alloc) : _size(0), _height(0), _alloc(alloc)
 	{
 		this->_end.parent = nullptr;
 		this->_end.value = nullptr;
 		this->_end.left = nullptr;
-		this->TNULL = new typename RBTree<T, Allocator>::node;
+		this->_end.right = nullptr;
+		this->TNULL = new typename RBTree<T, Checker, Allocator>::node;
 		this->TNULL->color = BLACK;
 		this->TNULL->left = nullptr;
 		this->TNULL->right = nullptr;
@@ -18,22 +19,22 @@ namespace ft {
 		std::cout << "RBT default creation" << std::endl;
 	}
 
-	template<class T, class Allocator>
-	RBTree<T, Allocator>::~RBTree() {
-				//TODO delete avery node and value inside it (allocator.desallocate)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	RBTree<T, Checker, Allocator>::~RBTree() {
+				//TODO delete every node and value inside it (allocator.desallocate)
 	}
 
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::nodePTR
-	RBTree<T, Allocator>::getRoot( void ) {
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::nodePTR
+	RBTree<T, Checker, Allocator>::getRoot( void ) {
 		return this->_root;
 	}
 
 /*
 ** ------------------------------- ITERATORS --------------------------------
 */
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::iterator					RBTree<T, Allocator>::begin( void )
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::iterator					RBTree<T, Checker, Allocator>::begin( void )
 	{
 		//find left most node
 		nodePTR start = this->_root;
@@ -43,11 +44,11 @@ namespace ft {
 		{
 			start = start->left;
 		}	
-		return typename RBTree<T, Allocator>::iterator(start, this->TNULL);
+		return typename RBTree<T, Checker, Allocator>::iterator(start, this->TNULL);
 	}
 
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::const_iterator			RBTree<T, Allocator>::begin( void ) const
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::const_iterator			RBTree<T, Checker, Allocator>::begin( void ) const
 	{
 		//find left most node
 		nodePTR start = this->_root;
@@ -55,24 +56,24 @@ namespace ft {
 			return this->_end();
 		while (start->left != this->TNULL)
 			start = start->left;
-		return typename RBTree<T, Allocator>::const_iterator(start, this->TNULL);
+		return typename RBTree<T, Checker, Allocator>::const_iterator(start, this->TNULL);
 	}
 
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::iterator					RBTree<T, Allocator>::end( void )
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::iterator					RBTree<T, Checker, Allocator>::end( void )
 	{
 		return iterator(&(this->_end), this->TNULL);
 	}
 
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::const_iterator				RBTree<T, Allocator>::end( void )   const
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::const_iterator				RBTree<T, Checker, Allocator>::end( void )   const
 	{
 		return const_iterator(&(this->_end), this->TNULL);
 	}
 
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::nodePTR
-	RBTree<T, Allocator>::minimum(nodePTR node)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::nodePTR
+	RBTree<T, Checker, Allocator>::minimum(nodePTR node)
 	{
 		if (node == this->TNULL)
 			return node;
@@ -83,9 +84,9 @@ namespace ft {
 /*
 ** ------------------------------- MODIFIERS --------------------------------
 */
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::nodeREF
-	RBTree<T, Allocator>::insert(const value_type &new_val)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::nodeREF
+	RBTree<T, Checker, Allocator>::insert(const value_type &new_val)
 	{
 		if (this->_size == 0 )
 		{
@@ -127,8 +128,8 @@ namespace ft {
 		return *current;
 	}
 
-	template<class T, class Allocator>
-	void RBTree<T, Allocator>::rbTransplant(nodePTR u, nodePTR v){
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	void RBTree<T, Checker, Allocator>::rbTransplant(nodePTR u, nodePTR v){
 		if (u == this->_root) {
 			this->_root = v;
 			this->_root->parent = &this->_end;
@@ -141,9 +142,9 @@ namespace ft {
 		v->parent = u->parent;
 	}
 
-	template<class T, class Allocator>
-	void
-	RBTree<T, Allocator>::erase(const value_type &val_to_delete)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator>
+	typename RBTree<T, Checker, Allocator>::size_type
+	RBTree<T, Checker, Allocator>::erase(const value_type &val_to_delete)
 	{
 		//find element in tree
 		nodePTR	current = this->_root;
@@ -151,7 +152,7 @@ namespace ft {
 		nodePTR	res = this->TNULL;
 		while (current != this->TNULL)
 		{
-			if (val_to_delete == *(current->value))
+			if (Checker(val_to_delete,  *(current->value)))
 				break ;
 			else if (val_to_delete < *(current->value))
 				res = current->left;
@@ -160,7 +161,7 @@ namespace ft {
 			current = res;
 		}
 		if (current == this->TNULL)
-			return ;
+			return 0;
 		//finded: it point to the element
 		// std::cout << "element finded: " << *current << std::endl;
 
@@ -197,13 +198,14 @@ namespace ft {
 		}
 		delete current;
 		this->_size--;
-		return ;
+		return 1;
 	}
 
+
 //affichage
-	template<class T, class Allocator>
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	void
-	RBTree<T, Allocator>::print( void ) const
+	RBTree<T, Checker, Allocator>::print( void ) const
 	{
 		if (this->_root == this->TNULL)
 			std::cout << "Empty tree" << std::endl;
@@ -215,9 +217,9 @@ namespace ft {
 		return ;
 	}
 
-	template<class T, class Allocator>
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	void
-	RBTree<T, Allocator>::print(std::string prefix, node *node, bool isLeft) const
+	RBTree<T, Checker, Allocator>::print(std::string prefix, node *node, bool isLeft) const
 	{
 		//TODO change printing that match the content size
 		if (node == this->TNULL)
@@ -236,15 +238,15 @@ namespace ft {
 /*
 ** ------------------------------- CAPACITY --------------------------------
 */
-	template<class T, class Allocator>
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	bool
-	RBTree<T, Allocator>::empty( void ) const {
+	RBTree<T, Checker, Allocator>::empty( void ) const {
 		return (this->_size == 0);
 	}
 		
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::size_type
-	RBTree<T, Allocator>::size( void ) const
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::size_type
+	RBTree<T, Checker, Allocator>::size( void ) const
 	{
 		return this->_size;
 	}
@@ -252,16 +254,16 @@ namespace ft {
 /*
 ** ------------------------------- ALLOCATORS --------------------------------
 */
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::allocator_type
-	RBTree<T, Allocator>::getAllocator( void ) const
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::allocator_type
+	RBTree<T, Checker, Allocator>::getAllocator( void ) const
 	{
 		return this->_alloc;
 	}
 
-	template<class T, class Allocator>
-	typename RBTree<T, Allocator>::nodePTR
-	RBTree<T, Allocator>::create_node(const value_type &value, node *parent) {
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::nodePTR
+	RBTree<T, Checker, Allocator>::create_node(const value_type &value, node *parent) {
 		node *newNode = reinterpret_cast<node *>(this->_alloc.allocate(sizeof(node)));
 		newNode->value = reinterpret_cast<value_type *>(this->_alloc.allocate(sizeof(value_type)));
 		new (newNode->value) value_type(value);
@@ -269,7 +271,8 @@ namespace ft {
 		newNode->left = this->TNULL;
 		newNode->right = this->TNULL;
 		newNode->color = BLACK;
-		//TODO delete newNode value at end of life
+		// TODO delete newNode at end of life
+		// TODO delete newNode value at end of life
 		return newNode;
 	}  //REVIEW en static?
 
@@ -277,8 +280,8 @@ namespace ft {
 ** ------------------------------- BALANCING --------------------------------
 */
 
-	template<class T, class Allocator>
-	void					RBTree<T, Allocator>::fix_insert(nodePTR k)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	void					RBTree<T, Checker, Allocator>::fix_insert(nodePTR k)
 	{
 		while (k->parent->color == RED)
 		{
@@ -319,8 +322,8 @@ namespace ft {
 	}
 
 
-	template<class T, class Allocator>
-	void					RBTree<T, Allocator>::fix_delete(nodePTR k)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	void					RBTree<T, Checker, Allocator>::fix_delete(nodePTR k)
 	{
 		if (k == this->TNULL)
 			return ;
@@ -395,8 +398,8 @@ namespace ft {
 		k->color = BLACK;
 	}
 
-	template<class T, class Allocator>
-	void					RBTree<T, Allocator>::leftRotate(nodePTR x)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	void					RBTree<T, Checker, Allocator>::leftRotate(nodePTR x)
 	{
 		nodePTR	y = x->right;
 		if (y->left != this->TNULL)
@@ -417,8 +420,8 @@ namespace ft {
 		x->parent = y;
 	}
 
-	template<class T, class Allocator>
-	void					RBTree<T, Allocator>::rightRotate(nodePTR x)
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	void					RBTree<T, Checker, Allocator>::rightRotate(nodePTR x)
 	{
 		nodePTR	y = x->left;
 		if (y->right != this->TNULL)

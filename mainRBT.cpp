@@ -1,4 +1,6 @@
 #include "RBTree.hpp"
+#include <map>
+#include <sstream>
 
 int main(){
     ft::RBTree<std::string> tree;
@@ -165,5 +167,33 @@ int main(){
 	treeInt2.erase(-7);
 	treeInt2.print();
 
+	//test a map range
+	// std::map<std::string, int> m2;
+	// for (int i = 0; i < 50; ++i)
+	// {
+	// 	std::stringstream ss;
+	// 	ss << i;
+	// 	m2.insert(std::make_pair("key:" + ss.str(), i));
+	// }
+	// std::cout << "size = " << m2.size() << std::endl;
+	// for (std::map<std::string, int>::iterator it = m2.begin(); it != m2.end(); ++it)
+	// {
+	// 	std::cout << "(" << (*it).second << "), ";
+	// 	// std::cout << "(" << (*it).first << ", " << (*it).second << "), ";
+	// }
+	// std::cout << "know erase" << std::endl;
+	// std::map<std::string, int>::iterator start = m2.begin();
+	// std::map<std::string, int>::iterator end = m2.end();
+	// end--;
+	// end--;
+	// ++start;
+	// ++start;
+	// m2.erase(start, end);
+	// std::cout << "size = " << m2.size() << std::endl;
+	// for (std::map<std::string, int>::iterator it = m2.begin(); it != m2.end(); ++it)
+	// {
+	// 	std::cout << "(" << (*it).second << "), ";
+	// 	// std::cout << "(" << (*it).first << ", " << (*it).second << "), ";
+	// }
 	return 0;
 }

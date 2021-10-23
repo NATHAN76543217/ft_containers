@@ -16,12 +16,13 @@
 #define COLOR_RESET		"\e[0m"
 
 namespace ft {
-	template<class T, class Allocator = std::allocator<T> >
+	template<class T, bool (*Checker)(const T&, const T&) = ft::is_equal<T>, class Allocator = std::allocator<T> >
 	class RBTree {
 		public:
 			typedef T       		value_type;
 			typedef	size_t			size_type;
 			typedef Allocator		allocator_type;
+			// typedef bool (*Checker)(value_type, value_type);
 
 			class sameValueException : public std::exception {
 				public:
@@ -31,6 +32,8 @@ namespace ft {
 					}
 			};
 
+// bool (*)(const ft::pair<const std::__1::basic_string<char>, int> &, const ft::pair<const std::__1::basic_string<char>, int> &)
+// bool (*)(const ft::pair<const std::__1::basic_string<char>, int>, const ft::pair<const std::__1::basic_string<char>, int>)
 			class  node
 			{
 				public:
@@ -40,7 +43,7 @@ namespace ft {
 					value_type  *value;
 					bool		color;
 
-					friend std::ostream		&operator<<(std::ostream& os, const typename RBTree<T, Allocator>::node &node)
+					friend std::ostream		&operator<<(std::ostream& os, const typename RBTree<T, Checker, Allocator>::node &node)
 					{
 						os << "(" << *(node.value) << ","  << ((node.color == RED) ? COLOR_BGRED : COLOR_BGGREY) << " " << COLOR_RESET << ")";
 						return os;
@@ -89,27 +92,34 @@ namespace ft {
 		class iterator : public binary_iterator<T, nodePTR>
 		{
 			public:
-			iterator() : binary_iterator<T, nodePTR>() {}
-			iterator(const nodePTR node, nodePTR leaf) : binary_iterator<T, nodePTR>(node, leaf) {}
-			iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
-			iterator	&operator=(const iterator & rhs)
-			{
-				if (this != &rhs)
+				typedef typename binary_iterator<T, nodePTR>::value_type			value_type;
+				typedef typename binary_iterator<T, nodePTR>::difference_type		difference_type;
+				typedef typename binary_iterator<T, nodePTR>::pointer				pointer;
+				typedef typename binary_iterator<T, nodePTR>::reference				reference;
+				typedef typename binary_iterator<T, nodePTR>::iterator_category		iterator_category;
+				iterator() : binary_iterator<T, nodePTR>() {}
+				iterator(const nodePTR node, nodePTR leaf) : binary_iterator<T, nodePTR>(node, leaf) {}
+				iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
+				iterator(const binary_iterator<T, nodePTR> &src) : binary_iterator<T, nodePTR>(src) {}
+				
+				iterator	&operator=(const iterator & rhs)
 				{
-					this->_value = rhs._value;
-					this->TNULL = rhs.TNULL;
+					if (this != &rhs)
+					{
+						this->_value = rhs._value;
+						this->TNULL = rhs.TNULL;
+					}
+					return *this;
 				}
-				return *this;
-			}
-			
-			iterator	&operator=(const binary_iterator<T, nodePTR> & rhs)
-			{
-				if (this != &rhs)
+				
+				iterator	&operator=(const binary_iterator<T, nodePTR> & rhs)
 				{
-					this->binary_iterator<T, nodePTR>::operator=(rhs);
+					if (this != &rhs)
+					{
+						this->binary_iterator<T, nodePTR>::operator=(rhs);
+					}
+					return *this;
 				}
-				return *this;
-			}
 		};
 
 		class const_iterator : public binary_iterator<const T, nodePTR>
@@ -149,11 +159,11 @@ namespace ft {
 ** ------------------------------- MODIFIERS --------------------------------
 */
 			nodeREF			insert(const value_type &new_val);
-			void			erase(const value_type &new_val);
+			size_type		erase(const value_type &new_val);
 
 			void			print( void ) const;
 			void			print(std::string prefix, node *node, bool isLeft) const;
-    	
+
 	/*
 	** ------------------------------- CAPACITY --------------------------------
 	*/
@@ -186,6 +196,4 @@ namespace ft {
 	};
 
 };
-
-//TODO put RBT in ft namespace
 #endif      //RBTREE_HPP

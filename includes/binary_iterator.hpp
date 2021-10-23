@@ -5,11 +5,11 @@ template<class T, class NODEPTR>
 class binary_iterator
 {
 	public:
-		typedef ptrdiff_t							difference_type;
 		typedef NODEPTR								value_type;
+		typedef ptrdiff_t							difference_type;
 		typedef T*									pointer;
 		typedef T&									reference;
-		typedef std::random_access_iterator_tag		binary_iterator_category;
+		typedef ft::random_access_iterator_tag		iterator_category;
 
 	protected:
 		value_type 		_value;
@@ -121,7 +121,8 @@ class binary_iterator
 			{
 				while (this->_value->parent != nullptr && this->_value->parent->right == this->_value) //come from right child
 					this->_value = this->_value->parent;
-				this->_value = this->_value->parent;
+				// if (this->_value->parent != nullptr)
+					this->_value = this->_value->parent;
 				return *this;
 			}
 			else if (this->_value->right != this->TNULL && this->_value->right != nullptr) // have a right child
