@@ -90,13 +90,14 @@ namespace ft {
 		{
 			public:
 			iterator() : binary_iterator<T, nodePTR>() {}
-			iterator(const nodePTR node) : binary_iterator<T, nodePTR>(node) {}
+			iterator(const nodePTR node, nodePTR leaf) : binary_iterator<T, nodePTR>(node, leaf) {}
 			iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
 			iterator	&operator=(const iterator & rhs)
 			{
 				if (this != &rhs)
 				{
 					this->_value = rhs._value;
+					this->TNULL = rhs.TNULL;
 				}
 				return *this;
 			}
@@ -115,13 +116,14 @@ namespace ft {
 		{
 			public:
 			const_iterator() : binary_iterator<T, nodePTR>() {}
-			const_iterator(const nodePTR node) : binary_iterator<T, nodePTR>(node) {}
+			const_iterator(const nodePTR node, const nodePTR leaf) : binary_iterator<T, nodePTR>(node, leaf) {}
 			const_iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
 			const_iterator	&operator=(const const_iterator & rhs)
 			{
 				if (this != &rhs)
 				{
 					this->_value = rhs._value;
+					this->TNULL = rhs.TNULL;
 				}
 				return *this;
 			}
@@ -147,6 +149,7 @@ namespace ft {
 ** ------------------------------- MODIFIERS --------------------------------
 */
 			nodeREF			insert(const value_type &new_val);
+			void			erase(const value_type &new_val);
 
 			void			print( void ) const;
 			void			print(std::string prefix, node *node, bool isLeft) const;
@@ -163,13 +166,18 @@ namespace ft {
 			allocator_type	getAllocator( void ) const;
 	
 		protected:
+			void	rbTransplant(nodePTR u, nodePTR v);
+			nodePTR	minimum(nodePTR node);
 			nodePTR	create_node(const value_type &value, node *parent = nullptr);
 			void	fix_insert(node *k);
+			void	fix_delete(node *k);
 			void	leftRotate(node *x);
 			void	rightRotate(node *x);
 
-		private:
+//TODO repasser en private
+		public:
 			nodePTR		_root;
+			nodePTR		TNULL;
 			size_type	_size;
 			//TODO implement height variable with getter
 			size_type	_height;

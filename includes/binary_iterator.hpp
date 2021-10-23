@@ -13,15 +13,16 @@ class binary_iterator
 
 	protected:
 		value_type 		_value;
+		value_type		TNULL;
 		
 	public:
-		binary_iterator() : _value(nullptr) {}
+		binary_iterator() : _value(nullptr), TNULL(nullptr) {}
 
-		binary_iterator(value_type value) : _value(value) {
+		binary_iterator(value_type value, value_type TNULL = nullptr) : _value(value), TNULL(TNULL) {
 			// std::cout << "construct binary_iterator" << std::endl;
 		}
 
-		binary_iterator(const binary_iterator& src) : _value(src._value) {}
+		binary_iterator(const binary_iterator& src) : _value(src._value), TNULL(src.TNULL) {}
 
 		~binary_iterator() {}
 
@@ -30,6 +31,7 @@ class binary_iterator
 			if (this != &rhs)
 			{
 				this->_value = rhs._value;
+				this->TNULL = rhs.TNULL;
 			}
 			return *this;
 		}
@@ -74,7 +76,7 @@ class binary_iterator
 		
 		binary_iterator							operator+(difference_type n)
 		{
-			binary_iterator cpy(this->_value);
+			binary_iterator cpy(this->_value, this->TNULL);
 			while (--n >= 0)
 				++cpy;
 			return cpy;
@@ -82,7 +84,7 @@ class binary_iterator
 		
 		binary_iterator							operator-(difference_type n)
 		{
-			binary_iterator cpy(this->_value);
+			binary_iterator cpy(this->_value, this->TNULL);
 			while (--n >= 0)
 				--cpy;
 			return cpy;
@@ -114,67 +116,40 @@ class binary_iterator
 		{	
 			if (this->_value == nullptr)
 				return *this;
-			if (this->_value->left == nullptr
-				&& this->_value->right == nullptr
+			if (this->_value->right == this->TNULL
 				&& this->_value->parent != nullptr) //no child
 			{
 				while (this->_value->parent != nullptr && this->_value->parent->right == this->_value) //come from right child
 					this->_value = this->_value->parent;
 				this->_value = this->_value->parent;
+				return *this;
 			}
-			else if (this->_value->right != nullptr)
-			{
+			else if (this->_value->right != this->TNULL && this->_value->right != nullptr) // have a right child
 				this->_value = this->_value->right;
-				while (this->_value->left != nullptr)
-					this->_value = this->_value->left;
-			}
-			else {
-				if (this->_value->parent != nullptr)
-					this->_value = this->_value->parent;
-				else
-				{
-					while (this->_value->left != nullptr)
-						this->_value = this->_value->left;
-				}
-			}
+			//its _end
+			while (this->_value->left != this->TNULL)
+				this->_value = this->_value->left;
 			return *this;
 		}
 
 		binary_iterator			operator++(int)
 		{
-			binary_iterator cpy(*this);if (this->_value == nullptr)
-				return *this;
-			if (this->_value->left == nullptr && this->_value->right == nullptr) //no child
+			binary_iterator cpy(*this);
+			if (this->_value == nullptr)
+				return cpy;
+			if (this->_value->right == this->TNULL
+				&& this->_value->parent != nullptr) //no child
 			{
-				// std::cout << "both childs are void" << std::endl;
 				while (this->_value->parent != nullptr && this->_value->parent->right == this->_value) //come from right child
-				{
 					this->_value = this->_value->parent;
-				}
-				if (this->_value->parent == nullptr)
-					return cpy;
-				// std::cout << "most up afer right" << std::endl;
 				this->_value = this->_value->parent;
 				return cpy;
 			}
-			
-			if (this->_value->right != nullptr)
-			{
+			else if (this->_value->right != this->TNULL && this->_value->right != nullptr) // have a right child
 				this->_value = this->_value->right;
-				while (this->_value->left != nullptr)
-				{
-					this->_value = this->_value->left;
-				}
-			}
-			else {
-				if (this->_value->parent)
-					this->_value = this->_value->parent;
-				else
-				{
-					while (this->_value->left != nullptr)
-						this->_value = this->_value->left;
-				}
-			}
+			//its _end
+			while (this->_value->left != this->TNULL)
+				this->_value = this->_value->left;
 			return cpy;
 		}
 
@@ -182,36 +157,20 @@ class binary_iterator
 		{
 			if (this->_value == nullptr)
 				return *this;
-			if (this->_value->left == nullptr && this->_value->right == nullptr) //no child
+			if (this->_value->left == this->TNULL
+				&& this->_value->parent != nullptr) //no child
 			{
-				// std::cout << "both childs are void" << std::endl;
 				while (this->_value->parent != nullptr && this->_value->parent->left == this->_value) //come from left child
-				{
 					this->_value = this->_value->parent;
-				}
-				if (this->_value->parent == nullptr)
-					return *this;
-				// std::cout << "most up afer right" << std::endl;
-				this->_value = this->_value->parent;
+				if (this->_value->parent != nullptr)
+					this->_value = this->_value->parent;
 				return *this;
 			}
-			else if (this->_value->left != nullptr) //at least one left child
-			{
+			else if (this->_value->left != this->TNULL && this->_value->left != nullptr) // have a left child
 				this->_value = this->_value->left;
-				while (this->_value->right != nullptr)
-				{
-					this->_value = this->_value->right;
-				}
-			}
-			else {
-				if (this->_value->parent)
-					this->_value = this->_value->parent;
-				else
-				{
-					while (this->_value->right != nullptr)
-						this->_value = this->_value->right;
-				}
-			}
+			//its _end
+			while (this->_value->right != this->TNULL)
+				this->_value = this->_value->right;
 			return *this;
 		}
 
@@ -220,36 +179,20 @@ class binary_iterator
 			binary_iterator cpy(*this);
 			if (this->_value == nullptr)
 				return cpy;
-			if (this->_value->left == nullptr && this->_value->right == nullptr) //no child
+			if (this->_value->left == this->TNULL
+				&& this->_value->parent != nullptr) //no child
 			{
-				// std::cout << "both childs are void" << std::endl;
 				while (this->_value->parent != nullptr && this->_value->parent->left == this->_value) //come from left child
-				{
 					this->_value = this->_value->parent;
-				}
-				if (this->_value->parent == nullptr)
-					return cpy;
-				// std::cout << "most up afer right" << std::endl;
-				this->_value = this->_value->parent;
+				if (this->_value->parent != nullptr)
+					this->_value = this->_value->parent;
 				return cpy;
 			}
-			else if (this->_value->left != nullptr) //at least one left child
-			{
+			else if (this->_value->left != this->TNULL && this->_value->left != nullptr) // have a left child
 				this->_value = this->_value->left;
-				while (this->_value->right != nullptr)
-				{
-					this->_value = this->_value->right;
-				}
-			}
-			else {
-				if (this->_value->parent)
-					this->_value = this->_value->parent;
-				else
-				{
-					while (this->_value->right != nullptr)
-						this->_value = this->_value->right;
-				}
-			}
+			//its _end
+			while (this->_value->right != this->TNULL)
+				this->_value = this->_value->right;
 			return cpy;
 		}
 

@@ -4,10 +4,17 @@ namespace ft {
 
 //constructors
 	template<class T, class Allocator>
-	RBTree<T, Allocator>::RBTree(const Allocator alloc) : _root(NULL), _size(0), _height(0), _alloc(alloc)
+	RBTree<T, Allocator>::RBTree(const Allocator alloc) : _size(0), _height(0), _alloc(alloc)
 	{
+		this->_end.parent = nullptr;
 		this->_end.value = nullptr;
 		this->_end.left = nullptr;
+		this->TNULL = new typename RBTree<T, Allocator>::node;
+		this->TNULL->color = BLACK;
+		this->TNULL->left = nullptr;
+		this->TNULL->right = nullptr;
+		this->TNULL->parent = nullptr;
+		this->_root = this->TNULL;
 		std::cout << "RBT default creation" << std::endl;
 	}
 
@@ -30,13 +37,13 @@ namespace ft {
 	{
 		//find left most node
 		nodePTR start = this->_root;
-		if (start == nullptr)
+		if (start == this->TNULL)
 			return this->end();
-		while (start->left != nullptr)
+		while (start->left != this->TNULL)
 		{
 			start = start->left;
 		}	
-		return typename RBTree<T, Allocator>::iterator(start);
+		return typename RBTree<T, Allocator>::iterator(start, this->TNULL);
 	}
 
 	template<class T, class Allocator>
@@ -44,25 +51,35 @@ namespace ft {
 	{
 		//find left most node
 		nodePTR start = this->_root;
-		if (start == nullptr)
+		if (start == this->TNULL)
 			return this->_end();
-		while (start->left != nullptr)
+		while (start->left != this->TNULL)
 			start = start->left;
-		return typename RBTree<T, Allocator>::const_iterator(start);
+		return typename RBTree<T, Allocator>::const_iterator(start, this->TNULL);
 	}
 
 	template<class T, class Allocator>
 	typename RBTree<T, Allocator>::iterator					RBTree<T, Allocator>::end( void )
 	{
-		return iterator(&(this->_end));
+		return iterator(&(this->_end), this->TNULL);
 	}
 
 	template<class T, class Allocator>
 	typename RBTree<T, Allocator>::const_iterator				RBTree<T, Allocator>::end( void )   const
 	{
-		return const_iterator(&(this->_end));
+		return const_iterator(&(this->_end), this->TNULL);
 	}
 
+	template<class T, class Allocator>
+	typename RBTree<T, Allocator>::nodePTR
+	RBTree<T, Allocator>::minimum(nodePTR node)
+	{
+		if (node == this->TNULL)
+			return node;
+		while (node->left != this->TNULL)
+			node = node->left;
+		return node; 
+	}
 /*
 ** ------------------------------- MODIFIERS --------------------------------
 */
@@ -79,9 +96,9 @@ namespace ft {
 			return *this->_root;
 		}
 		nodePTR	current = this->_root;
-		nodePTR	next;
+		nodePTR	next = this->TNULL;
 		//binary search for insertion
-		while (current != nullptr)
+		while (current != this->TNULL)
 		{
 			if (new_val < *(current->value))
 				next = current->left;
@@ -89,7 +106,7 @@ namespace ft {
 				next = current->right;
 			else
 				throw RBTree::sameValueException();
-			if (next == nullptr)
+			if (next == this->TNULL)
 			{
 				if (new_val < *(current->value))
 					next = current->left = this->create_node(new_val, current);
@@ -110,12 +127,85 @@ namespace ft {
 		return *current;
 	}
 
+	template<class T, class Allocator>
+	void RBTree<T, Allocator>::rbTransplant(nodePTR u, nodePTR v){
+		if (u == this->_root) {
+			this->_root = v;
+			this->_root->parent = &this->_end;
+			this->_end.left = v;
+		} else if (u == u->parent->left){
+			u->parent->left = v;
+		} else {
+			u->parent->right = v;
+		}
+		v->parent = u->parent;
+	}
+
+	template<class T, class Allocator>
+	void
+	RBTree<T, Allocator>::erase(const value_type &val_to_delete)
+	{
+		//find element in tree
+		nodePTR	current = this->_root;
+		nodePTR	min = this->TNULL;
+		nodePTR	res = this->TNULL;
+		while (current != this->TNULL)
+		{
+			if (val_to_delete == *(current->value))
+				break ;
+			else if (val_to_delete < *(current->value))
+				res = current->left;
+			else 
+				res = current->right;
+			current = res;
+		}
+		if (current == this->TNULL)
+			return ;
+		//finded: it point to the element
+		// std::cout << "element finded: " << *current << std::endl;
+
+		int original_color = current->color;
+		if (current->left == this->TNULL) {
+			res = current->right;
+			rbTransplant(current, res);
+		} else if (current->right == this->TNULL) {
+			res = current->left;
+			rbTransplant(current, res);
+		} else {
+			// std::cout << "two childs " << std::endl;
+			min = minimum(current->right);
+			// std::cout << "min R = " << *min << std::endl;
+			original_color = min->color;
+			res = min->right;
+			if (min->parent == current) {
+				res->parent = min;
+			} else {
+				rbTransplant(min, min->right);
+				min->right = current->right;
+				min->right->parent = min;
+			}
+
+			rbTransplant(current, min);
+			min->left = current->left;
+			min->left->parent = min;
+			min->color = original_color;
+		}
+		// this->print();
+		// std::cout << "FIX delete " << original_color << std::endl;
+		if (original_color == BLACK){
+			this->fix_delete(res);
+		}
+		delete current;
+		this->_size--;
+		return ;
+	}
+
 //affichage
 	template<class T, class Allocator>
 	void
 	RBTree<T, Allocator>::print( void ) const
 	{
-		if (this->_root == nullptr)
+		if (this->_root == this->TNULL)
 			std::cout << "Empty tree" << std::endl;
 		else
 		{
@@ -130,7 +220,7 @@ namespace ft {
 	RBTree<T, Allocator>::print(std::string prefix, node *node, bool isLeft) const
 	{
 		//TODO change printing that match the content size
-		if (node == nullptr)
+		if (node == this->TNULL)
 			return ;
 		std::cout << prefix;
 		std::cout << (!isLeft ? "├──────" : "└──────" );
@@ -176,8 +266,8 @@ namespace ft {
 		newNode->value = reinterpret_cast<value_type *>(this->_alloc.allocate(sizeof(value_type)));
 		new (newNode->value) value_type(value);
 		newNode->parent = parent;
-		newNode->left = nullptr;
-		newNode->right = nullptr;
+		newNode->left = this->TNULL;
+		newNode->right = this->TNULL;
 		newNode->color = BLACK;
 		//TODO delete newNode value at end of life
 		return newNode;
@@ -188,12 +278,12 @@ namespace ft {
 */
 
 	template<class T, class Allocator>
-	void					RBTree<T, Allocator>::fix_insert(node *k)
+	void					RBTree<T, Allocator>::fix_insert(nodePTR k)
 	{
 		while (k->parent->color == RED)
 		{
-			node * uncle = k->getUncle();
-			if (uncle != nullptr && uncle->color == RED)
+			nodePTR uncle = k->getUncle();
+			if ((uncle != this->TNULL && uncle != nullptr) && uncle->color == RED)
 			{
 				uncle->swapColor();
 				k->parent->color = BLACK;
@@ -228,11 +318,88 @@ namespace ft {
 		this->_root->color = BLACK;
 	}
 
+
 	template<class T, class Allocator>
-	void					RBTree<T, Allocator>::leftRotate(node *x)
+	void					RBTree<T, Allocator>::fix_delete(nodePTR k)
+	{
+		if (k == this->TNULL)
+			return ;
+		nodePTR S;
+		while (k != this->_root && k->color == BLACK)
+		{
+			if (k == k->parent->left)
+			{
+				S = k->parent->right;
+				if (S->color == RED) // cas 3.1
+				{
+					k->parent->right->color = BLACK;
+					k->parent->color = RED;
+					this->leftRotate(k->parent);
+					S = k->parent->right;
+				}
+				if (S->left->color == BLACK
+				&&	S->right->color == BLACK) // case 3.2
+				{
+					S->color = RED;
+					k = k->parent;
+				}
+				else
+				{
+					if (S->right->color == BLACK) //case 3.3
+					{
+						S->left->color = BLACK;
+						S->color = RED;
+						this->rightRotate(S);
+						S = k->parent->right;
+					}
+					S->color = k->parent->color;//case 3.4
+					k->parent->color = BLACK;
+					S->right->color = BLACK;
+					this->leftRotate(k->parent);
+					k = this->_root;
+				}
+			}
+			else
+			{
+				S = k->parent->left;
+				if (S->color == RED) // cas 3.1
+				{
+					k->parent->left->color = BLACK;
+					k->parent->color = RED;
+					this->rightRotate(k->parent);
+					S = k->parent->left;
+				}
+				if (S->left->color == BLACK
+				&&	S->right->color == BLACK) // case 3.2
+				{
+					S->color = RED;
+					k = k->parent;
+				}
+				else
+				{
+					if (S->left->color == BLACK) //case 3.3
+					{
+						S->right->color = BLACK;
+						S->color = RED;
+						this->leftRotate(S);
+						S = k->parent->left;
+					}
+					S->color = k->parent->color;//case 3.4
+					k->parent->color = BLACK;
+					S->left->color = BLACK;
+					this->rightRotate(k->parent);
+					k = this->_root;
+				}
+			}
+		}
+		k->color = BLACK;
+	}
+
+	template<class T, class Allocator>
+	void					RBTree<T, Allocator>::leftRotate(nodePTR x)
 	{
 		nodePTR	y = x->right;
-		if (y->left != nullptr)
+		if (y->left != this->TNULL)
 			y->left->parent = x;
 		x->right = y->left;
 		y->left = x;
@@ -251,10 +418,10 @@ namespace ft {
 	}
 
 	template<class T, class Allocator>
-	void					RBTree<T, Allocator>::rightRotate(node *x)
+	void					RBTree<T, Allocator>::rightRotate(nodePTR x)
 	{
 		nodePTR	y = x->left;
-		if (y->right != nullptr)
+		if (y->right != this->TNULL)
 			y->right->parent = x;
 		x->left = y->right;
 		y->right = x;
