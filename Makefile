@@ -65,12 +65,15 @@ init:
 
 RBT:	
 	$(COMP) $(COMP_FLAG) mainRBT.cpp -o a.out
+
+# Compile normal
 $(NAME): $(OBJS) $(INCS)
 	@ $(SETLIST) $(COMP) $(COMP_FLAG) -o $(NAME) $(OBJS)
 	@ echo "$(_INFO) linking of $(NAME)"
 
+# Compile with STL
 $(NAMESTL): $(OBJS_STL) $(INCS)
-	 $(SETLIST) $(COMP) $(COMP_FLAG) -D STL=1 -o $(NAMESTL) $(OBJS_STL)
+	@ $(SETLIST) $(COMP) $(COMP_FLAG) -D STL=1 -o $(NAMESTL) $(OBJS_STL)
 	@ echo "$(_INFO) linking of $(NAMESTL)"
 
 $(PATH_OBJ)%.o : $(PATH_SRC)%.cpp  $(INCS)

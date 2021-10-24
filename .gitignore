@@ -1,6 +1,7 @@
 .vscode
 
 a.out
+a.out.dSYM
 objs
 stlobjs
 /test
@@ -14,3 +15,6 @@ exemple
 #tests
 t1.txt
 t2.txt
+
+my
+exp
