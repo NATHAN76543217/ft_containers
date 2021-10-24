@@ -25,6 +25,15 @@
 #include "vector/testModifier.hpp"
 #include "vector/vector_constructor.hpp"
 #include "vector/overload_op.hpp"
+#include "map/testIteratorRBT.hpp"
+
+
+/*
+** ------------------------------- MAP --------------------------------
+*/
+
+template<typename Cnt>
+int		testIteratorRBT(Cnt &cnt);
 
 /*
 ** ------------------------------- VECTOR --------------------------------

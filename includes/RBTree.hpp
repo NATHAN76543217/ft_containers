@@ -17,12 +17,12 @@ namespace ft {
 		this->TNULL->parent = nullptr;
 		this->TNULL->value = nullptr;
 		this->_root = this->TNULL;
-		std::cout << "RBT default creation" << std::endl;
+		// std::cout << "RBT default creation" << std::endl;
 	}
 
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	RBTree<T, Checker, Allocator>::~RBTree() {
-				//TODO delete every node and value inside it (allocator.desallocate)
+				//TODO delete every node and value inside it (allocator.desallocate) done?
 			this->clear();
 	}
 
@@ -55,7 +55,7 @@ namespace ft {
 		//find left most node
 		nodePTR start = this->_root;
 		if (start == this->TNULL)
-			return this->_end();
+			return this->end();
 		while (start->left != this->TNULL)
 			start = start->left;
 		return typename RBTree<T, Checker, Allocator>::const_iterator(start, this->TNULL);
@@ -70,7 +70,37 @@ namespace ft {
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	typename RBTree<T, Checker, Allocator>::const_iterator				RBTree<T, Checker, Allocator>::end( void )   const
 	{
-		return const_iterator(&(this->_end), this->TNULL);
+		return const_iterator(const_cast<const nodePTR>(&(this->_end)), this->TNULL);
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::reverse_iterator
+	RBTree<T, Checker, Allocator>::rbegin( void )
+	{
+		typename RBTree<T, Checker, Allocator>::iterator res = --this->end();
+		return reverse_iterator(res);
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::const_reverse_iterator
+	RBTree<T, Checker, Allocator>::rbegin( void ) const
+	{
+		// typename RBTree<T, Checker, Allocator>::const_iterator res = ;
+		return const_reverse_iterator(--this->end());
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::reverse_iterator
+	RBTree<T, Checker, Allocator>::rend( void )
+	{
+		return reverse_iterator(this->end());
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::const_reverse_iterator
+	RBTree<T, Checker, Allocator>::rend( void ) const
+	{
+		return const_reverse_iterator(this->end());
 	}
 
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
@@ -83,6 +113,7 @@ namespace ft {
 			node = node->left;
 		return node; 
 	}
+
 /*
 ** ------------------------------- MODIFIERS --------------------------------
 */

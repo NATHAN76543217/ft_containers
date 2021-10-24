@@ -39,62 +39,7 @@ namespace ft {
 	/*
 	** ------------------------------- ITERATORS --------------------------------
 	*/
-	// TODO pass iterator to RBT class
-	// template<class Key, class T, class Compare, class Allocator>
-	// typename map<Key, T, Compare, Allocator>::iterator
-	// 	map<Key, T, Compare, Allocator>::begin(void)
-	// {
-	// 	return  map<Key, T, Compare, Allocator>::iterator(this->_data);
-	// }
 
-	// template<class Key, class T, class Compare, class Allocator>
-	// typename map<Key, T, Compare, Allocator>::const_iterator
-	// 	map<Key, T, Compare, Allocator>::begin(void) const
-	// {
-	// 	return  map<Key, T, Compare, Allocator>::const_iterator(this->_data); 
-	// }
-	
-	// template<class Key, class T, class Compare, class Allocator>
-	// typename map<Key, T, Compare, Allocator>::iterator
-	// 	map<Key, T, Compare, Allocator>::end(void)
-	// {
-	// 	return map<Key, T, Compare, Allocator>::iterator(&this->_data[this->_size]);
-	// }
-	
-	// template<class Key, class T, class Compare, class Allocator>
-	// typename map<Key, T, Compare, Allocator>::const_iterator
-	// 	map<Key, T, Compare, Allocator>::end(void) const
-	// {
-	// 	return map<Key, T, Compare, Allocator>::const_iterator(&this->_data[this->_size]);
-	// }
-
-	template<class Key, class T, class Compare, class Allocator>
-	typename map<Key, T, Compare, Allocator>::reverse_iterator
-		map<Key, T, Compare, Allocator>::rbegin(void)
-	{
-		return  map<Key, T, Compare, Allocator>::reverse_iterator(&this->_data[this->_size]);
-	}
-
-	template<class Key, class T, class Compare, class Allocator>
-	typename map<Key, T, Compare, Allocator>::const_reverse_iterator
-		map<Key, T, Compare, Allocator>::rbegin(void) const
-	{
-		return  map<Key, T, Compare, Allocator>::const_reverse_iterator(&this->_data[this->_size]); 
-	}
-	
-	template<class Key, class T, class Compare, class Allocator>
-	typename map<Key, T, Compare, Allocator>::reverse_iterator
-		map<Key, T, Compare, Allocator>::rend(void)
-	{
-		return map<Key, T, Compare, Allocator>::reverse_iterator(this->_data);
-	}
-	
-	template<class Key, class T, class Compare, class Allocator>
-	typename map<Key, T, Compare, Allocator>::const_reverse_iterator
-		map<Key, T, Compare, Allocator>::rend(void) const
-	{
-		return map<Key, T, Compare, Allocator>::const_reverse_iterator(this->_data);
-	}
 
 	/*
 	** ------------------------------- CAPACITY --------------------------------

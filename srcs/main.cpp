@@ -86,6 +86,13 @@ int		testMap( void ) {
 	it = m1.begin();
 	if (it == m1.end() && m1.size() == 0)
 		std::cout << "empty map"<< std::endl;
+
+	std::cout << "Fill map" << std::endl;
+	m1.insert(ft::pair<std::string, int>("secondKey", 2));
+	m1.insert(ft::pair<std::string, int>("thirdKey", 3));
+	m1.insert(ft::pair<std::string, int>("forthKey", 4));
+	m1.insert(ft::pair<std::string, int>("fithKey", 5));
+	testIteratorRBT<ft::map<std::string, int> >(m1);
 	return 0;
 }
 

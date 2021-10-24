@@ -43,7 +43,7 @@ class reverse_iterator
 
 	// pointer
 		reference  operator*(void) const {
-			return (--super(this->_base)).operator*();
+			return (super(this->_base)).operator*();
 		}
 
 		pointer		operator->(void) const {

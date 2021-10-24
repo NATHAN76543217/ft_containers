@@ -122,14 +122,48 @@ namespace ft {
 					}
 					return *this;
 				}
+
+				iterator			&operator++(void)
+				{
+					this->binary_iterator<T, nodePTR>::operator++();
+					return *this;
+				}
+
+				iterator			operator++(int)
+				{
+					iterator	cpy(*this);
+					this->binary_iterator<T, nodePTR>::operator++();
+					return cpy;
+				}
+				
+				iterator			&operator--(void)
+				{
+					this->binary_iterator<T, nodePTR>::operator--();
+					return *this;
+				}
+
+				iterator			operator--(int)
+				{
+					iterator	cpy(*this);
+					this->binary_iterator<T, nodePTR>::operator--();
+					return cpy;
+				}
 		};
 
 		class const_iterator : public binary_iterator<const T, nodePTR>
 		{
 			public:
-			const_iterator() : binary_iterator<T, nodePTR>() {}
-			const_iterator(const nodePTR node, const nodePTR leaf) : binary_iterator<T, nodePTR>(node, leaf) {}
-			const_iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
+				typedef typename binary_iterator<const T, nodePTR>::value_type			value_type;
+				typedef typename binary_iterator<const T, nodePTR>::difference_type		difference_type;
+				typedef typename binary_iterator<const T, nodePTR>::pointer				pointer;
+				typedef typename binary_iterator<const T, nodePTR>::reference			reference;
+				typedef typename binary_iterator<const T, nodePTR>::iterator_category	iterator_category;
+			
+				const_iterator() : binary_iterator<const T, nodePTR>() {}
+				const_iterator(const nodePTR node, const nodePTR leaf) : binary_iterator<const T, nodePTR>(node, leaf) {}
+				const_iterator(const iterator &src) : binary_iterator< const T, nodePTR>(src) {}
+				const_iterator(const binary_iterator<T, nodePTR> &src) : binary_iterator< const T, nodePTR>(src) {}
+			
 			const_iterator	&operator=(const const_iterator & rhs)
 			{
 				if (this != &rhs)
@@ -144,10 +178,37 @@ namespace ft {
 			{
 				if (this != &rhs)
 				{
-					this->binary_iterator<T, nodePTR>::operator=(rhs);
+					this->binary_iterator<const T, nodePTR>::operator=(rhs);
 				}
 				return *this;
 			}
+
+			const_iterator			&operator++(void)
+			{
+				this->binary_iterator<const T, nodePTR>::operator++();
+				return *this;
+			}
+
+			const_iterator			operator++(int)
+			{
+				const_iterator	cpy(*this);
+				this->binary_iterator<const T, nodePTR>::operator++();
+				return cpy;
+			}
+
+			const_iterator			&operator--(void)
+			{
+				this->binary_iterator<const T, nodePTR>::operator--();
+				return *this;
+			}
+
+			const_iterator			operator--(int)
+			{
+				const_iterator	cpy(*this);
+				this->binary_iterator<const T, nodePTR>::operator--();
+				return cpy;
+			}
+
 		};
 
 		typedef ft::reverse_iterator<iterator>			reverse_iterator;
@@ -157,6 +218,10 @@ namespace ft {
 		const_iterator				begin( void ) const;
 		iterator					end( void );
 		const_iterator				end( void )   const;
+		reverse_iterator			rbegin( void );
+		const_reverse_iterator		rbegin( void ) const;
+		reverse_iterator			rend( void );
+		const_reverse_iterator		rend( void )   const;
 /*
 ** ------------------------------- MODIFIERS --------------------------------
 */

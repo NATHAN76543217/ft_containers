@@ -1,6 +1,8 @@
 #ifndef BINARY_ITERATOR_HPP
 #define BINARY_ITERATOR_HPP
 
+//TODO put it in ft::
+
 template<class T, class NODEPTR>
 class binary_iterator
 {
@@ -18,13 +20,13 @@ class binary_iterator
 	public:
 		binary_iterator() : _value(nullptr), TNULL(nullptr) {}
 
-		binary_iterator(value_type value, value_type TNULL = nullptr) : _value(value), TNULL(TNULL) {
+		binary_iterator(const value_type value, const value_type TNULL = nullptr) : _value(value), TNULL(TNULL) {
 			// std::cout << "construct binary_iterator" << std::endl;
 		}
 
 		binary_iterator(const binary_iterator& src) : _value(src._value), TNULL(src.TNULL) {}
 
-		~binary_iterator() {}
+		virtual ~binary_iterator() {}
 
 		binary_iterator		&operator=(const binary_iterator & rhs)
 		{
@@ -36,6 +38,14 @@ class binary_iterator
 			return *this;
 		}
 
+/*
+  "ft::reverse_iterator<>::const_iterator>::reverse_iterator(ft::reverse_iterator< > >::const_iterator> const&)"
+  , referenced from:
+      int testIteratorRBT_const> >, (ft::map<> > > const&) in main.o
+  "ft::reverse_iterator<>::iterator>::reverse_iterator(ft::reverse_iterator< > >::iterator> const&)"
+  , referenced from:
+      int testIteratorRBT> >, (ft::map<> > >&) in main.o
+*/
 		reference							operator*(void) const
 		{
 			return *(this->_value->value);
@@ -128,7 +138,7 @@ class binary_iterator
 			else if (this->_value->right != this->TNULL && this->_value->right != nullptr) // have a right child
 				this->_value = this->_value->right;
 			//its _end
-			while (this->_value->left != this->TNULL)
+			while (this->_value->left != this->TNULL && this->_value->left != nullptr)
 				this->_value = this->_value->left;
 			return *this;
 		}
@@ -149,7 +159,7 @@ class binary_iterator
 			else if (this->_value->right != this->TNULL && this->_value->right != nullptr) // have a right child
 				this->_value = this->_value->right;
 			//its _end
-			while (this->_value->left != this->TNULL)
+			while (this->_value->left != this->TNULL && this->_value->left != nullptr)
 				this->_value = this->_value->left;
 			return cpy;
 		}
@@ -170,7 +180,7 @@ class binary_iterator
 			else if (this->_value->left != this->TNULL && this->_value->left != nullptr) // have a left child
 				this->_value = this->_value->left;
 			//its _end
-			while (this->_value->right != this->TNULL)
+			while (this->_value->right != this->TNULL && this->_value->right != nullptr)
 				this->_value = this->_value->right;
 			return *this;
 		}
@@ -192,7 +202,7 @@ class binary_iterator
 			else if (this->_value->left != this->TNULL && this->_value->left != nullptr) // have a left child
 				this->_value = this->_value->left;
 			//its _end
-			while (this->_value->right != this->TNULL)
+			while (this->_value->right != this->TNULL && this->_value->left != nullptr)
 				this->_value = this->_value->right;
 			return cpy;
 		}

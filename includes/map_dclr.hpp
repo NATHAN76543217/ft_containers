@@ -59,14 +59,6 @@ namespace ft {
 	/*
 	** ------------------------------- ITERATORS --------------------------------
 	*/
-		// iterator					begin( void );
-		// const_iterator				begin( void ) const;
-		// iterator					end( void );
-		// const_iterator				end( void )   const;
-		reverse_iterator			rbegin( void );
-		const_reverse_iterator		rbegin( void ) const;
-		reverse_iterator			rend( void );
-		const_reverse_iterator		rend( void )   const;
 
 	/*
 	** ------------------------------- CAPACITY --------------------------------
@@ -90,7 +82,6 @@ namespace ft {
 
 		void						swap(map& x);
 
-
 		// template< class InputIterator >
 		// void						erase<ft::enable_if< is_iterator< InputIterator >::value, InputIterator>::type>( InputIterator position);
 
@@ -101,11 +92,6 @@ namespace ft {
 		void						erase(typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last);
 
 
-	// binary_iterator<ft::pair<const std::__1::basic_string<char>, int>, ft::RBTree<ft::pair<const std::__1::basic_string<char>, int>, &ft::pair<const std::__1::basic_string<char>, int>::KeyCompare,
-    //   std::__1::allocator<ft::pair<const std::__1::basic_string<char>, int> > >::node *>
-
-	//  ft::RBTree<ft::pair<const std::__1::basic_string<char>, int>, &ft::pair<const std::__1::basic_string<char>, int>::KeyCompare, std::__1::allocator<ft::pair<const
-    //   std::__1::basic_string<char>, int> > >::iterator
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
@@ -134,7 +120,7 @@ namespace ft {
 	** ------------------------------- PRIVATE --------------------------------
 	*/
 		private:
-			key_compare									_comp;
+			key_compare							_comp;
 			// size_type		_capacity;
 			// allocator_type	_alloc;
 						

@@ -77,25 +77,26 @@ namespace ft {
 		template<typename T, typename Allocator>
 	typename vector<T, Allocator>::reverse_iterator				vector<T, Allocator>::rbegin(void)
 	{
-		return  vector<T, Allocator>::reverse_iterator(&this->_data[this->_size]);
+		return  vector<T, Allocator>::reverse_iterator(&this->_data[this->_size - 1]);
 	}
 
 	template<typename T, typename Allocator>
 	typename vector<T, Allocator>::const_reverse_iterator		vector<T, Allocator>::rbegin(void) const
 	{
-		return  vector<T, Allocator>::const_reverse_iterator(&this->_data[this->_size]); 
+		//TODO add tests for check if [-1] work and so for a size of 0 rbeing == rend
+		return  vector<T, Allocator>::const_reverse_iterator(&this->_data[this->_size - 1]); 
 	}
 	
 	template<typename T, typename Allocator>
 	typename vector<T, Allocator>::reverse_iterator				vector<T, Allocator>::rend(void)
 	{
-		return vector<T, Allocator>::reverse_iterator(this->_data);
+		return vector<T, Allocator>::reverse_iterator(this->_data - 1);
 	}
 	
 	template<typename T, typename Allocator>
 	typename vector<T, Allocator>::const_reverse_iterator		vector<T, Allocator>::rend(void) const
 	{
-		return vector<T, Allocator>::const_reverse_iterator(this->_data);
+		return vector<T, Allocator>::const_reverse_iterator(this->_data - 1);
 	}
 
 	/*
