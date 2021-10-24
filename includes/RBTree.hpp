@@ -320,6 +320,45 @@ namespace ft {
 	}  //REVIEW en static?
 
 /*
+** ----------------------------- OPERATIONS --------------------------------
+*/
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::iterator
+	RBTree<T, Checker, Allocator>::find(const typename RBTree<T, Checker, Allocator>::value_type& k)
+	{
+		nodePTR current = this->_root;
+		// std::find(this->begin(), this->end())
+		while (current != this->TNULL)
+		{
+			if (Checker(k,  *(current->value)))
+				return iterator(current) ;
+			else if (k < *(current->value))
+				current = current->left;
+			else 
+				current = current->right;
+		}
+		return this->end();
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+    typename RBTree<T, Checker, Allocator>::const_iterator
+	RBTree<T, Checker, Allocator>::find(const typename RBTree<T, Checker, Allocator>::value_type& k) const
+	{
+		nodePTR current = this->_root;
+		// std::find(this->begin(), this->end())
+		while (current != this->TNULL)
+		{
+			if (Checker(k,  *(current->value)))
+				return const_iterator(current, this->TNULL);
+			else if (k < *(current->value))
+				current = current->left;
+			else 
+				current = current->right;
+		}
+		return this->end();
+	}
+
+/*
 ** ------------------------------- BALANCING --------------------------------
 */
 

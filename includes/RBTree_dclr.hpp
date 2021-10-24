@@ -226,12 +226,12 @@ namespace ft {
 ** ------------------------------- MODIFIERS --------------------------------
 */
 			nodeREF			insert(const value_type &new_val);
-			size_type		erase(const value_type &new_val);
+			size_type		erase(const value_type &val_to_delete);
 
 			void			clear();
 
 			void			print( void ) const;
-			void			print(std::string prefix, node *node, bool isLeft) const;
+			void			print(std::string prefix, nodePTR node, bool isLeft) const;
 
 	/*
 	** ------------------------------- CAPACITY --------------------------------
@@ -244,14 +244,20 @@ namespace ft {
 	*/
 			allocator_type	get_allocator( void ) const;
 	
+	/*
+	** ----------------------------- OPERATIONS --------------------------------
+	*/
+	    iterator			find(const value_type& k);
+    	const_iterator		find(const value_type& k) const;
+
 		protected:
-			void	rbTransplant(nodePTR u, nodePTR v);
-			nodePTR	minimum(nodePTR node);
-			nodePTR	create_node(const value_type &value, node *parent = nullptr);
-			void	fix_insert(node *k);
-			void	fix_delete(node *k);
-			void	leftRotate(node *x);
-			void	rightRotate(node *x);
+			void			rbTransplant(nodePTR u, nodePTR v);
+			nodePTR			minimum(nodePTR node);
+			nodePTR			create_node(const value_type &value, nodePTR parent = nullptr);
+			void			fix_insert(nodePTR k);
+			void			fix_delete(nodePTR k);
+			void			leftRotate(nodePTR x);
+			void			rightRotate(nodePTR x);
 
 //TODO repasser en private
 		public:

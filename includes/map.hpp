@@ -134,6 +134,23 @@ namespace ft {
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
 
+	/*
+	** ------------------------------- OPERATIONS --------------------------------
+	*/
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::iterator
+	map<Key, T, Compare, Allocator>::find(const typename map<Key, T, Compare, Allocator>::key_type& k)
+	{
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::find(ft::make_pair(k, T()));
+	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::const_iterator
+	map<Key, T, Compare, Allocator>::find(const typename map<Key, T, Compare, Allocator>::key_type& k) const
+	{
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::find(ft::make_pair(k, T()));
+	}
 };
 
 #endif		//MAP_HPP;

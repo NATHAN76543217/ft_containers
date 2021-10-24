@@ -2,6 +2,41 @@
 #define TESTITERATORRBT
 
 
+template<class Cnt, class Ite>
+int		testKey(Cnt &cnt, typename Cnt::key_type key)
+{
+	Ite it = cnt.find(key);
+	it = cnt.find(key);
+	if (it == cnt.end())
+		std::cout << "Key `" << key << "` not found" << std::endl;
+	else
+		std::cout << "Key '" << (*it).first << "' founded with value: " << (*it).second << std::endl;
+	return 0;
+}
+
+template<class Cnt>
+int		testFind(Cnt &cnt)
+{
+	std::cout << std::endl << std::endl << "TEST find" << std::endl;
+	std::string key = "specialKey";
+	cnt.insert(ft::pair<std::string, int>(key, 42));
+	testKey<Cnt, typename Cnt::iterator>(cnt, key);
+	key = "coucou";
+	testKey<Cnt, typename Cnt::iterator>(cnt, key);
+	return 0;
+}
+
+template<class Cnt>
+int		testFind_const(Cnt &cnt)
+{
+	std::cout << std::endl << std::endl << "TEST find const " << std::endl;
+	std::string key = "specialKey";
+	testKey<Cnt, typename Cnt::const_iterator>(cnt, key);
+	key = "coucou";
+	testKey<Cnt, typename Cnt::const_iterator>(cnt, key);
+	return 0;
+}
+
 //TODO check for test: create reverse_iterator from it or const_reverse_iterator
 template<class Cnt, class Ite>
 int		testPrintState(const Cnt &cnt, Ite &start, Ite &end)	
@@ -32,6 +67,7 @@ int		testIteratorRBT_const(const Cnt &cnt)
 	++rend;
 	testPrintState(cnt, it, end);
 	testPrintState(cnt, rit, rend);
+	testFind_const(cnt);
 	return 0;
 }
 
@@ -54,10 +90,12 @@ int		testIteratorRBT(Cnt &cnt)
 	++rend;
 	testPrintState(cnt, it, end);
 	testPrintState(cnt, rit, rend);
+	testFind(cnt);
 	testIteratorRBT_const(cnt);
 	typename Cnt::allocator_type alloc =  cnt.get_allocator();
 	typename Cnt::value_type *v = alloc.allocate(1);
 	alloc.deallocate(v, 1);
+
 	return 0;
 }
 
