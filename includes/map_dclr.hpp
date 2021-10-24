@@ -63,8 +63,6 @@ namespace ft {
 	/*
 	** ------------------------------- CAPACITY --------------------------------
 	*/
-    	// bool						empty( void )    const;
-    	// size_type					size( void )     const;
     	size_type					max_size( void ) const;
 
 	/*
@@ -86,7 +84,7 @@ namespace ft {
 		// void						erase<ft::enable_if< is_iterator< InputIterator >::value, InputIterator>::type>( InputIterator position);
 
 		//NOTE	All possibilities founded for enable_if here are minimum c++11
-		void						erase( iterator position);
+		void						erase(iterator position);
 		size_type					erase(const key_type& k);
 		template<class InputIterator>
 		void						erase(typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last);
@@ -96,7 +94,6 @@ namespace ft {
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
 
-		allocator_type				get_allocator() const;
 	/*
 	** ------------------------------- OBSERVERS --------------------------------
 	*/

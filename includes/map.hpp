@@ -133,10 +133,7 @@ namespace ft {
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
-	template<class Key, class T, class Compare, class Allocator>
-		typename map<Key, T, Compare, Allocator>::allocator_type		map<Key, T, Compare, Allocator>::get_allocator() const {
-			return this->_tree.getAllocator();
-		}
+
 };
 
 #endif		//MAP_HPP;

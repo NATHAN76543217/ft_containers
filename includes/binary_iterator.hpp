@@ -21,9 +21,7 @@ namespace ft  {
 		public:
 			binary_iterator() : _value(nullptr), TNULL(nullptr) {}
 
-			binary_iterator(const value_type value, const value_type TNULL = nullptr) : _value(value), TNULL(TNULL) {
-				// std::cout << "construct binary_iterator" << std::endl;
-			}
+			binary_iterator(const value_type value, const value_type TNULL = nullptr) : _value(value), TNULL(TNULL) {}
 
 			binary_iterator(const binary_iterator& src) : _value(src._value), TNULL(src.TNULL) {}
 
@@ -50,11 +48,6 @@ namespace ft  {
 					return (this->value->value);
 				return nullptr;
 			}
-			
-			// binary_iterator::difference_type			operator+(const binary_iterator & rhs)
-			// {
-			// 	return (this->_value + rhs._value);
-			// }
 			
 			binary_iterator::difference_type			operator-(const binary_iterator & rhs)
 			{

@@ -55,6 +55,9 @@ int		testIteratorRBT(Cnt &cnt)
 	testPrintState(cnt, it, end);
 	testPrintState(cnt, rit, rend);
 	testIteratorRBT_const(cnt);
+	typename Cnt::allocator_type alloc =  cnt.get_allocator();
+	typename Cnt::value_type *v = alloc.allocate(1);
+	alloc.deallocate(v, 1);
 	return 0;
 }
 

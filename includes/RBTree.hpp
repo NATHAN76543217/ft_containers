@@ -299,7 +299,7 @@ namespace ft {
 */
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	typename RBTree<T, Checker, Allocator>::allocator_type
-	RBTree<T, Checker, Allocator>::getAllocator( void ) const
+	RBTree<T, Checker, Allocator>::get_allocator( void ) const
 	{
 		return this->_alloc;
 	}

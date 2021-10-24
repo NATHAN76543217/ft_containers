@@ -242,7 +242,7 @@ namespace ft {
 	/*
 	** ----------------------------- ALLOCATOR --------------------------------
 	*/
-			allocator_type	getAllocator( void ) const;
+			allocator_type	get_allocator( void ) const;
 	
 		protected:
 			void	rbTransplant(nodePTR u, nodePTR v);
