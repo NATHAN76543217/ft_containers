@@ -11,6 +11,7 @@ int		testKey(Cnt &cnt, typename Cnt::key_type key)
 		std::cout << "Key `" << key << "` not found" << std::endl;
 	else
 		std::cout << "Key '" << (*it).first << "' founded with value: " << (*it).second << std::endl;
+	std::cout << "key count = " << cnt.count(key) << std::endl;;
 	return 0;
 }
 

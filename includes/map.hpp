@@ -151,6 +151,14 @@ namespace ft {
 	{
 		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::find(ft::make_pair(k, T()));
 	}
+
+	template<class Key, class T, class Compare, class Allocator>
+    typename map<Key, T, Compare, Allocator>::size_type
+	map<Key, T, Compare, Allocator>::count(const typename map<Key, T, Compare, Allocator>::key_type& k) const
+	{
+		return !(this->find(k) == this->end());
+	}
+
 };
 
 #endif		//MAP_HPP;
