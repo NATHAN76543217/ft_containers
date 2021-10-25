@@ -52,7 +52,6 @@ namespace ft {
 	** ------------------------------- ITERATORS --------------------------------
 	*/
 
-
 	/*
 	** ------------------------------- CAPACITY --------------------------------
 	*/
@@ -74,15 +73,16 @@ namespace ft {
 			std::numeric_limits<difference_type>::max());
 	}
 
-	// template<class Key, class T, class Compare, class Allocator>
-	// bool
-	// 	map<Key, T, Compare, Allocator>::empty(void) const
-	// {
-	// 	return !(this->_size);
-	// }
+	/*
+	** ---------------------------- ELEMENT ACCESS --------------------------------
+	*/
 
-
-
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::mapped_type&
+	map<Key, T, Compare, Allocator>::operator[](const key_type& k)
+	{
+		return (*((this->insert(ft::make_pair(k,mapped_type()))).first)).second;
+	}
 
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
@@ -154,11 +154,26 @@ namespace ft {
 	{
 		while (first != last && first != this->end())
 		{
-			// InputIterator next = first;
-			// ++next;
 			this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::erase(*(first++));
-			// first = next;
 		}
+	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	void		map<Key, T, Compare, Allocator>::swap(map<Key, T, Compare, Allocator>& x)
+	{
+		typename map<Key, T, Compare, Allocator>::nodePTR rootTmp = x._root;
+		x._root = this->_root;
+		this->_root = rootTmp;
+		typename map<Key, T, Compare, Allocator>::nodePTR nullTmp = x.TNULL;
+		x.TNULL = this->TNULL;
+		this->TNULL = nullTmp;
+		typename map<Key, T, Compare, Allocator>::size_type sizeTmp = x._size;
+		x._size = this->_size;
+		this->_size = sizeTmp;
+		this->_end.left = this->_root;
+		x._end.left = x._root;
+		x._root->parent = &x._end;
+		this->_root->parent = &this->_end;
 	}
 
 	/*
@@ -188,24 +203,6 @@ namespace ft {
 	map<Key, T, Compare, Allocator>::count(const typename map<Key, T, Compare, Allocator>::key_type& k) const
 	{
 		return !(this->find(k) == this->end());
-	}
-
-	template<class Key, class T, class Compare, class Allocator>
-	void		map<Key, T, Compare, Allocator>::swap(map<Key, T, Compare, Allocator>& x)
-	{
-		typename map<Key, T, Compare, Allocator>::nodePTR rootTmp = x._root;
-		x._root = this->_root;
-		this->_root = rootTmp;
-		typename map<Key, T, Compare, Allocator>::nodePTR nullTmp = x.TNULL;
-		x.TNULL = this->TNULL;
-		this->TNULL = nullTmp;
-		typename map<Key, T, Compare, Allocator>::size_type sizeTmp = x._size;
-		x._size = this->_size;
-		this->_size = sizeTmp;
-		this->_end.left = this->_root;
-		x._end.left = x._root;
-		x._root->parent = &x._end;
-		this->_root->parent = &this->_end;
 	}
 
 	/*

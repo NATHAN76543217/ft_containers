@@ -120,12 +120,6 @@ namespace ft {
 		private:
 			key_compare							_comp;
 			// size_type		_capacity;
-			// allocator_type	_alloc;
-						
-			// void		_initData(size_type N, const value_type &value = value_type());
-			// void		_destroy_data();
-
-
 	};
 
 	template<class Key, class T, class Compare, class Allocator>

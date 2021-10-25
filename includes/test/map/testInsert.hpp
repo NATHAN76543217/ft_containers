@@ -15,6 +15,31 @@ template<class Cnt, class Ite>
 }
 
 template<class Cnt>
+int		testAccess(Cnt &cnt)
+{
+	std::cout << std::endl << "TEST	Access" << std::endl;
+	Cnt cnt2(cnt);
+	cnt2.insert(ft::make_pair("S", 30));
+	cnt2.insert(ft::make_pair("W", 31));
+	cnt2.insert(ft::make_pair("A", 32));
+	cnt2.insert(ft::make_pair("P", 32));
+	cnt2.insert(ft::make_pair("E", 31));
+	cnt2.insert(ft::make_pair("D", 30));
+
+	testPrintState(cnt, cnt.begin(), cnt.end());	
+	int ret = cnt["S"];
+	std::cout << "cnt['S'] = " << ret << std::endl;
+	ret = cnt["W"];
+	std::cout << "cnt['W'] = " << ret << std::endl;
+	ret = cnt["A"];
+	std::cout << "cnt['A'] = " << ret << std::endl;
+	ret = cnt["K"];
+	std::cout << "cnt['K'] = " << ret << std::endl;
+	testPrintState(cnt, cnt.begin(), cnt.end());	
+	return 0;
+}
+
+template<class Cnt>
 int		testSwap(Cnt &cnt)
 {
 	std::cout << "\ntest Swap" << std::endl;
@@ -82,6 +107,7 @@ int		testInsertion(Cnt &cnt)
 	std::cout << "Cnt 3 = ";
 	testPrintState(cnt3, cnt3.begin(), cnt3.end());
 	testSwap(cnt);
+	testAccess(cnt);	
 	return 0;
 }
 
