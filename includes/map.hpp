@@ -22,7 +22,7 @@ namespace ft {
 		// 		const allocator_type& alloc) : _tree(alloc)
 		// {
 		// } 
-		// TODO
+		// TODO  
 
 		template<class Key, class T, class Compare, class Allocator>
 		map<Key, T, Compare, Allocator>::map(const map<Key, T, Compare, Allocator>& src)
@@ -82,12 +82,35 @@ namespace ft {
 
 	template<class Key, class T, class Compare, class Allocator>
 	ft::pair< typename map<Key, T, Compare, Allocator>::iterator, bool>
-	map<Key, T, Compare, Allocator>::insert(const map<Key, T, Compare, Allocator>::value_type& v) {
-		this->RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator >::insert(v);
-		//TODO handle return value
-		return ft::pair<iterator, bool>(iterator(), true);
+	map<Key, T, Compare, Allocator>::insert(const typename map<Key, T, Compare, Allocator>::value_type& v) {
+		iterator it = this->find(v.first);
+		if (it == this->end())
+		{
+			typename map<Key, T, Compare, Allocator>::nodePTR node = &this->RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator >::insert(v);
+			return ft::make_pair(iterator(node), true);
+		}
+		return ft::make_pair(it, false);
 	}
 
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::iterator
+	map<Key, T, Compare, Allocator>::insert(typename map<Key, T, Compare, Allocator>::iterator position, const typename map<Key, T, Compare, Allocator>::value_type& v)
+	{
+		static_cast<void>(position);
+		return this->insert(v).first;
+	}
+	
+	template<class Key, class T, class Compare, class Allocator>
+	template <class InputIterator>
+	void
+	map<Key, T, Compare, Allocator>::insert(InputIterator first, typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type last)
+	{
+		for (; first != last; ++first)
+		{
+			this->insert(*first);
+		}	
+	}
 
 	template<class Key, class T, class Compare, class Allocator>
 	typename map<Key, T, Compare, Allocator>::size_type

@@ -1,5 +1,5 @@
-#ifndef TESTITERATORRBT
-#define TESTITERATORRBT
+#ifndef TESTITERATORRBT_HPP
+#define TESTITERATORRBT_HPP
 
 
 template<class Cnt, class Ite>

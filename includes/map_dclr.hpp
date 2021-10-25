@@ -76,7 +76,7 @@ namespace ft {
 		pair<iterator, bool>		insert(const value_type& v);
 		iterator					insert(iterator position, const value_type& v);
 		template <class InputIterator>
-		void						insert(InputIterator first, InputIterator last);
+		void						insert(InputIterator first, typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type last);
 
 		void						swap(map& x);
 
