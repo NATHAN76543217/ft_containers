@@ -15,6 +15,29 @@ template<class Cnt, class Ite>
 }
 
 template<class Cnt>
+int		testSwap(Cnt &cnt)
+{
+	std::cout << "\ntest Swap" << std::endl;
+	Cnt cnt2(cnt);
+	cnt2.insert(ft::make_pair("S", 30));
+	cnt2.insert(ft::make_pair("W", 31));
+	cnt2.insert(ft::make_pair("A", 32));
+	cnt2.insert(ft::make_pair("P", 32));
+	cnt2.insert(ft::make_pair("E", 31));
+	cnt2.insert(ft::make_pair("D", 30));
+	std::cout << "Cnt 1 = ";
+	testPrintState(cnt, cnt.begin(), cnt.end());	
+	std::cout << "Cnt 2 = ";
+	testPrintState(cnt2, cnt2.begin(), cnt2.end());
+	ft::swap(cnt, cnt2);
+	std::cout << "SWAP" << std::endl << "Cnt 1 = ";
+	testPrintState(cnt, cnt.begin(), cnt.end());	
+	std::cout << "Cnt 2 = ";
+	testPrintState(cnt2, cnt2.begin(), cnt2.end());
+	return 0;
+}
+
+template<class Cnt>
 int		testInsert(Cnt &cnt)
 {
 	ft::pair<std::string, int> p = ft::make_pair("coucouKey", 50);
@@ -58,7 +81,7 @@ int		testInsertion(Cnt &cnt)
 	Cnt cnt3(cnt2.begin(), --cnt2.end());
 	std::cout << "Cnt 3 = ";
 	testPrintState(cnt3, cnt3.begin(), cnt3.end());
-
+	testSwap(cnt);
 	return 0;
 }
 

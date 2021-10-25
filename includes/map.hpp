@@ -82,11 +82,7 @@ namespace ft {
 	// }
 
 
-	template<class Key, class T, class Compare, class Allocator>
-	void swap(map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y)
-	{
-		x.swap(y);
-	}
+
 
 	/*
 	** ------------------------------- MODIFIERS --------------------------------
@@ -194,6 +190,34 @@ namespace ft {
 		return !(this->find(k) == this->end());
 	}
 
+	template<class Key, class T, class Compare, class Allocator>
+	void		map<Key, T, Compare, Allocator>::swap(map<Key, T, Compare, Allocator>& x)
+	{
+		typename map<Key, T, Compare, Allocator>::nodePTR rootTmp = x._root;
+		x._root = this->_root;
+		this->_root = rootTmp;
+		typename map<Key, T, Compare, Allocator>::nodePTR nullTmp = x.TNULL;
+		x.TNULL = this->TNULL;
+		this->TNULL = nullTmp;
+		typename map<Key, T, Compare, Allocator>::size_type sizeTmp = x._size;
+		x._size = this->_size;
+		this->_size = sizeTmp;
+		this->_end.left = this->_root;
+		x._end.left = x._root;
+		x._root->parent = &x._end;
+		this->_root->parent = &this->_end;
+	}
+
+	/*
+	** ------------------------------- NON-MEMBER --------------------------------
+	*/
+
+
+	template<class Key, class T, class Compare, class Allocator>
+	void swap(map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y)
+	{
+		x.swap(y);
+	}
 };
 
 #endif		//MAP_HPP;
