@@ -54,6 +54,11 @@ int		testInsertion(Cnt &cnt)
 	std::cout << "Insert all cnt 1 in cnt2 = ";
 	cnt2.insert(cnt.begin(), cnt.end());
 	testPrintState(cnt2, cnt2.begin(), cnt2.end());
+	std::cout << "\ntest create map from range cnt2 -1" << std::endl;
+	Cnt cnt3(cnt2.begin(), --cnt2.end());
+	std::cout << "Cnt 3 = ";
+	testPrintState(cnt3, cnt3.begin(), cnt3.end());
+
 	return 0;
 }
 
