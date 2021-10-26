@@ -3,6 +3,45 @@
 
 #include "test.hpp"
 
+template<class Cnt>
+int		testBoundsConst(const Cnt &cnt)
+{
+	std::cout << "\nTEST bouds const" << std::endl;
+	typename Cnt::const_iterator it = cnt.lower_bound("A");
+	std::cout << "lower_bound of `A` = (" << (*it).first << ", " << (*it).second << ")" << std::endl;
+	it = cnt.lower_bound("f");
+	std::cout << "lower_bound of `f` = (" << (*it).first << ", " << (*it).second << ")" << std::endl;
+	it = cnt.upper_bound("E");
+	std::cout << "upper_bound of `E` = (" << (*it).first << ", " << (*it).second << ")" << std::endl;
+	it = cnt.upper_bound("Z");
+	std::cout << "upper_bound of `Z` = (" << (*it).first << ", " << (*it).second << ")" << std::endl;
+	ft::pair<typename Cnt::const_iterator, typename Cnt::const_iterator> range = cnt.equal_range("coucouKey");
+	std::cout << "equal_range of `coucouKey` = ((" << (*range.first).first << ", " << (*range.first).second << "), " << "(" << (*range.second).first << ", " << (*range.second).second << "))" << std::endl;
+	range = cnt.equal_range("salut");
+	std::cout << "equal_range of `salut` = ((" << (*range.first).first << ", " << (*range.first).second << "), " << "(" << (*range.second).first << ", " << (*range.second).second << "))" << std::endl;
+
+	return 0;
+}
+
+
+template<class Cnt>
+int		testBounds(Cnt &cnt)
+{
+	std::cout << "\nTEST bouds" << std::endl;
+	typename Cnt::iterator it = cnt.lower_bound("A");
+	std::cout << "lower_bound of `A` = (" << (*it).first << ", " << (*it).second << ")" << std::endl;
+	it = cnt.lower_bound("f");
+	std::cout << "lower_bound of `f` = (" << (*it).first << ", " << (*it).second << ")" << std::endl;
+	it = cnt.upper_bound("E");
+	std::cout << "upper_bound of `E` = (" << (*it).first << ", " << (*it).second << ")" << std::endl;
+	it = cnt.upper_bound("Z");
+	std::cout << "upper_bound of `Z` = (" << (*it).first << ", " << (*it).second << ")" << std::endl;
+	ft::pair<typename Cnt::iterator, typename Cnt::iterator> range = cnt.equal_range("coucouKey");
+	std::cout << "equal_range of `coucouKey` = ((" << (*range.first).first << ", " << (*range.first).second << "), " << "(" << (*range.second).first << ", " << (*range.second).second << "))" << std::endl;
+	range = cnt.equal_range("salut");
+	std::cout << "equal_range of `salut` = ((" << (*range.first).first << ", " << (*range.first).second << "), " << "(" << (*range.second).first << ", " << (*range.second).second << "))" << std::endl;
+	return 0;
+}
 
 template<class Cnt>
 int		testKeyComparator(Cnt &cnt)
@@ -37,6 +76,8 @@ int		testComparator(Cnt &cnt)
 	
 	testKeyComparator(cnt);
 	testValueComparator(cnt);
+	testBounds(cnt);
+	testBoundsConst(cnt);
 	return 0;
 }
 

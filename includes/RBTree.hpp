@@ -154,10 +154,8 @@ namespace ft {
 			else
 				current = next;
 		}
-		//RBT insertion for balencing the tree
 		current->color = RED;
 		this->_size++;
-		// std::cout << "BEFORE FIX:" << std::endl;
 		if (current != this->_root)
 			this->fix_insert(current);
 		return *current;
@@ -197,8 +195,6 @@ namespace ft {
 		}
 		if (current == this->TNULL)
 			return 0;
-		//finded: it point to the element
-		// std::cout << "element finded: " << *current << std::endl;
 
 		int original_color = current->color;
 		if (current->left == this->TNULL) {
@@ -208,9 +204,7 @@ namespace ft {
 			res = current->left;
 			rbTransplant(current, res);
 		} else {
-			// std::cout << "two childs " << std::endl;
 			min = minimum(current->right);
-			// std::cout << "min R = " << *min << std::endl;
 			original_color = min->color;
 			res = min->right;
 			if (min->parent == current) {
@@ -220,14 +214,11 @@ namespace ft {
 				min->right = current->right;
 				min->right->parent = min;
 			}
-
 			rbTransplant(current, min);
 			min->left = current->left;
 			min->left->parent = min;
 			min->color = original_color;
 		}
-		// this->print();
-		// std::cout << "FIX delete " << original_color << std::endl;
 		if (original_color == BLACK){
 			this->fix_delete(res);
 		}
@@ -247,7 +238,10 @@ namespace ft {
 			this->erase(*(it++));
 	}
 
-//affichage
+/*
+** ------------------------------- DISPLAY --------------------------------
+*/
+
 	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
 	void
 	RBTree<T, Checker, Allocator>::print( void ) const
@@ -358,6 +352,76 @@ namespace ft {
 				return const_iterator(current, this->TNULL);
 		}
 		return this->end();
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::iterator
+	RBTree<T, Checker, Allocator>::lower_bound(const value_type& k)
+	{
+		iterator it = this->begin();
+
+		while(it != this->end() && Checker(*it, k))
+			++it;
+		return it;
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::const_iterator
+	RBTree<T, Checker, Allocator>::lower_bound(const value_type& k) const
+	{
+		const_iterator it = this->begin();
+
+		while(it != this->end() && Checker(*it, k))
+			++it;
+		return it;
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::iterator
+	RBTree<T, Checker, Allocator>::upper_bound(const value_type& k)
+	{
+		iterator it = this->begin();
+
+		while(it != this->end() && !Checker(k, *it))
+			++it;
+		return it;
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	typename RBTree<T, Checker, Allocator>::const_iterator
+	RBTree<T, Checker, Allocator>::upper_bound(const value_type& k) const
+	{
+		const_iterator it = this->begin();
+
+		while(it != this->end() && !Checker(k, *it))
+			++it;
+		return it;
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	ft::pair<typename RBTree<T, Checker, Allocator>::iterator, typename RBTree<T, Checker, Allocator>::iterator>
+	RBTree<T, Checker, Allocator>::equal_range(const value_type& k)
+	{
+		iterator it = this->begin();
+		while(it != this->end() && Checker(*it, k))
+			++it;
+		iterator first = it;
+		while(it != this->end() && !Checker(k, *it))
+			++it;
+		return ft::make_pair(first, it);
+	}
+
+	template<class T, bool (*Checker)(const T&, const T&), class Allocator >
+	ft::pair<typename RBTree<T, Checker, Allocator>::const_iterator, typename RBTree<T, Checker, Allocator>::const_iterator>
+	RBTree<T, Checker, Allocator>::equal_range(const value_type& k) const
+	{
+		const_iterator it = this->begin();
+		while(it != this->end() && Checker(*it, k))
+			++it;
+		const_iterator first = it;
+		while(it != this->end() && !Checker(k, *it))
+			++it;
+		return ft::make_pair(first, it);
 	}
 
 /*

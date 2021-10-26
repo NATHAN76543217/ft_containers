@@ -2,7 +2,6 @@
 #define MAP_HPP
 
 #include "map_dclr.hpp"
-//TODO implement class redBlackTree
 namespace ft {
 
 	/*
@@ -191,14 +190,16 @@ namespace ft {
 	typename map<Key, T, Compare, Allocator>::iterator
 	map<Key, T, Compare, Allocator>::find(const typename map<Key, T, Compare, Allocator>::key_type& k)
 	{
-		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::find(ft::make_pair(k, T()));
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >
+			::find(ft::make_pair(k, T()));
 	}
 
 	template<class Key, class T, class Compare, class Allocator>
 	typename map<Key, T, Compare, Allocator>::const_iterator
 	map<Key, T, Compare, Allocator>::find(const typename map<Key, T, Compare, Allocator>::key_type& k) const
 	{
-		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::find(ft::make_pair(k, T()));
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >
+			::find(ft::make_pair(k, T()));
 	}
 
 	template<class Key, class T, class Compare, class Allocator>
@@ -207,6 +208,55 @@ namespace ft {
 	{
 		return !(this->find(k) == this->end());
 	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::iterator
+	map<Key, T, Compare, Allocator>::lower_bound(const key_type& k)
+	{
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >
+			::lower_bound(ft::make_pair(k, T()));
+	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::const_iterator
+	map<Key, T, Compare, Allocator>::lower_bound(const key_type& k) const
+	{
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >
+			::lower_bound(ft::make_pair(k, T()));
+	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::iterator
+	map<Key, T, Compare, Allocator>::upper_bound(const key_type& k)
+	{
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >
+			::upper_bound(ft::make_pair(k, T()));
+	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::const_iterator
+	map<Key, T, Compare, Allocator>::upper_bound(const key_type& k) const
+	{
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >
+			::upper_bound(ft::make_pair(k, T()));
+	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename ft::pair<typename map<Key, T, Compare, Allocator>::iterator, typename map<Key, T, Compare, Allocator>::iterator>
+	map<Key, T, Compare, Allocator>::equal_range(const key_type& k)
+	{
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >
+			::equal_range(ft::make_pair(k, T()));
+	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename ft::pair<typename map<Key, T, Compare, Allocator>::const_iterator, typename map<Key, T, Compare, Allocator>::const_iterator>
+	map<Key, T, Compare, Allocator>::equal_range(const key_type& k) const
+	{
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >
+			::equal_range(ft::make_pair(k, T()));
+	}
+
 
 	/*
 	** ------------------------------- NON-MEMBER --------------------------------

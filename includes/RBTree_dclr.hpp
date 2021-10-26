@@ -245,8 +245,15 @@ namespace ft {
 	/*
 	** ----------------------------- OPERATIONS --------------------------------
 	*/
-	    iterator			find(const value_type& k);
-    	const_iterator		find(const value_type& k) const;
+	    iterator							find(const value_type& k);
+    	const_iterator						find(const value_type& k) const;
+		iterator							lower_bound(const value_type& k);
+		const_iterator						lower_bound(const value_type& k) const;
+		iterator							upper_bound(const value_type& k);
+		const_iterator						upper_bound(const value_type& k) const;
+
+		pair<iterator,iterator>             equal_range(const value_type& k);	
+		pair<const_iterator,const_iterator> equal_range(const value_type& k) const;
 
 		protected:
 			void			rbTransplant(nodePTR u, nodePTR v);
