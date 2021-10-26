@@ -27,6 +27,7 @@
 #include "vector/overload_op.hpp"
 #include "map/testIteratorRBT.hpp"
 #include "map/testInsert.hpp"
+#include "map/testComparator.hpp"
 
 
 /*
@@ -39,8 +40,15 @@ int		testIteratorRBT(Cnt &cnt);
 template<class Cnt, class Ite>
 int		testPrintState(const Cnt &cnt, Ite &start, Ite &end);
 
+template<class Cnt, class Ite>
+int		testPrintState(const Cnt &cnt, Ite start, Ite end);
+
 template<typename Cnt>
 int		testInsertion(Cnt &cnt);
+
+template<typename Cnt>
+int		testComparator(Cnt &cnt);
+
 
 /*
 ** ------------------------------- VECTOR --------------------------------

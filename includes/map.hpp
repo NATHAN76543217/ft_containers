@@ -49,20 +49,8 @@ namespace ft {
 		}
 
 	/*
-	** ------------------------------- ITERATORS --------------------------------
-	*/
-
-	/*
 	** ------------------------------- CAPACITY --------------------------------
 	*/
-
-
-	// template<class Key, class T, class Compare, class Allocator>
-	// typename map<Key, T, Compare, Allocator>::size_type
-	// 	map<Key, T, Compare, Allocator>::size(void) const
-	// {
-	// 	return this->_tree._size;
-	// }
 
 	template<class Key, class T, class Compare, class Allocator>
 	typename map<Key, T, Compare, Allocator>::size_type
@@ -179,6 +167,23 @@ namespace ft {
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
 	*/
+
+	/*
+	** ------------------------------- OBSERVERS --------------------------------
+	*/
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::key_compare
+	map<Key, T, Compare, Allocator>::key_comp( void )      const
+	{
+		return Compare();
+	}
+
+	template<class Key, class T, class Compare, class Allocator>
+	typename map<Key, T, Compare, Allocator>::value_compare
+	map<Key, T, Compare, Allocator>::value_comp( void )   const
+	{
+		return map<Key, T, Compare, Allocator>::value_compare(this->key_comp());
+	}
 
 	/*
 	** ------------------------------- OPERATIONS --------------------------------

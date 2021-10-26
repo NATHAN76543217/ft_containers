@@ -94,6 +94,7 @@ int		testMap( void ) {
 	m1.insert(ft::pair<std::string, int>("fithKey", 5));
 	testIteratorRBT<ft::map<std::string, int> >(m1);
 	testInsertion<ft::map<std::string, int> >(m1);
+	testComparator<ft::map<std::string, int> >(m1);
 	return 0;
 }
 

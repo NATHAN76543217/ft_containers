@@ -25,7 +25,8 @@ INC_TEST	=	test.hpp \
 	vector/vector_constructor.hpp \
 	vector/overload_op.hpp \
 	map/testIteratorRBT.hpp \
-	map/testInsert.hpp
+	map/testInsert.hpp \
+	map/testComparator.hpp
 
 
 SRCS		=	$(addprefix $(), $(SRCS_FILES) $(addprefix $(PATH_CLASS)/, $(SRCS_CLASS)))
