@@ -10,7 +10,7 @@ namespace ft {
 	*/
 		template<class Key, class T, class Compare, class Allocator>
 		map<Key, T, Compare, Allocator>::map(const map::key_compare & comp, const map::allocator_type& alloc) 
-			: RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator >(alloc), _comp(comp) {
+			: RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >(alloc), _comp(comp) {
 		}
 
 		template<class Key, class T, class Compare, class Allocator>
@@ -20,14 +20,14 @@ namespace ft {
 				InputIterator last,
 				const key_compare& comp,
 				const allocator_type& alloc)
-			: RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator >(alloc), _comp(comp)
+			: RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >(alloc), _comp(comp)
 		{
 			this->insert(first, last);
 		} 
 
 		template<class Key, class T, class Compare, class Allocator>
 		map<Key, T, Compare, Allocator>::map(const map<Key, T, Compare, Allocator>& src)
-			: RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator >(src._alloc), _comp(src._comp)
+			: RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >(src._alloc), _comp(src._comp)
 		{
 			this->operator=(src);
 		}
@@ -82,7 +82,7 @@ namespace ft {
 		iterator it = this->find(v.first);
 		if (it == this->end())
 		{
-			typename map<Key, T, Compare, Allocator>::nodePTR node = &this->RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator >::insert(v);
+			typename map<Key, T, Compare, Allocator>::nodePTR node = &this->RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::insert(v);
 			return ft::make_pair(iterator(node), true);
 		}
 		return ft::make_pair(it, false);
@@ -111,9 +111,7 @@ namespace ft {
 	template<class Key, class T, class Compare, class Allocator>
 	typename map<Key, T, Compare, Allocator>::size_type
 	map<Key, T, Compare, Allocator>::erase(const map<Key, T, Compare, Allocator>::key_type& key) {
-		this->RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator >::erase(ft::make_pair(key, T()));
-		//TODO handle return value
-		return 1;
+		return this->RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::erase(ft::make_pair(key, T()));
 	}
 
 	// template<class Key, class T, class Compare, class Allocator>
@@ -122,7 +120,7 @@ namespace ft {
 	// map<Key, T, Compare, Allocator>::erase(typename ft::enable_if< is_iterator< InputIterator >::value, InputIterator>::type position)
 	// {
 	// 	if (position != this->end())
-	// 		this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::erase(*position);
+	// 		this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::erase(*position);
 	// }
 
 	template<class Key, class T, class Compare, class Allocator>
@@ -130,7 +128,7 @@ namespace ft {
 	map<Key, T, Compare, Allocator>::erase( typename map<Key, T, Compare, Allocator>::iterator position)
 	{
 		if (position != this->end())
-			this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::erase(*position);
+			this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::erase(*position);
 	}
 	
 	template<class Key, class T, class Compare, class Allocator>
@@ -142,7 +140,7 @@ namespace ft {
 	{
 		while (first != last && first != this->end())
 		{
-			this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::erase(*(first++));
+			this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::erase(*(first++));
 		}
 	}
 
@@ -193,14 +191,14 @@ namespace ft {
 	typename map<Key, T, Compare, Allocator>::iterator
 	map<Key, T, Compare, Allocator>::find(const typename map<Key, T, Compare, Allocator>::key_type& k)
 	{
-		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::find(ft::make_pair(k, T()));
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::find(ft::make_pair(k, T()));
 	}
 
 	template<class Key, class T, class Compare, class Allocator>
 	typename map<Key, T, Compare, Allocator>::const_iterator
 	map<Key, T, Compare, Allocator>::find(const typename map<Key, T, Compare, Allocator>::key_type& k) const
 	{
-		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>::KeyCompare, Allocator >::find(ft::make_pair(k, T()));
+		return this->RBTree<typename map<Key, T, Compare, Allocator>::value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator >::find(ft::make_pair(k, T()));
 	}
 
 	template<class Key, class T, class Compare, class Allocator>

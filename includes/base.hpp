@@ -126,8 +126,12 @@ namespace ft {
 			}
 			return *this;
 		}
-		static inline bool KeyCompare(const pair& x, const pair& y)
-		{ return x.first == y.first; }
+
+		template<class Compare>
+		static inline bool first_compare(const pair& x, const pair& y)
+		{
+			Compare comp = Compare();
+			return comp(x.first, y.first); }
 
     };
 

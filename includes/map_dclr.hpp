@@ -8,9 +8,8 @@
 # include "RBTree.hpp"
 
 namespace ft {
-//TODO add operator= on iterattor and add tests for this operator 
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
-	class map : public  RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>::KeyCompare, Allocator>
+	class map : public  RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>
 	{
 		public:
 				// types:
@@ -43,10 +42,10 @@ namespace ft {
 				}
 		};
 			
-		typedef	typename RBTree<value_type, &ft::pair<const Key, T>::KeyCompare, Allocator>::iterator					iterator;
-		typedef	typename RBTree<value_type, &ft::pair<const Key, T>::KeyCompare, Allocator>::const_iterator				const_iterator;
-		typedef	typename RBTree<value_type, &ft::pair<const Key, T>::KeyCompare, Allocator>::reverse_iterator			reverse_iterator;
-		typedef	typename RBTree<value_type, &ft::pair<const Key, T>::KeyCompare, Allocator>::const_reverse_iterator		const_reverse_iterator;
+		typedef	typename RBTree<value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>::iterator					iterator;
+		typedef	typename RBTree<value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>::const_iterator				const_iterator;
+		typedef	typename RBTree<value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>::reverse_iterator			reverse_iterator;
+		typedef	typename RBTree<value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>::const_reverse_iterator		const_reverse_iterator;
 
 	/*
 	** ------------------------------- CONSTUCT/COPY/DESTROY --------------------------------
@@ -61,10 +60,6 @@ namespace ft {
 		virtual ~map( void );
 
     	map						&operator=(const map& rhs);
-
-	/*
-	** ------------------------------- ITERATORS --------------------------------
-	*/
 
 	/*
 	** ------------------------------- CAPACITY --------------------------------

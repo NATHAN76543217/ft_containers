@@ -134,18 +134,20 @@ namespace ft {
 		//binary search for insertion
 		while (current != this->TNULL)
 		{
-			if (new_val < *(current->value))
+			if (Checker(new_val, *(current->value)))
 				next = current->left;
-			else if (new_val > *(current->value))
+			else if (Checker(*(current->value), new_val))
 				next = current->right;
 			else
 				throw RBTree::sameValueException();
 			if (next == this->TNULL)
 			{
-				if (new_val < *(current->value))
+				if (Checker(new_val, *(current->value)))
 					next = current->left = this->create_node(new_val, current);
-				else
+				else if (Checker(*(current->value), new_val))
 					next = current->right = this->create_node(new_val, current);
+				else
+					throw RBTree::sameValueException();
 				current = next;
 				break ;
 			}	
@@ -186,11 +188,11 @@ namespace ft {
 		while (current != this->TNULL)
 		{
 			if (Checker(val_to_delete,  *(current->value)))
-				break ;
-			else if (val_to_delete < *(current->value))
 				res = current->left;
-			else 
+			else if (Checker(*(current->value), val_to_delete))
 				res = current->right;
+			else 
+				break ;
 			current = res;
 		}
 		if (current == this->TNULL)
@@ -331,11 +333,11 @@ namespace ft {
 		while (current != this->TNULL)
 		{
 			if (Checker(k,  *(current->value)))
-				return iterator(current) ;
-			else if (k < *(current->value))
 				current = current->left;
-			else 
+			else if (Checker(*(current->value), k))
 				current = current->right;
+			else
+				return iterator(current);
 		}
 		return this->end();
 	}
@@ -349,11 +351,11 @@ namespace ft {
 		while (current != this->TNULL)
 		{
 			if (Checker(k,  *(current->value)))
-				return const_iterator(current, this->TNULL);
-			else if (k < *(current->value))
 				current = current->left;
-			else 
+			else if (Checker(*(current->value), k))
 				current = current->right;
+			else
+				return const_iterator(current, this->TNULL);
 		}
 		return this->end();
 	}

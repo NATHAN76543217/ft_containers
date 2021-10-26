@@ -31,9 +31,6 @@ namespace ft {
 						return "RBTree cannot contain the same value twice."; 
 					}
 			};
-
-// bool (*)(const ft::pair<const std::__1::basic_string<char>, int> &, const ft::pair<const std::__1::basic_string<char>, int> &)
-// bool (*)(const ft::pair<const std::__1::basic_string<char>, int>, const ft::pair<const std::__1::basic_string<char>, int>)
 			class  node
 			{
 				public:
@@ -88,6 +85,7 @@ namespace ft {
 
 			nodePTR			getRoot( void );
 
+//TODO implement/ verifie usage of comparator function for comparison
 /*
 ** ------------------------------- ITERATORS --------------------------------
 */

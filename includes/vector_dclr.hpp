@@ -355,7 +355,8 @@ namespace ft {
 
 		    void			insert(iterator position, size_type n, const value_type& val);
 			iterator		insert(iterator position, const value_type& val);
-			// template <class InputIterator>
+			// TODO here 
+			// template <class InputIterator> 
 		    // void insert (iterator position, InputIterator first, InputIterator last);
 			iterator		erase(iterator position);
 			iterator		erase(iterator first, iterator last);
@@ -374,6 +375,7 @@ namespace ft {
 	/*
 	** ------------------------------- OPERATORS --------------------------------
 	*/
+		//TODO why operator= is comment?
 		// vector<T>				&operator=( vector const & rhs );
 	/*
 	** ------------------------------- PRIVATE --------------------------------

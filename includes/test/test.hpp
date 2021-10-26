@@ -49,7 +49,6 @@ int		testInsertion(Cnt &cnt);
 template<typename Cnt>
 int		testComparator(Cnt &cnt);
 
-
 /*
 ** ------------------------------- VECTOR --------------------------------
 */
