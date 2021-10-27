@@ -19,15 +19,66 @@ class test {
 		std::cout << "test destructor called" << std::endl;
 	}
 };
+
 int		testSet()
 {
-	// stack<> s1
+	std::cout << "TEST SET" << std::endl;
+	ft::set<std::string> s1;
+	std::cout << "value = " << is_iterator<ft::set<std::string>::iterator>::value;
+	testPrintState_set(s1, s1.begin(), s1.end());
+	std::cout << "insert element\n";
+	s1.insert("firstKey");
+	std::cout << "- size  = " << s1.size() << "\n";
+	std::cout << "insert 4 other elements\n";
+	s1.insert("secondKey");
+	s1.insert("thirdKey");
+	s1.insert("forthKey");
+	s1.insert("fithKey");
+	testPrintState_set(s1, s1.begin(), s1.end());
+
+
+	std::cout << std::endl << "ERASE second key" << std::endl << std::endl;
+	s1.erase("secondKey");
+	testPrintState_set(s1, s1.begin(), s1.end());
+
+	
+	std::cout << std::endl << "ERASE range" << std::endl << std::endl;
+	ft::set<std::string>::iterator it = s1.begin();
+	s1.erase(++it, --s1.end());
+	testPrintState_set(s1, s1.begin(), s1.end());
+
+	std::cout << std::endl << "ERASE iterator" << std::endl << std::endl;
+	it = s1.begin();
+	s1.erase(--s1.end());
+	testPrintState_set(s1, s1.begin(), s1.end());
+	
+	std::cout << std::endl << "TEST	CLEAR" << std::endl << std::endl;
+	s1.insert("secondKey");
+	s1.insert("thirdKey");
+	s1.insert("forthKey");
+	s1.insert("fithKey");
+		it = s1.begin();
+	for (; it != s1.end(); it++)
+		std::cout << "(" << *it << ", " << *it << ") - ";
+	std::cout << std::endl;
+	s1.clear();
+	it = s1.begin();
+	if (it == s1.end() && s1.size() == 0)
+		std::cout << "empty set"<< std::endl;
+
+	std::cout << "Fill set" << std::endl;
+	s1.insert("secondKey");
+	s1.insert("thirdKey");
+	s1.insert("forthKey");
+	s1.insert("fithKey");
+	testIteratorRBT_set<ft::set<std::string> >(s1);
+	testInsertion_set<ft::set<std::string> >(s1);
+	testComparator_set<ft::set<std::string> >(s1);
 	return 0;
 }
 
 int		testMap( void ) {
-	//TODO add tests for MAP
-	//TODO test const and reverses iterators
+	std::cout << "TEST MAP" << std::endl;
 	ft::map<std::string, int> m1;
 	std::cout << "value = " << is_iterator<ft::map<std::string, int>::iterator>::value;
 	std::cout << "- size  = " << m1.size() << "\n";

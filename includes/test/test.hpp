@@ -5,11 +5,13 @@
 	#include <map>
 	#include <stack>
 	#include <vector>
+	#include <set>
 	namespace ft = std;
 #else
 	#include <map.hpp>
 	#include <stack.hpp>
 	#include <vector.hpp>
+	#include <set.hpp>
 #endif
 
 
@@ -28,6 +30,28 @@
 #include "map/testIteratorRBT.hpp"
 #include "map/testInsert.hpp"
 #include "map/testComparator.hpp"
+#include "set/testIteratorRBT.hpp"
+#include "set/testInsert.hpp"
+#include "set/testComparator.hpp"
+
+/*
+** ------------------------------- SET --------------------------------
+*/
+
+template<typename Cnt>
+int		testIteratorRBT_set(Cnt &cnt);
+
+template<class Cnt, class Ite>
+int		testPrintState_set(const Cnt &cnt, Ite &start, Ite &end);
+
+template<class Cnt, class Ite>
+int		testPrintState_set(const Cnt &cnt, Ite start, Ite end);
+
+template<typename Cnt>
+int		testInsertion_set(Cnt &cnt);
+
+template<typename Cnt>
+int		testComparator_set(Cnt &cnt);
 
 
 /*
