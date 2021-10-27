@@ -27,6 +27,7 @@ namespace ft {
 		static const bool value = true;
 	};
 
+//REVIEW remove unused is_equal
 	template <class T>
 	bool is_equal(const T& r1, const T& r2)
 	{
@@ -126,13 +127,6 @@ namespace ft {
 			}
 			return *this;
 		}
-
-		template<class Compare>
-		static inline bool first_compare(const pair& x, const pair& y)
-		{
-			Compare comp = Compare();
-			return comp(x.first, y.first); }
-
     };
 
 	  /// Two pairs of the same type are equal iff their members are equal.

@@ -1,5 +1,5 @@
-#ifndef RBTREE_HPP
-#define RBTREE_HPP
+#ifndef RBTREE_DCLR_HPP
+#define RBTREE_DCLR_HPP
 
 #include <memory>
 #include <iostream>
@@ -15,14 +15,17 @@
 #define COLOR_BGGREY	"\e[47m"
 #define COLOR_RESET		"\e[0m"
 
+//TODO implement Compare as a private member
+// bool (*Compare)(const T&, const T&) = std::less<T>()
 namespace ft {
-	template<class T, bool (*Checker)(const T&, const T&) = ft::is_equal<T>, class Allocator = std::allocator<T> >
+	template<class T, class Compare, class Allocator = std::allocator<T> >
 	class RBTree {
 		public:
 			typedef T       				value_type;
 			typedef	size_t					size_type;
 			typedef Allocator				allocator_type;
-			// typedef bool (*Checker)(value_type, value_type);
+			typedef Compare					key_compare;
+			// typedef bool (*Compare)(value_type, value_type);
 
 			class sameValueException : public std::exception {
 				public:
@@ -40,7 +43,8 @@ namespace ft {
 					value_type  *value;
 					bool		color;
 
-					friend std::ostream		&operator<<(std::ostream& os, const typename RBTree<T, Checker, Allocator>::node &node)
+					//TODO need only for debug (mainRBT)
+					friend std::ostream		&operator<<(std::ostream& os, const typename RBTree<T, Compare, Allocator>::node &node)
 					{
 						os << "(" << *(node.value) << ","  << ((node.color == RED) ? COLOR_BGRED : COLOR_BGGREY) << " " << COLOR_RESET << ")";
 						return os;
@@ -85,7 +89,6 @@ namespace ft {
 
 			nodePTR			getRoot( void );
 
-//TODO implement/ verifie usage of comparator function for comparison
 /*
 ** ------------------------------- ITERATORS --------------------------------
 */
@@ -97,6 +100,7 @@ namespace ft {
 				typedef typename binary_iterator<T, nodePTR>::pointer				pointer;
 				typedef typename binary_iterator<T, nodePTR>::reference				reference;
 				typedef typename binary_iterator<T, nodePTR>::iterator_category		iterator_category;
+
 				iterator() : binary_iterator<T, nodePTR>() {}
 				iterator(const nodePTR node, nodePTR leaf) : binary_iterator<T, nodePTR>(node, leaf) {}
 				iterator(const iterator &src) : binary_iterator<T, nodePTR>(src) {}
@@ -160,53 +164,53 @@ namespace ft {
 				const_iterator() : binary_iterator<const T, nodePTR>() {}
 				const_iterator(const nodePTR node, const nodePTR leaf) : binary_iterator<const T, nodePTR>(node, leaf) {}
 				const_iterator(const iterator &src) : binary_iterator< const T, nodePTR>(src) {}
+				const_iterator(const const_iterator &src) : binary_iterator< const T, nodePTR>(src) {}
 				const_iterator(const binary_iterator<T, nodePTR> &src) : binary_iterator< const T, nodePTR>(src) {}
 			
-			const_iterator	&operator=(const const_iterator & rhs)
-			{
-				if (this != &rhs)
+				const_iterator	&operator=(const const_iterator & rhs)
 				{
-					this->_value = rhs._value;
-					this->TNULL = rhs.TNULL;
+					if (this != &rhs)
+					{
+						this->_value = rhs._value;
+						this->TNULL = rhs.TNULL;
+					}
+					return *this;
 				}
-				return *this;
-			}
-			
-			const_iterator	&operator=(const binary_iterator<const T, nodePTR> & rhs)
-			{
-				if (this != &rhs)
+				
+				const_iterator	&operator=(const binary_iterator<const T, nodePTR> & rhs)
 				{
-					this->binary_iterator<const T, nodePTR>::operator=(rhs);
+					if (this != &rhs)
+					{
+						this->binary_iterator<const T, nodePTR>::operator=(rhs);
+					}
+					return *this;
 				}
-				return *this;
-			}
 
-			const_iterator			&operator++(void)
-			{
-				this->binary_iterator<const T, nodePTR>::operator++();
-				return *this;
-			}
+				const_iterator			&operator++(void)
+				{
+					this->binary_iterator<const T, nodePTR>::operator++();
+					return *this;
+				}
 
-			const_iterator			operator++(int)
-			{
-				const_iterator	cpy(*this);
-				this->binary_iterator<const T, nodePTR>::operator++();
-				return cpy;
-			}
+				const_iterator			operator++(int)
+				{
+					const_iterator	cpy(*this);
+					this->binary_iterator<const T, nodePTR>::operator++();
+					return cpy;
+				}
 
-			const_iterator			&operator--(void)
-			{
-				this->binary_iterator<const T, nodePTR>::operator--();
-				return *this;
-			}
+				const_iterator			&operator--(void)
+				{
+					this->binary_iterator<const T, nodePTR>::operator--();
+					return *this;
+				}
 
-			const_iterator			operator--(int)
-			{
-				const_iterator	cpy(*this);
-				this->binary_iterator<const T, nodePTR>::operator--();
-				return cpy;
-			}
-
+				const_iterator			operator--(int)
+				{
+					const_iterator	cpy(*this);
+					this->binary_iterator<const T, nodePTR>::operator--();
+					return cpy;
+				}
 		};
 
 		typedef ft::reverse_iterator<iterator>			reverse_iterator;
@@ -263,6 +267,8 @@ namespace ft {
 			void			fix_delete(nodePTR k);
 			void			leftRotate(nodePTR x);
 			void			rightRotate(nodePTR x);
+			//REVIEW Always in use with protcted?
+			key_compare		_comp;
 
 //TODO repasser en private
 		public:

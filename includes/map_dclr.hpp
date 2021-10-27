@@ -8,8 +8,19 @@
 # include "RBTree.hpp"
 
 namespace ft {
+
+	template<class Key, class T, class Compare>
+	class PairFirstCompare {
+				Compare comp;
+			public:
+				PairFirstCompare () : comp() {}  // constructed with set's comparison object
+				bool operator() (const ft::pair<Key, T>& x, const ft::pair<Key, T>& y) const
+				{
+					return comp(x.first, y.first);
+				}
+	};
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
-	class map : public  RBTree<ft::pair<const Key, T>, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>
+	class map : public  RBTree<ft::pair<const Key, T>, PairFirstCompare<Key, T, Compare>, Allocator>
 	{
 		public:
 				// types:
@@ -24,7 +35,6 @@ namespace ft {
 			typedef typename allocator_type::const_pointer		const_pointer;
 			typedef typename allocator_type::size_type			size_type;
 			typedef typename allocator_type::difference_type	difference_type;
-			typedef bool(*Checker)(value_type, value_type);
 
 		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
@@ -36,16 +46,16 @@ namespace ft {
 				typedef bool				result_type;
 				typedef value_type			first_argument_type;
 				typedef value_type			second_argument_type;
-				bool operator() (const value_type& x, const value_type& y) const
+				result_type	operator() (const first_argument_type& x, const second_argument_type& y) const
 				{
 					return comp(x.first, y.first);
 				}
 		};
 			
-		typedef	typename RBTree<value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>::iterator					iterator;
-		typedef	typename RBTree<value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>::const_iterator				const_iterator;
-		typedef	typename RBTree<value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>::reverse_iterator			reverse_iterator;
-		typedef	typename RBTree<value_type, &ft::pair<const Key, T>:: template first_compare<Compare>, Allocator>::const_reverse_iterator		const_reverse_iterator;
+		typedef	typename RBTree<value_type, PairFirstCompare<Key, T, Compare>, Allocator>::iterator					iterator;
+		typedef	typename RBTree<value_type, PairFirstCompare<Key, T, Compare>, Allocator>::const_iterator			const_iterator;
+		typedef	typename RBTree<value_type, PairFirstCompare<Key, T, Compare>, Allocator>::reverse_iterator			reverse_iterator;
+		typedef	typename RBTree<value_type, PairFirstCompare<Key, T, Compare>, Allocator>::const_reverse_iterator	const_reverse_iterator;
 
 	/*
 	** ------------------------------- CONSTUCT/COPY/DESTROY --------------------------------
@@ -79,17 +89,15 @@ namespace ft {
 		template <class InputIterator>
 		void						insert(InputIterator first, typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type last);
 
-		void						swap(map& x);
-
+		size_type					erase(const key_type& k);
+		//NOTE	All possibilities founded for enable_if here are minimum c++11
 		// template< class InputIterator >
 		// void						erase<ft::enable_if< is_iterator< InputIterator >::value, InputIterator>::type>( InputIterator position);
-
-		//NOTE	All possibilities founded for enable_if here are minimum c++11
 		void						erase(iterator position);
-		size_type					erase(const key_type& k);
 		template<class InputIterator>
 		void						erase(typename ft::enable_if< is_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last);
 
+		void						swap(map& x);
 
 	/*
 	** ------------------------------- ALLOCATORS --------------------------------
@@ -120,40 +128,36 @@ namespace ft {
 	*/
 		private:
 			key_compare							_comp;
-			// size_type		_capacity;
 	};
 
 	template<class Key, class T, class Compare, class Allocator>
 	void	swap(map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y);
 
-	template <class Key, class T, class Compare, class Allocator>
-	bool	operator==(const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
-
-	template <class Key, class T, class Compare, class Allocator>
-	bool	operator< (const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
-
-	template <class Key, class T, class Compare, class Allocator>
-	bool	operator!=(const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
-
-	template <class Key, class T, class Compare, class Allocator>
-	bool	operator> (const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
-
-	template <class Key, class T, class Compare, class Allocator>
-	bool	operator>=(const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
-	template <class Key, class T, class Compare, class Allocator>
-	bool	operator<=(const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
-
-	// specialized algorithms:
-	template <class Key, class T, class Compare, class Allocator>
-	void swap(map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y);
-
 };
+
+//TODO
+	// template <class Key, class T, class Compare, class Allocator>
+	// bool	operator==(const map<Key, T, Compare, Allocator>& x,
+	// 		const map<Key, T, Compare, Allocator>& y);
+
+	// template <class Key, class T, class Compare, class Allocator>
+	// bool	operator< (const map<Key, T, Compare, Allocator>& x,
+	// 		const map<Key, T, Compare, Allocator>& y);
+
+	// template <class Key, class T, class Compare, class Allocator>
+	// bool	operator!=(const map<Key, T, Compare, Allocator>& x,
+	// 		const map<Key, T, Compare, Allocator>& y);
+
+	// template <class Key, class T, class Compare, class Allocator>
+	// bool	operator> (const map<Key, T, Compare, Allocator>& x,
+	// 		const map<Key, T, Compare, Allocator>& y);
+
+	// template <class Key, class T, class Compare, class Allocator>
+	// bool	operator>=(const map<Key, T, Compare, Allocator>& x,
+	// 		const map<Key, T, Compare, Allocator>& y);
+	// template <class Key, class T, class Compare, class Allocator>
+	// bool	operator<=(const map<Key, T, Compare, Allocator>& x,
+	// 		const map<Key, T, Compare, Allocator>& y);
 
 #endif /* ********************************************************** MAP_DCLR_HPP */
 
