@@ -18,7 +18,7 @@
 //TODO implement Compare as a private member
 // bool (*Compare)(const T&, const T&) = std::less<T>()
 namespace ft {
-	template<class T, class Compare, class Allocator = std::allocator<T> >
+	template<class T, class Compare = std::less<T>, class Allocator = std::allocator<T> >
 	class RBTree {
 		public:
 			typedef T       				value_type;
