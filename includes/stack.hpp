@@ -6,22 +6,20 @@
 namespace ft {
 
 	template<typename T, typename Container>
-	stack<T, Container>::stack(const Container & cont)
+	stack<T, Container>::stack(const Container & cont) : _c(cont)
 	{
-		this->_c = cont;
 	}
 	
 	template<typename T, typename Container>
-	stack<T, Container>::stack( const stack<T, Container> & src )
+	stack<T, Container>::stack( const stack<T, Container> & src ) : _c(src._c)
 	{
-		this->_c = src._c;
 	}
 	
 	template<typename T, typename Container>
 	stack<T, Container>::~stack()
 	{
-		this->_destroy_data();
-		this->_alloc.deallocate(this->_data, this->_capacity);
+		// this->_destroy_data();
+		// this->_c._alloc.deallocate(this->_data, this->_capacity);
 	}
 
 

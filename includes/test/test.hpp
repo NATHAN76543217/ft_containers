@@ -19,6 +19,7 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#include <list>
 
 #include "vector/testAccess.hpp"
 #include "vector/testResize.hpp"
@@ -27,6 +28,13 @@
 #include "vector/testModifier.hpp"
 #include "vector/vector_constructor.hpp"
 #include "vector/overload_op.hpp"
+#include "stack/testAccess.hpp"
+#include "stack/testResize.hpp"
+#include "stack/testPrint.hpp"
+#include "stack/testIterator.hpp"
+#include "stack/testModifier.hpp"
+#include "stack/stack_constructor.hpp"
+#include "stack/overload_op.hpp"
 #include "map/testIteratorRBT.hpp"
 #include "map/testInsert.hpp"
 #include "map/testComparator.hpp"
@@ -34,6 +42,7 @@
 #include "set/testInsert.hpp"
 #include "set/testComparator.hpp"
 
+//TODO for iterator: test 20 000 elements
 /*
 ** ------------------------------- SET --------------------------------
 */
@@ -100,5 +109,33 @@ int		testIterator(ft::vector<T>& v2);
 
 template<typename T>
 int		testModifier(ft::vector<T>& v, T &value);
+
+/*
+** ------------------------------- STACK --------------------------------
+*/
+
+template<typename T>
+void	test_op_vector(ft::stack<T> &v, T &value);
+
+template<typename T>
+void	printElem(ft::stack<T>& v2);
+
+template<typename T>
+int		test_resizing(ft::stack<T>& v);
+
+template<typename T>
+void	accessTest(ft::stack<T>& stack_me);
+
+template<typename T>
+void	accessTestConst(ft::stack<T> const &  stack_me);
+
+template<typename T>
+int		testIterator(ft::stack<T>& v2);
+
+template<typename T>
+int		testModifier(ft::stack<T>& v, T &value);
+
+template<typename T, typename U>
+void    stack_constructor(T& v, U value);
 
 #endif

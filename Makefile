@@ -15,7 +15,7 @@ PATH_TEST	=	$(PATH_INC)/test
 # List of sources
 SRCS_FILES	= 	main.cpp 
 SRCS_CLASS	= 	
-INC_FILES	=	base.hpp vector_dclr.hpp vector.hpp reverse_iterator.hpp iterator_dclr.hpp map_dclr.hpp map.hpp RBTree.hpp RBTree_dclr.hpp set.hpp set_dclr.hpp
+INC_FILES	=	base.hpp vector_dclr.hpp vector.hpp reverse_iterator.hpp iterator_dclr.hpp map_dclr.hpp map.hpp RBTree.hpp RBTree_dclr.hpp set.hpp set_dclr.hpp stack_dclr.hpp stack.hpp
 INC_TEST	=	test.hpp \
 	vector/testAccess.hpp \
 	vector/testResize.hpp \
@@ -24,13 +24,20 @@ INC_TEST	=	test.hpp \
 	vector/testModifier.hpp \
 	vector/vector_constructor.hpp \
 	vector/overload_op.hpp \
+	stack/testAccess.hpp \
+	stack/testResize.hpp \
+	stack/testPrint.hpp \
+	stack/testIterator.hpp \
+	stack/testModifier.hpp \
+	stack/stack_constructor.hpp \
+	stack/overload_op.hpp \
 	map/testIteratorRBT.hpp \
 	map/testInsert.hpp \
 	map/testComparator.hpp \
 	set/testIteratorRBT.hpp \
 	set/testInsert.hpp \
 	set/testComparator.hpp
-
+TEST_FILES	=	my exp a.out a.out.dSYM
 
 SRCS		=	$(addprefix $(), $(SRCS_FILES) $(addprefix $(PATH_CLASS)/, $(SRCS_CLASS)))
 OBJS		=	$(addprefix $(PATH_OBJ), $(SRCS:%.cpp=%.o))
@@ -69,7 +76,7 @@ init:
 	@ $(MKDIR) -p $(addprefix $(PATH_OBJ_STL)/, $(DIRS_LIST))
 
 RBT:	
-	$(COMP) $(COMP_FLAG) mainRBT.cpp -o a.out
+	$(COMP) $(COMP_FLAG) srcs/mainRBT.cpp -o a.out
 
 # Compile normal
 $(NAME): $(OBJS) $(INCS)
@@ -95,5 +102,6 @@ clean:
 
 fclean: clean
 	@ $(RM) -rf $(NAME) $(NAMESTL)
+	@ $(RM) -rf $(TEST_FILES)
 
 re: fclean all

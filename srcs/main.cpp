@@ -22,7 +22,9 @@ class test {
 
 int		testSet()
 {
-	std::cout << "TEST SET" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "------------------- SET --------------------" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
 	ft::set<std::string> s1;
 	std::cout << "value = " << is_iterator<ft::set<std::string>::iterator>::value;
 	testPrintState_set(s1, s1.begin(), s1.end());
@@ -78,7 +80,9 @@ int		testSet()
 }
 
 int		testMap( void ) {
-	std::cout << "TEST MAP" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "------------------- MAP --------------------" << std::endl;
+	std::cout << "-----------------------------------------------" << std::endl;
 	ft::map<std::string, int> m1;
 	std::cout << "value = " << is_iterator<ft::map<std::string, int>::iterator>::value;
 	std::cout << "- size  = " << m1.size() << "\n";
@@ -148,20 +152,25 @@ int		testMap( void ) {
 	testComparator<ft::map<std::string, int> >(m1);
 	return 0;
 }
-
 int		testStack()
 {
-	// stack<> s1
+	// ft::stack<std::string> s1;
+	ft::vector<std::string> v1(10, "hey test");
+	stack_constructor(v1, std::string("test_string"));
+	// ft::stack<std::string, ft::vector<std::string> > s2;
+	std::list<std::string> l1(10, "hey test");
+	stack_constructor(l1, std::string("test_string"));
+	std::cout << "End test for STACK\n" << std::endl;
 	return 0;
 }
 
 int		testVector()
 {
-	ft::vector<std::string>		vector_1;
-	std::string svalue("value");
 	std::cout << "-----------------------------------------------" << std::endl;
 	std::cout << "------------------- VECTOR --------------------" << std::endl;
 	std::cout << "-----------------------------------------------" << std::endl;
+	ft::vector<std::string>		vector_1;
+	std::string svalue("value");
 
 	std::cout << "---- TEST constructor (string)" << std::endl;
 	vector_constructor<std::string>(vector_1, svalue);
@@ -266,8 +275,8 @@ int		testVector()
 int main()
 {
 	testVector();
-	testStack();
 	testMap();
 	testSet();
+	testStack();
 	return 0;
 }

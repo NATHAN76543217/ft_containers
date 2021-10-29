@@ -5,12 +5,10 @@
 # include <string>
 # include <stdexcept>
 # include "base.hpp"
-# include "reverse_iterator.hpp"
-# include "vector.hpp"
 
 namespace ft {
 	
-	template< class T, class Container = ft::vector<T> >
+	template< class T, typename Container = std::deque<T> >
 	class stack 
 	{
 		public:
@@ -51,7 +49,7 @@ namespace ft {
 	** ------------------------------- PRIVATE --------------------------------
 	*/
 		protected:
-			Container 	c;
+			Container 	_c;
 
 
 	};

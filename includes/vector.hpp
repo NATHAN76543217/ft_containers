@@ -36,7 +36,7 @@ namespace ft {
 	: _data(NULL), _capacity(src._capacity), _size(src.size()), _alloc(src._alloc)
 	{
 		this->_data = this->_alloc.allocate(this->_capacity);
-		std::copy(src.begin(), src.end(), this->begin());
+		this->assign(src.begin(), src.end());
 	}
 	
 	template<typename T, typename Allocator>

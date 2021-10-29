@@ -1,6 +1,7 @@
 #ifndef BASE_HPP
 # define BASE_HPP
 
+# include <deque>
 # include <stddef.h>
 # include "iterator.hpp"
 # include "reverse_iterator.hpp"
@@ -165,5 +166,7 @@ namespace ft {
 		inline pair<T1,T2> make_pair( T1 t, T2 u )
 		{ return pair<T1, T2>(t, u); };
 }
+
+# include "vector.hpp"
 
 #endif              //BASE_HPP
