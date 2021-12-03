@@ -375,8 +375,7 @@ namespace ft {
 	/*
 	** ------------------------------- OPERATORS --------------------------------
 	*/
-		//TODO why operator= is comment?
-		// vector<T>				&operator=( vector const & rhs );
+			vector<T>				&operator=( vector const & rhs );
 	/*
 	** ------------------------------- PRIVATE --------------------------------
 	*/
