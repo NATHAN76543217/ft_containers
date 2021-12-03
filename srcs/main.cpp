@@ -1,5 +1,5 @@
 #include "test.hpp"
-
+# include <sstream>
 class test {
 	public:
 	test(){
@@ -71,6 +71,14 @@ int		testSet()
 	std::cout << "Fill set" << std::endl;
 	s1.insert("secondKey");
 	s1.insert("thirdKey");
+	uint max = 15000;
+	while (max > 0)
+	{
+		std::stringstream key;
+		key << "key=" << max;
+		s1.insert(key.str());
+		max--;
+	}
 	s1.insert("forthKey");
 	s1.insert("fithKey");
 	testIteratorRBT_set<ft::set<std::string> >(s1);
@@ -145,6 +153,14 @@ int		testMap( void ) {
 	std::cout << "Fill map" << std::endl;
 	m1.insert(ft::pair<std::string, int>("secondKey", 2));
 	m1.insert(ft::pair<std::string, int>("thirdKey", 3));
+	uint max = 15000;
+	while (max > 0)
+	{
+		std::stringstream key;
+		key << "key=" << max;
+		m1.insert(ft::pair<std::string, int>( key.str(), 2));
+		max--;
+	}
 	m1.insert(ft::pair<std::string, int>("forthKey", 4));
 	m1.insert(ft::pair<std::string, int>("fithKey", 5));
 	testIteratorRBT<ft::map<std::string, int> >(m1);

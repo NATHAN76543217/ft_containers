@@ -50,6 +50,7 @@ int		test_resizing(ft::vector<T>& v)
 	loopPushBack<T>(v, value, 2);
 	loopPushBack<T>(v, value, 8);
 	loopPushBack<T>(v, value, 1);
+	loopPushBack<T>(v, value, 10000);
 	return 0;}
 
 /*
@@ -76,6 +77,7 @@ int		test_resizing(ft::vector<std::string>& v)
 	loopPushBack< std::string>(v, value, 2);
 	loopPushBack< std::string>(v, value, 8);
 	loopPushBack< std::string>(v, value, 1);
+	loopPushBack<T>(v, value, 10000);
 	return 0;
 }
 
